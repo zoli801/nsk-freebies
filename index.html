@@ -1,0 +1,3220 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>НСК: бесплатные подарки и бонусные акции</title>
+  <style>
+    :root {
+      --ink: #07111f;
+      --panel: #f4efe6;
+      --paper: #fff9ee;
+      --red: #e40722;
+      --blue: #075dff;
+      --blue-dark: #05215f;
+      --muted: #687083;
+      --line: #102340;
+      --wash: #d9e5ff;
+      --shadow: 10px 10px 0 #03101f;
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px) 0 0 / 42px 42px,
+        linear-gradient(0deg, rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 42px 42px,
+        #061020;
+    }
+
+    body {
+      min-height: 100%;
+      margin: 0;
+      color: var(--paper);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    @media (pointer: fine) {
+      body.cursor-ready,
+      body.cursor-ready * {
+        cursor: none !important;
+      }
+
+      .cursor-core,
+      .cursor-ring,
+      .click-burst {
+        position: fixed;
+        left: 0;
+        top: 0;
+        pointer-events: none;
+        z-index: 1000;
+      }
+
+      .cursor-core {
+        width: 10px;
+        height: 10px;
+        border: 2px solid var(--paper);
+        background: var(--red);
+        box-shadow: 0 0 0 2px var(--blue), 4px 4px 0 rgba(3, 16, 31, .72);
+        transform: translate3d(-50%, -50%, 0) rotate(45deg);
+        transition: width .12s ease, height .12s ease, background .12s ease;
+      }
+
+      .cursor-ring {
+        width: 38px;
+        height: 38px;
+        border: 2px solid var(--blue);
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 2px var(--red), 5px 5px 0 rgba(3, 16, 31, .6);
+        transform: translate3d(-50%, -50%, 0);
+        transition: transform .1s ease, border-color .12s ease;
+      }
+
+      .cursor-core.is-down {
+        width: 16px;
+        height: 16px;
+        background: var(--blue);
+      }
+
+      .cursor-ring.is-down {
+        border-color: var(--red);
+        transform: translate3d(-50%, -50%, 0) scale(.72);
+      }
+
+      .click-burst {
+        width: 54px;
+        height: 54px;
+        border: 2px solid var(--paper);
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 4px var(--red), 4px 4px 0 var(--blue);
+        transform: translate3d(-50%, -50%, 0) scale(.42);
+        animation: clickStamp .48s ease-out forwards;
+      }
+
+      .click-burst::before,
+      .click-burst::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 72px;
+        height: 2px;
+        background: var(--blue);
+        transform: translate(-50%, -50%) rotate(22deg);
+      }
+
+      .click-burst::after {
+        background: var(--red);
+        transform: translate(-50%, -50%) rotate(-22deg);
+      }
+    }
+
+    @keyframes clickStamp {
+      0% {
+        opacity: .9;
+        transform: translate3d(-50%, -50%, 0) scale(.35) rotate(-9deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) scale(1.35) rotate(11deg);
+      }
+    }
+
+    .page {
+      width: min(1060px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 56px;
+    }
+
+    .mast {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 18px;
+      border-left: 8px solid var(--red);
+      padding-left: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(2.1rem, 6vw, 5.2rem);
+      line-height: .88;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      margin: 10px 0 0;
+      max-width: 760px;
+      color: #b6c8f8;
+      font-size: .95rem;
+      line-height: 1.45;
+    }
+
+    .stamp {
+      align-self: start;
+      display: grid;
+      place-items: center;
+      width: 148px;
+      aspect-ratio: 1;
+      border: 3px solid var(--blue);
+      color: var(--blue);
+      background: var(--panel);
+      box-shadow: 7px 7px 0 var(--red);
+      transform: rotate(3deg);
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 900;
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    .switchboard {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      gap: 10px;
+      padding: 10px 0 13px;
+      background: linear-gradient(180deg, #061020 72%, rgba(6, 16, 32, 0));
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 56px;
+      border: 2px solid var(--paper);
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--ink);
+      box-shadow: 0 0 0 3px var(--blue), 0 9px 0 #03101f;
+    }
+
+    .tab {
+      border: 0;
+      color: var(--paper);
+      background: transparent;
+      cursor: pointer;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      padding: 12px 16px;
+      transition: background .16s ease, color .16s ease;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--red);
+      color: white;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 190px 190px;
+      gap: 10px;
+    }
+
+    .field {
+      min-width: 0;
+      border: 2px solid var(--blue);
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: 6px;
+      min-height: 46px;
+      padding: 0 12px;
+      outline: none;
+      box-shadow: 5px 5px 0 #03101f;
+    }
+
+    .field:focus {
+      border-color: var(--red);
+    }
+
+    .ledger {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .summary-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #b6c8f8;
+      font-size: .92rem;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .sort-note {
+      color: #f2cccf;
+    }
+
+    .cards {
+      display: grid;
+      gap: 15px;
+    }
+
+    .card {
+      --accent: var(--blue);
+      position: relative;
+      min-height: 132px;
+      color: var(--ink);
+      background:
+        repeating-linear-gradient(171deg, rgba(7, 93, 255, .07) 0 1px, transparent 1px 17px),
+        var(--panel);
+      border: 2px solid var(--line);
+      border-radius: 6px;
+      padding: 18px 70px 17px 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 10px;
+      background: var(--accent);
+    }
+
+    .card::after {
+      content: attr(data-distance);
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 50px;
+      color: var(--accent);
+      font-weight: 900;
+      line-height: .95;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .card[data-status="verify"] {
+      --accent: #b3152c;
+      background:
+        repeating-linear-gradient(171deg, rgba(228, 7, 34, .08) 0 1px, transparent 1px 17px),
+        var(--panel);
+    }
+
+    .card[data-status="soon"] {
+      --accent: #0741a8;
+      opacity: .94;
+    }
+
+    .card-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+      padding-right: 16px;
+    }
+
+    .name {
+      margin: 0;
+      font-size: clamp(1.22rem, 2.4vw, 1.65rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .gift {
+      margin: 8px 0 0;
+      max-width: 710px;
+      font-size: 1.05rem;
+      line-height: 1.28;
+      font-weight: 800;
+    }
+
+    .amount {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 5px 9px;
+      border: 2px solid currentColor;
+      color: var(--accent);
+      background: #fff;
+      border-radius: 4px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 12px;
+      padding-right: 4px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border: 1px solid rgba(7, 17, 31, .28);
+      border-radius: 999px;
+      background: #fff;
+      color: #263242;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .more {
+      position: absolute;
+      right: 13px;
+      bottom: 12px;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      color: white;
+      background: var(--accent);
+      cursor: pointer;
+      font-size: 1.8rem;
+      line-height: 1;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .more:focus-visible {
+      outline: 3px solid var(--red);
+      outline-offset: 3px;
+    }
+
+    .more span {
+      transform: translateY(-2px);
+    }
+
+    .details {
+      display: none;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 2px solid rgba(7, 17, 31, .22);
+      line-height: 1.42;
+    }
+
+    .card.open .details {
+      display: grid;
+    }
+
+    .card.open .more span {
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+
+    .detail-block {
+      display: grid;
+      gap: 7px;
+    }
+
+    .label {
+      color: var(--blue-dark);
+      font-weight: 1000;
+      text-transform: uppercase;
+      font-size: .76rem;
+    }
+
+    .detail-text {
+      margin: 0;
+      color: #17202c;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 9px;
+      color: white;
+      background: var(--blue);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 900;
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+
+    .link:hover {
+      background: var(--red);
+    }
+
+    .empty {
+      padding: 28px;
+      border: 2px dashed #6f86b5;
+      color: #d9e5ff;
+      text-align: center;
+    }
+
+    .foot {
+      margin-top: 28px;
+      padding: 18px;
+      border: 2px solid #193c82;
+      color: #b6c8f8;
+      background: rgba(4, 12, 25, .72);
+      border-radius: 6px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 780px) {
+      .page {
+        width: min(100% - 18px, 1060px);
+        padding-top: 14px;
+      }
+
+      .mast {
+        grid-template-columns: 1fr;
+      }
+
+      .stamp {
+        width: 108px;
+        justify-self: end;
+        margin-top: -16px;
+      }
+
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        min-height: 50px;
+      }
+
+      .tab {
+        padding: 10px 8px;
+        font-size: .86rem;
+      }
+
+      .card {
+        padding: 16px 58px 16px 18px;
+      }
+
+      .card-top {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .amount {
+        justify-self: start;
+      }
+
+      .details {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-line {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="mast">
+      <div>
+        <h1>НСК: ноль рублей и почти-ноль</h1>
+        <p class="meta">Список по Новосибирску, проверка открытых источников на 7 июля 2026. Вверху - полностью бесплатные и почти-нулевые сценарии за 1 рубль без обязательной покупки, во второй вкладке - акции с пополнением, заказом или лимитом списания.</p>
+      </div>
+      <div class="stamp">без<br>мусора<br>скидок</div>
+    </header>
+
+    <section class="switchboard" aria-label="Переключение списка">
+      <div class="tabs" role="tablist">
+        <button class="tab" id="tab-free" role="tab" type="button" aria-selected="true" data-mode="free">Бесплатно / 1 ₽</button>
+        <button class="tab" id="tab-deals" role="tab" type="button" aria-selected="false" data-mode="deals">Акции</button>
+      </div>
+      <div class="controls">
+        <input class="field" id="search" type="search" placeholder="Поиск: бабл-ти, отзыв, регистрация, кофе...">
+        <select class="field" id="category">
+          <option value="all">Все категории</option>
+          <option value="beauty">Косметика и украшения</option>
+          <option value="food">Еда и напитки</option>
+          <option value="coffee">Кофе и бабл-ти</option>
+          <option value="games">Игры и развлечения</option>
+          <option value="services">Сервисы и магазины</option>
+        </select>
+        <select class="field" id="status">
+          <option value="all">Любой статус</option>
+          <option value="confirmed">Подтверждено</option>
+          <option value="verify">Проверить наличие</option>
+          <option value="soon">Скоро / мониторинг</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="ledger">
+      <div class="summary-line">
+        <span id="counter"></span>
+        <span class="sort-note">Сортировка: от центра Новосибирска наружу</span>
+      </div>
+      <div class="cards" id="cards"></div>
+    </section>
+
+    <footer class="foot">
+      Чистый бесплатный сценарий здесь означает: регистрация, приложение, отзыв, промокод, подтверждение почты, визит без обязательного заказа или символическая оплата 1 рубль без других вложений. Если акция требует покупку, пополнение, заказ от суммы или списывает только часть чека, она уехала во вкладку "Акции". Перед походом лучше проверить остатки подарков в приложении, соцсетях или по телефону: такие промо часто заканчиваются раньше, чем их убирают из карточек.
+    </footer>
+  </main>
+
+  <script>
+    const items = [
+      {
+        mode: "free",
+        name: "ЛЭТУАЛЬ",
+        gift: "Подарок за регистрацию в приложении: чаще всего миниатюры, косметика или парфюм по QR/кодовой фразе.",
+        amount: "подарок",
+        category: "beauty",
+        status: "verify",
+        distance: "0.3-1 км",
+        address: "Ближайшие точки к центру: Красный проспект, 25; ТРЦ Аура, Военная, 5; другие филиалы по городу.",
+        conditions: "Установить приложение ЛЭТУАЛЬ, зарегистрироваться, открыть подарок/QR и показать на кассе. Кодовое слово и набор подарков меняются, поэтому перед визитом проверяй их Instagram/Threads или приложение.",
+        note: "Полностью бесплатно, если подарок есть в наличии и точка участвует. Один подарок на нового пользователя.",
+        links: [
+          ["пост с подарком", "https://www.instagram.com/reel/DaDkceNKTIw/"],
+          ["сайт", "https://www.letu.ru/"]
+        ],
+        tags: ["косметика", "приложение", "кодовое слово"]
+      },
+      {
+        mode: "free",
+        name: "DO.BRO Coffee",
+        gift: "+200 бонусов за регистрацию, 1 бонус = 1 рубль. Можно брать недорогую позицию в пределах бонусов.",
+        amount: "200 ₽",
+        category: "coffee",
+        status: "confirmed",
+        distance: "0.9 км",
+        address: "Центральные точки: Красный проспект, 33; также Дуси Ковальчук, 242 и Гурьевская, 177/1.",
+        conditions: "Скачать приложение DO.BRO, зарегистрироваться, получить 200 бонусов на счет и списать на напиток/еду. В карточках указано, что бонусы можно потратить на первую покупку.",
+        note: "Возможен полностью бесплатный сценарий на позиции до 200 рублей, но лимит списания лучше проверить в приложении или у бариста.",
+        links: [
+          ["приложение/промо", "https://dobro.net.ru/"],
+          ["карта", "https://yandex.ru/maps/org/do_bro_kofe/118316351560/"]
+        ],
+        tags: ["кофе", "регистрация", "200 бонусов"]
+      },
+      {
+        mode: "free",
+        name: "Аура Бонус",
+        gift: "Приветственные баллы в приложении, обмен на подарки, купоны, мерч и парковку.",
+        amount: "50+ баллов",
+        category: "services",
+        status: "confirmed",
+        distance: "1.1 км",
+        address: "ТРЦ Аура, ул. Военная, 5.",
+        conditions: "Установить приложение Аура/Planeta Mall, зарегистрироваться и выполнить доступные задания. Официальная страница сейчас указывает 50 приветственных баллов; в приложении могут быть дополнительные баллы за подтверждения и активности.",
+        note: "Полностью бесплатно, если в каталоге есть подарок или купон по твоему балансу.",
+        links: [
+          ["условия", "https://aura.planeta-mall.ru/promo/aura-bonus"]
+        ],
+        tags: ["ТЦ", "приложение", "купоны"]
+      },
+      {
+        mode: "free",
+        name: "SUNLIGHT",
+        gift: "Подарки и подвески через приложение/промокод, без покупки, пока есть остатки.",
+        amount: "подвеска",
+        category: "beauty",
+        status: "verify",
+        distance: "1.1 км",
+        address: "Ближайшие магазины: Аура, Галерея, Ройял Парк и другие ТЦ.",
+        conditions: "Зарегистрироваться в приложении SUNLIGHT или взять бесплатный купон/промокод на агрегаторе. Показать код на кассе. Обычно нужен телефон и один подарок на участника.",
+        note: "Перед походом проверь, что конкретный промокод активен и что подарок есть в выбранном магазине.",
+        links: [
+          ["SUNLIGHT", "https://sunlight.net/superstar/"],
+          ["Boombate НСК", "https://nsk.boombate.com/"],
+          ["Gilmon купон", "https://gilmon.ru/promocode/sunlight_10"]
+        ],
+        tags: ["украшения", "подвеска", "промокод"]
+      },
+      {
+        mode: "free",
+        name: "COLIZEUM",
+        gift: "500 рублей на первое посещение по промокоду в приложении или карточках клуба.",
+        amount: "500 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "1.2 км",
+        address: "Ближайшие филиалы: Каменская, 78/1; Ленина, 84; Ройял Парк; Кирова, 108; Карла Маркса, 30.",
+        conditions: "Зарегистрироваться как новый гость, скачать приложение COLIZEUM и активировать промокод вроде COLIZEUMAPP. В некоторых карточках встречается 2GISCOLIZEUM.",
+        note: "Промо может быть привязано к конкретному клубу. Уточни у администратора до посадки за ПК.",
+        links: [
+          ["официально", "https://colizeumarena.com/"],
+          ["COLIZEUM Apelsin", "https://langame.ru/799447949_computerniy_club_colizeum-apelsin_novosibirsk"],
+          ["COLIZEUM Royal Park", "https://langame.ru/799452184_computerniy_club_colizeum-roiyal-park_novosibirsk"]
+        ],
+        tags: ["компьютерный клуб", "промокод", "первый визит"]
+      },
+      {
+        mode: "free",
+        name: "КВЕРТИ",
+        gift: "250 бонусов новым игрокам за регистрацию.",
+        amount: "250 бонусов",
+        category: "games",
+        status: "verify",
+        distance: "1.3 км",
+        address: "Ул. Максима Горького, 51.",
+        conditions: "Зарегистрироваться новым игроком. В актуальных карточках клуба встречается промо на 250 бонусов для новых игроков.",
+        note: "Перед визитом лучше написать клубу: сумма небольшая, важно понять тариф и хватит ли на полноценную сессию.",
+        links: [
+          ["Langame", "https://langame.ru/799456862_computerniy_club_kverti_novosibirsk"]
+        ],
+        tags: ["компьютерный клуб", "регистрация"]
+      },
+      {
+        mode: "free",
+        name: "Rave by Buster",
+        gift: "500 рублей на первое посещение по промокоду.",
+        amount: "500 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "1.5 км",
+        address: "Железнодорожная, 22.",
+        conditions: "Новый пользователь, регистрация, промокод из карточки/карт. Встречались коды 2GISRAVE и YANDRAVE.",
+        note: "Промокод лучше проверять в 2ГИС/Яндекс перед визитом: такие коды могут обновляться.",
+        links: [
+          ["сайт", "https://ravebybuster.ru/novosibirsk"]
+        ],
+        tags: ["компьютерный клуб", "промокод", "первый визит"]
+      },
+      {
+        mode: "free",
+        name: "Новосибирская птицефабрика",
+        gift: "Эко-сумка и подставка под горячее за отзыв о фирменном магазине.",
+        amount: "подарок",
+        category: "services",
+        status: "confirmed",
+        distance: "1.6 км",
+        address: "Ближайшая точка: Красноярская, 34. Есть много фирменных магазинов по городу.",
+        conditions: "Оставить честный отзыв в 2ГИС о фирменном магазине и сообщить компании через форму/сообщение.",
+        note: "Акция опубликована давно, но висит в разделе акций. Наличие подарков лучше уточнить перед визитом.",
+        links: [
+          ["акция", "https://www.nskpf.ru/sales/nam-vajno-vashe-mnenie/"],
+          ["магазины", "https://www.nskpf.ru/stores/"]
+        ],
+        tags: ["отзыв", "подарок", "магазин"]
+      },
+      {
+        mode: "free",
+        name: "CyberX Community",
+        gift: "Бонусы всем новым гостям.",
+        amount: "бонусы",
+        category: "games",
+        status: "verify",
+        distance: "1.8 км",
+        address: "Красный проспект, 81.",
+        conditions: "Зарегистрироваться как новый гость. В карточках клуба указано, что новым гостям дарят бонусы, но размер и лимит списания публично не раскрыты.",
+        note: "Это кандидат на бесплатный визит, но условия нужно уточнить у администратора.",
+        links: [
+          ["Langame", "https://langame.ru/799453318_computerniy_club_cyberx-community_novosibirsk"],
+          ["Яндекс Карты", "https://yandex.ru/maps/org/cyberx_community/82132127266/"]
+        ],
+        tags: ["компьютерный клуб", "новый гость"]
+      },
+      {
+        mode: "free",
+        name: "Legion",
+        gift: "1 час игры бесплатно за регистрацию и подписку; в карточках сети встречается 200 рублей новым клиентам.",
+        amount: "1 час",
+        category: "games",
+        status: "confirmed",
+        distance: "2-4 км",
+        address: "Ближайшие филиалы: Гоголя, 15; Кропоткина, 271; Красных Зорь, 1/2. Подтвержденная акция с 1 часом была по Кропоткина.",
+        conditions: "Пройти регистрацию в клубе, подписаться на группу и показать администратору. По 2ГИС у сети также заявлены 200 рублей на баланс новым клиентам.",
+        note: "Филиалы могут отличаться по условиям, уточни конкретную точку.",
+        links: [
+          ["акция", "https://langame.ru/799452013_computerniy_club_legion_novosibirsk"]
+        ],
+        tags: ["компьютерный клуб", "подписка", "регистрация"]
+      },
+      {
+        mode: "free",
+        name: "КиберПрайд",
+        gift: "2 часа в подарок за регистрацию в системе.",
+        amount: "2 часа",
+        category: "games",
+        status: "confirmed",
+        distance: "3.5 км",
+        address: "Бориса Богаткова, 201/1; Блюхера, 71В.",
+        conditions: "Зарегистрироваться в системе клуба. Официальный FAQ пишет, что бонусы можно использовать для оплаты аренды компьютера до 100% при бронировании через приложение.",
+        note: "Одна из самых чистых бесплатных находок: прямо указан бонус новичка.",
+        links: [
+          ["официально", "https://kiberpride.ru/goroda/novosibirsk/"]
+        ],
+        tags: ["компьютерный клуб", "2 часа", "регистрация"]
+      },
+      {
+        mode: "free",
+        name: "UrbanFire",
+        gift: "300 бонусов при регистрации, в отзывах указано списание до 100% в первом заказе; за честный отзыв обещали 500 бонусов.",
+        amount: "300-500 ₽",
+        category: "food",
+        status: "verify",
+        distance: "3.8 км",
+        address: "Проспект Карла Маркса, 51.",
+        conditions: "Зарегистрироваться в программе лояльности, получить бонусы и выбрать позицию, которую можно закрыть бонусами. Для отзывной акции - честный отзыв на Яндекс Картах по условиям их Instagram.",
+        note: "В отзывах гостей есть подтверждение 300 бонусов и 100% списания. Перед заказом проверь у кассира текущий лимит.",
+        links: [
+          ["Яндекс Карты", "https://yandex.ru/maps/org/urbanfire/110122224570/"],
+          ["2ГИС отзывы", "https://2gis.ru/novosibirsk/firm/70000001106064483/tab/reviews"]
+        ],
+        tags: ["шаурма", "отзыв", "регистрация"]
+      },
+      {
+        mode: "free",
+        name: "Ёбидоёби",
+        gift: "500 бонусов за установку приложения, бонусами можно оплатить до 100% следующего заказа.",
+        amount: "500 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "4 км",
+        address: "Ближайшие к центру: Селезнева, 36/1; Титова, 33; Кирова, 225; Сибиряков-Гвардейцев, 60; Объединения, 100/6.",
+        conditions: "Установить приложение, зарегистрироваться и получить 500 бонусов. Для нулевого чека выбирать самовывоз и позицию до 500 рублей. Встречалась отдельная акция +500 за оценку приложения.",
+        note: "Смотри минимальную сумму заказа и доставку. Для чистого нуля чаще всего нужен самовывоз.",
+        links: [
+          ["сайт НСК", "https://novosibirsk.yobidoyobi.ru/"],
+          ["Instagram акция", "https://www.instagram.com/p/DaNtA_dIjuX/"]
+        ],
+        tags: ["роллы", "приложение", "100% списание"]
+      },
+      {
+        mode: "free",
+        name: "СтройПарк",
+        gift: "+5 минут игры за отзыв в 2ГИС/Яндекс.",
+        amount: "5 минут",
+        category: "games",
+        status: "verify",
+        distance: "4 км",
+        address: "Ул. Владимира Заровного, 32, ТРЦ Европа.",
+        conditions: "Оставить честный отзыв о посещении и показать администратору. Это скорее добавка ко времени, а не отдельный полноценный поход.",
+        note: "Подходит как маленький бонус, если все равно рядом.",
+        links: [
+          ["Instagram", "https://www.instagram.com/stroipark_nsk54/"]
+        ],
+        tags: ["отзыв", "детский центр", "игры"]
+      },
+      {
+        mode: "free",
+        name: "Coffee Make",
+        gift: "3 сорта зернового кофе на пробу бесплатно для офиса; 100 приветственных баллов в приложении.",
+        amount: "проба кофе",
+        category: "coffee",
+        status: "confirmed",
+        distance: "4.5 км",
+        address: "Ватутина, 4. Формат больше B2B/офисный.",
+        conditions: "Оставить заявку на бесплатную пробу кофе для офиса. Параллельно у них есть приложение со 100 приветственными баллами.",
+        note: "Чисто бесплатно, но подходит в первую очередь юридическим лицам и офисам.",
+        links: [
+          ["сайт", "https://xn--80ahdbtge1a8c.xn--p1ai/"]
+        ],
+        tags: ["кофе", "бесплатная проба", "офис"]
+      },
+      {
+        mode: "free",
+        name: "Helix",
+        gift: "Приветственные бонусы в лабораторной программе, отдельные услуги можно закрывать бонусами до 100%.",
+        amount: "350 бонусов",
+        category: "services",
+        status: "verify",
+        distance: "сеть",
+        address: "Много лабораторных центров в Новосибирске.",
+        conditions: "Зарегистрироваться в программе лояльности. Если выбранная услуга стоит в пределах бонусов и не добавляются обязательные сборы, возможен нулевой чек.",
+        note: "Медицинские услуги лучше выбирать по необходимости, а не ради бонуса. Уточни на кассе стоимость взятия материала.",
+        links: [
+          ["акции", "https://helix.ru/novosibirsk/promotions"]
+        ],
+        tags: ["медицина", "бонусы", "проверить"]
+      },
+      {
+        mode: "free",
+        name: "Portal Wash",
+        gift: "Бонусы за профиль, отзывы и рефералов; мойку можно оплатить бонусами целиком, если баланса хватает.",
+        amount: "100-700+",
+        category: "services",
+        status: "soon",
+        distance: "5-7 км",
+        address: "Точки Новосибирска заявлялись на Широкой, 38 к4 и Троллейной, 130а.",
+        conditions: "100 бонусов за заполнение профиля, 150 за отзыв на площадке, 100 за реферала. Условия требуют оплаты мойки бонусами только целиком, не частично.",
+        note: "По карточкам часть точек открывалась в июле. Сначала проверь, что мойка уже работает.",
+        links: [
+          ["правила промо", "https://portalwash.ru/pravila_promo"],
+          ["Новосибирск", "https://portalwash.ru/novosibirsk"]
+        ],
+        tags: ["мойка", "отзыв", "профиль"]
+      },
+
+      {
+        mode: "free",
+        name: "585 Золотой",
+        gift: "Подарок за установку приложения за 1 рубль плюс 10 000 приветственных бонусов.",
+        amount: "1 ₽ + 10 000",
+        category: "beauty",
+        status: "confirmed",
+        distance: "1 км",
+        address: "Магазины в крупных ТЦ Новосибирска, включая центральные моллы.",
+        conditions: "Установить приложение, получить персональный код на подарок, показать его на кассе. Новым участникам начисляют 10 000 бонусов; ими можно оплатить до 40% золота и серебра.",
+        note: "Почти нулевой сценарий: сам подарок официально за 1 рубль, без обязательной покупки. Бонусы отдельно, их списание ограничено правилами клуба.",
+        links: [
+          ["условия", "https://www.585zolotoy.ru/get-mobile-app-and-get-reward/"]
+        ],
+        tags: ["украшения", "приложение", "1 рубль"]
+      },
+      {
+        mode: "deals",
+        name: "PIMS",
+        gift: "300 бонусов на первый PIMS, плюс периодические стикеры/подарки на открытиях.",
+        amount: "300 бонусов",
+        category: "coffee",
+        status: "verify",
+        distance: "1.1 км",
+        address: "Аура, Военная, 5; Галерея, Гоголя, 13; другие точки.",
+        conditions: "Оформить бонусную карту/профиль. 2ГИС показывал акцию 300 бонусов на первый PIMS с датами 15.12.2025-30.06.2026, поэтому после 7 июля нужно проверять продление в приложении или у бариста.",
+        note: "Сюда же: у PIMS по опубликованным условиям бонусами можно оплатить до 30% чека, поэтому это не чистый ноль.",
+        links: [
+          ["2ГИС поиск", "https://2gis.ru/novosibirsk/search/%D0%A2%D0%BE%D1%87%D0%BA%D0%B8%20%D0%B1%D0%B5%D0%B7%D0%B0%D0%BB%D0%BA%D0%BE%D0%B3%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%D1%85%20%D0%BD%D0%B0%D0%BF%D0%B8%D1%82%D0%BA%D0%BE%D0%B2/rubricId/112656"],
+          ["PIMS Аура", "https://aura.planeta-mall.ru/events/110698"]
+        ],
+        tags: ["бабл-ти", "регистрация", "проверить"]
+      },
+      {
+        mode: "deals",
+        name: "MEPS bubble tea",
+        gift: "Купи 7 напитков, получи 8-й бесплатно.",
+        amount: "8-й бесплатно",
+        category: "coffee",
+        status: "confirmed",
+        distance: "0.2 км",
+        address: "Ленина, 3; Мичурина, 12; Красный проспект, 28; ТРЦ Аура; Первомайский сквер; Академгородок и др.",
+        conditions: "Покупать напитки по программе MEPS и собрать 7 отметок/покупок. Восьмой напиток бесплатно.",
+        note: "Это акция, но не бесплатная с нуля: сначала нужны 7 покупок.",
+        links: [
+          ["сайт", "https://mepstea.ru/"],
+          ["2ГИС филиалы", "https://2gis.ru/novosibirsk/branches/70000001067048096"]
+        ],
+        tags: ["бабл-ти", "8-й бесплатно", "напитки"]
+      },
+      {
+        mode: "deals",
+        name: "Milu",
+        gift: "10% на bubble tea для подписчиков, периодические акции у точек.",
+        amount: "10%",
+        category: "coffee",
+        status: "confirmed",
+        distance: "1.3 км",
+        address: "Красный проспект, 49; фудтрак у метро Студенческая; ТРК Эдем, Кутателадзе, 4/4.",
+        conditions: "Подписаться на страницу Milu, заказать напиток и показать подписку кассиру.",
+        note: "Это именно акция, не подарок: нужна покупка напитка.",
+        links: [
+          ["Instagram", "https://www.instagram.com/milutea/"]
+        ],
+        tags: ["бабл-ти", "подписка", "скидка"]
+      },
+      {
+        mode: "deals",
+        name: "Harucha",
+        gift: "Акции и спецпредложения через точки и доставку; сеть с несколькими точками в центре.",
+        amount: "акции",
+        category: "coffee",
+        status: "verify",
+        distance: "0.2 км",
+        address: "Ленина, 3; Ленина, 10; Галерея, Гоголя, 13; Карла Маркса, 47; Владимира Заровного, 34.",
+        conditions: "Следить за приложением/соцсетями и карточками доставки. Бесплатной регистрации не нашел, но сеть часто попадает в промо по bubble tea.",
+        note: "Оставил как точку мониторинга по бабл-ти в НСК.",
+        links: [
+          ["сайт", "https://harucha.ru/"]
+        ],
+        tags: ["бабл-ти", "мониторинг", "центр"]
+      },
+      {
+        mode: "deals",
+        name: "One Price Coffee",
+        gift: "100 приветственных прайсов за регистрацию в приложении.",
+        amount: "100 ₽",
+        category: "coffee",
+        status: "confirmed",
+        distance: "0.6 км",
+        address: "Вокзальная магистраль, 2; площадь Карла Маркса, 5/1; Красный проспект, 188.",
+        conditions: "Скачать приложение, зарегистрироваться и получить 100 прайсов. По правилам приветственными бонусами можно оплатить до 30% покупки в течение 10 дней.",
+        note: "Не бесплатный сценарий из-за лимита 30%.",
+        links: [
+          ["правила", "https://onepricecoffee.com/offer/"],
+          ["2ГИС филиалы", "https://2gis.ru/novosibirsk/branches/70000001093361130"]
+        ],
+        tags: ["кофе", "регистрация", "30%"]
+      },
+      {
+        mode: "deals",
+        name: "COFFEESHOP Company",
+        gift: "200 приветственных бонусов, 1 бонус = 1 рубль.",
+        amount: "200 ₽",
+        category: "coffee",
+        status: "verify",
+        distance: "центр",
+        address: "Тихий центр и другие точки COFFEESHOP Company в Новосибирске.",
+        conditions: "Установить приложение/карту лояльности COFFEESHOP Company, зарегистрироваться и получить приветственные бонусы.",
+        note: "Лимит списания в открытых карточках не нашел, поэтому держу в акциях до проверки у бариста.",
+        links: [
+          ["Instagram промо", "https://www.instagram.com/p/DaNRFgtNAGe/"]
+        ],
+        tags: ["кофе", "200 бонусов", "проверить лимит"]
+      },
+      {
+        mode: "deals",
+        name: "Coffee Like",
+        gift: "500 приветственных бонусов при регистрации в программе.",
+        amount: "500 ₽",
+        category: "coffee",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Сеть кофе-баров по Новосибирску.",
+        conditions: "Зарегистрироваться в приложении или на точке. По правилам программы максимальная оплата бонусами - 50% стоимости покупки.",
+        note: "Хорошая акция, но не ноль рублей.",
+        links: [
+          ["правила", "https://coffee-like.com/loyalty-program-rules"]
+        ],
+        tags: ["кофе", "500 бонусов", "50%"]
+      },
+      {
+        mode: "deals",
+        name: "Академия Кофе",
+        gift: "150 приветственных бонусов после первого заказа.",
+        amount: "150 ₽",
+        category: "coffee",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Кофейни Академии Кофе по Новосибирску.",
+        conditions: "Зарегистрироваться в системе лояльности и совершить первый заказ. Бонусами можно оплатить до 50% заказа.",
+        note: "Нужна первая покупка, поэтому это акция.",
+        links: [
+          ["правила", "https://deliverynsk.akademiacoffee.com/information/bonus-program"]
+        ],
+        tags: ["кофе", "150 бонусов", "первый заказ"]
+      },
+      {
+        mode: "deals",
+        name: "ШашлыкоFF",
+        gift: "500 бонус-скидок за регистрацию в приложении.",
+        amount: "500 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Гриль-бары и доставка ШашлыкоFF в Новосибирске.",
+        conditions: "Зарегистрироваться в приложении ШашлыкоFF и получить бонус-скидки. Используются как скидка на заказ, не как гарантированный нулевой чек.",
+        note: "Сильный бонус на первый заказ, но с оплатой части заказа.",
+        links: [
+          ["акция", "https://shashlikoff.com/articles/2048"]
+        ],
+        tags: ["еда", "приложение", "500 бонусов"]
+      },
+      {
+        mode: "deals",
+        name: "Москвичка",
+        gift: "500 приветственных бонусов за регистрацию.",
+        amount: "500 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "0.8 км",
+        address: "Чаплыгина, 92, ЖК Алмонд.",
+        conditions: "Перейти в систему лояльности с QR-страницы гастробара и зарегистрироваться. На странице также есть десерт в день рождения.",
+        note: "Лимит списания не указан на открытой QR-странице, поэтому оставлено в акциях.",
+        links: [
+          ["QR-страница", "https://xn----7sbbaecj1bqcsyi1addis2g.xn--p1ai/qr"]
+        ],
+        tags: ["ресторан", "500 бонусов", "регистрация"]
+      },
+      {
+        mode: "deals",
+        name: "DI Bonus / рестораны Дениса Иванова",
+        gift: "500 бонусов после первичной регистрации карты.",
+        amount: "500 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "центр",
+        address: "Рестораны Denis Ivanov в Новосибирске, включая #СибирьСибирь.",
+        conditions: "Зарегистрироваться в DI Bonus. Бонусы действуют 10 дней и позволяют оплатить 20% от чека.",
+        note: "Не бесплатный сценарий из-за лимита 20%.",
+        links: [
+          ["DI Bonus", "https://moscow.sibirsibir.ru/di-bonus/"]
+        ],
+        tags: ["ресторан", "500 бонусов", "20%"]
+      },
+      {
+        mode: "deals",
+        name: "Максимилианс",
+        gift: "1000 бонусов за регистрацию в клубной программе.",
+        amount: "1000 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "центр",
+        address: "Новосибирский ресторан Максимилианс.",
+        conditions: "Зарегистрироваться в бонусной программе ресторана. Бонусы применяются как частичная оплата по правилам клуба.",
+        note: "Сильный ресторанный приветственный бонус, но не нулевой чек.",
+        links: [
+          ["программа", "https://nsk.maximilians.ru/cashback/"]
+        ],
+        tags: ["ресторан", "1000 бонусов", "регистрация"]
+      },
+      {
+        mode: "deals",
+        name: "Nicks Food",
+        gift: "500 бонусов на первый заказ при регистрации в бонусной программе.",
+        amount: "500 ₽",
+        category: "food",
+        status: "verify",
+        distance: "сеть",
+        address: "2 филиала доставки роллов и пиццы в Новосибирске.",
+        conditions: "Зарегистрироваться в бонусной программе и применить бонусы к первому заказу.",
+        note: "Не нашел подтверждения 100% списания, поэтому это акция, а не бесплатный заказ.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/branches/70000001020608485"]
+        ],
+        tags: ["доставка", "500 бонусов", "первый заказ"]
+      },
+      {
+        mode: "deals",
+        name: "Папа Джонс",
+        gift: "1000 бонусов за регистрацию в приложении/программе.",
+        amount: "1000 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Пиццерии и доставка по Новосибирску.",
+        conditions: "Зарегистрироваться в приложении/клубе. Бонусы списываются только частично от заказа, поэтому полностью бесплатно обычно не выходит.",
+        note: "Хорошо для большой скидки на первый заказ, не для нулевого чека.",
+        links: [
+          ["сайт", "https://papajohns.ru/"]
+        ],
+        tags: ["пицца", "1000 бонусов", "приложение"]
+      },
+      {
+        mode: "deals",
+        name: "Вилка-Ложка",
+        gift: "50 приветственных бонусов за регистрацию.",
+        amount: "50 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Кафе сети по Новосибирску.",
+        conditions: "Зарегистрироваться в программе лояльности. Подарочные бонусы действуют 7 дней; списание обычно до 20% от чека.",
+        note: "Маленький бонус и частичная оплата.",
+        links: [
+          ["лояльность", "https://vilka-lozhka.com/loyalty/"]
+        ],
+        tags: ["кафе", "50 бонусов", "20%"]
+      },
+      {
+        mode: "deals",
+        name: "Сурикат суши",
+        gift: "1000 бонусов за регистрацию.",
+        amount: "1000 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Доставка суши в Новосибирске.",
+        conditions: "Зарегистрироваться, получить бонусы и использовать в течение 7 дней. По условиям можно оплатить до 20% суммы покупки.",
+        note: "Выгодно, но не бесплатно.",
+        links: [
+          ["акция", "https://surikatsushi.ru/merchant5544/actions/21958"]
+        ],
+        tags: ["суши", "1000 бонусов", "20%"]
+      },
+      {
+        mode: "deals",
+        name: "Kaifa",
+        gift: "1000 приветственных бонусов за регистрацию.",
+        amount: "1000 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Доставка в Новосибирске.",
+        conditions: "Зарегистрироваться и применить бонусы к заказу. В публичных условиях встречается ограничение списания до 10%.",
+        note: "Большая сумма на балансе, маленький процент списания.",
+        links: [
+          ["сайт", "https://kaifa.ru/"]
+        ],
+        tags: ["доставка", "1000 бонусов", "10%"]
+      },
+      {
+        mode: "deals",
+        name: "Империя Восходящего Солнца",
+        gift: "1000 бонусов новому клиенту после первого заказа.",
+        amount: "1000 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Доставка по Новосибирску.",
+        conditions: "Оформить первый заказ через сайт или приложение. Бонусы начисляются после завершения заказа и дальше списываются ограниченной долей чека.",
+        note: "Не подходит для бесплатного первого заказа, но подходит для последующих скидок.",
+        links: [
+          ["промо", "https://imperya-sushi.ru/novosibirsk/landing/promotions"]
+        ],
+        tags: ["суши", "1000 бонусов", "первый заказ"]
+      },
+      {
+        mode: "deals",
+        name: "Суши Make",
+        gift: "Ролл Калифорния 8 шт к первому заказу; за отзыв до 31.07 можно выбрать моти, Калифорнию 4 шт или онигири.",
+        amount: "ролл/моти",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Доставка по Новосибирску, есть точки в ТРЦ Континент и других районах.",
+        conditions: "Скачать приложение, сделать первый заказ от 1200 рублей и активировать промокод NEW2024. Отдельно действует акция за отзыв: совершить покупку, оставить честный отзыв на Яндекс Картах с номером/фото заказа, отправить скриншот в MAX и получить промокод на подарок. Промокод можно получить до 31.07.2026, применить до 31.08.2026 при заказе от 1200 рублей.",
+        note: "Не бесплатно: нужен заказ. Но подарок за отзыв свежий и с официальными условиями.",
+        links: [
+          ["условия", "https://xn--90absbknhbvge.xn----8sbpjmk6aq9b.xn--p1ai/events/roll-kaliforniya-v-podarok"],
+          ["подарок за отзыв", "https://xn--90absbknhbvge.xn----8sbpjmk6aq9b.xn--p1ai/events/podarok-za-otzyv-na-yandeks-kartah-2"],
+          ["2ГИС Континент", "https://2gis.ru/novosibirsk/firm/141265769539549/tab/inside"]
+        ],
+        tags: ["суши", "отзыв", "подарок"]
+      },
+      {
+        mode: "deals",
+        name: "Суши Тануки",
+        gift: "Ролл/подарок за отзыв в 2ГИС/Flamp.",
+        amount: "ролл",
+        category: "food",
+        status: "verify",
+        distance: "сеть",
+        address: "Доставка и точки выдачи в Новосибирске.",
+        conditions: "Оставить отзыв и применить подарок к заказу. В найденных условиях нужен основной заказ от 800 рублей.",
+        note: "Отзывы - только честные, после реального опыта. Не нулевой сценарий из-за минимального заказа.",
+        links: [
+          ["сайт", "https://sushitanuki.ru/"]
+        ],
+        tags: ["суши", "отзыв", "заказ от суммы"]
+      },
+      {
+        mode: "deals",
+        name: "Askona",
+        gift: "500 бонусов за регистрацию и еще 500 за подтверждение email/подписку.",
+        amount: "1000 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Магазины Askona в Новосибирске и онлайн.",
+        conditions: "Зарегистрироваться в программе лояльности, подтвердить почту и получить бонусы на 14 дней.",
+        note: "Для мебели/товаров для сна; бонусы идут как частичная скидка, не как бесплатный товар.",
+        links: [
+          ["условия", "https://www.askona.ru/registrationPL_darim_bonusy_za_registratsiyu_i_podpisku/"]
+        ],
+        tags: ["магазин", "email", "1000 бонусов"]
+      },
+      {
+        mode: "deals",
+        name: "Amazing Red",
+        gift: "500 бонусов за регистрацию.",
+        amount: "500 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "1.1 км",
+        address: "ТРЦ Аура, Военная, 5; также другие точки по городу.",
+        conditions: "Зарегистрироваться в программе Amazing Red и получить приветственные бонусы.",
+        note: "Спорттовары/одежда; использовать как частичную оплату.",
+        links: [
+          ["Яндекс Карты", "https://yandex.ru/maps/org/amazing_red/98392439294/"],
+          ["сайт", "https://amazingred.ru/"]
+        ],
+        tags: ["одежда", "спорт", "500 бонусов"]
+      },
+      {
+        mode: "deals",
+        name: "МПР",
+        gift: "300 баллов за регистрацию в программе.",
+        amount: "300 ₽",
+        category: "services",
+        status: "verify",
+        distance: "сеть",
+        address: "Магазины товаров для дома в Новосибирске.",
+        conditions: "Зарегистрироваться в программе лояльности МПР. В карточках встречается акция на приветственные баллы, но списание обычно ограничено частью покупки.",
+        note: "Проверить в приложении или на кассе лимит списания.",
+        links: [
+          ["поиск 2ГИС", "https://2gis.ru/novosibirsk/search/%D0%9C%D0%9F%D0%A0%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D1%8B%20%D0%B4%D0%BB%D1%8F%20%D0%B4%D0%BE%D0%BC%D0%B0"]
+        ],
+        tags: ["товары для дома", "300 бонусов", "регистрация"]
+      },
+      {
+        mode: "free",
+        name: "Читай-город",
+        gift: "50 бонусов за регистрацию и 50 бонусов за подписку на рассылки; бонусами можно оплатить до 100% покупки.",
+        amount: "100 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "1-3 км",
+        address: "Галерея, Аура, Ройял Парк и другие магазины.",
+        conditions: "Зарегистрироваться в программе Книголов/приложении, оформить подписку на рассылки и дождаться приветственных бонусов. Ищи мелкую канцелярию, закладки, открытки или товары до 100 рублей.",
+        note: "Хороший кандидат на нулевой чек, потому что в описании приложения указано списание бонусами до 100% стоимости покупки.",
+        links: [
+          ["Google Play", "https://play.google.com/store/apps/details?hl=ru&id=ru.chitaigorod.mobile"],
+          ["RuStore", "https://www.rustore.ru/catalog/app/ru.chitaigorod.mobile"]
+        ],
+        tags: ["книги", "канцелярия", "100% списание"]
+      },
+      {
+        mode: "deals",
+        name: "O'STIN",
+        gift: "1000 бонусов в промо для участников клубной программы.",
+        amount: "1000 ₽",
+        category: "services",
+        status: "verify",
+        distance: "сеть",
+        address: "Магазины O'STIN в Новосибирске и онлайн.",
+        conditions: "Промо действует выборочно для участников, бонусами можно оплатить до 30% стоимости товаров.",
+        note: "Проверяй в личном кабинете: не всем участникам начисляется автоматически.",
+        links: [
+          ["промо", "https://style.ostin.com/give_1000_bonus"]
+        ],
+        tags: ["одежда", "1000 бонусов", "30%"]
+      },
+      {
+        mode: "deals",
+        name: "Williams et Oliver",
+        gift: "1000 бонусов за регистрацию в программе лояльности.",
+        amount: "1000 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "онлайн",
+        address: "Интернет-магазин, доставка в Новосибирск.",
+        conditions: "Зарегистрироваться в программе лояльности и получить бонусы на покупки посуды/товаров для дома.",
+        note: "Онлайн-акция, не привязана к конкретной точке в центре.",
+        links: [
+          ["акция", "https://williams-oliver.ru/promotion/darim-1-000-bonusov-za-registraciu-v-programme-loal-nosti/"],
+          ["Gilmon", "https://novosibirsk.gilmon.ru/offer/1000-bonusov-za-registratsiyu-v-programme-loyalynosti-146496464"]
+        ],
+        tags: ["посуда", "1000 бонусов", "онлайн"]
+      },
+      {
+        mode: "deals",
+        name: "UBERy",
+        gift: "2000 рублей за регистрацию в приложении.",
+        amount: "2000 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "по адресу",
+        address: "Выездной клининг по Новосибирску.",
+        conditions: "Зарегистрироваться в приложении. Бонус можно потратить на оплату до 25% любого заказа.",
+        note: "Большая сумма, но не бесплатная уборка из-за лимита 25%.",
+        links: [
+          ["Новосибирск", "https://ubery.ru/novosibirsk/services/uborka-v-komnate/"]
+        ],
+        tags: ["клининг", "2000 бонусов", "25%"]
+      },
+      {
+        mode: "deals",
+        name: "Сибсети",
+        gift: "1000 бонусов тебе и 500 другу по реферальной акции.",
+        amount: "1000/500",
+        category: "services",
+        status: "confirmed",
+        distance: "по адресу",
+        address: "Домашний интернет/ТВ в зоне подключения Сибсети.",
+        conditions: "Поделиться реферальной ссылкой. Бонусы начисляют после подключения друга и оплаты им первого месяца. Оплатить ими можно до 50% услуг или отдельные услуги из каталога.",
+        note: "Не бесплатно для друга: нужна оплата первого месяца.",
+        links: [
+          ["условия", "https://bonuses.sibseti.ru/friends"]
+        ],
+        tags: ["реферал", "интернет", "50%"]
+      },
+      {
+        mode: "deals",
+        name: "Apollo 24 / Quantum",
+        gift: "300 приветственных бонусов на следующий визит.",
+        amount: "300 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "развлечения",
+        address: "Развлекательные центры Аполло и Квантум в Новосибирске.",
+        conditions: "Заполнить онлайн-анкету или обратиться к сотруднику Аполло/Квантум. При регистрации начисляют 300 приветственных бонусов, которые можно потратить при следующем посещении.",
+        note: "Для боулинга/развлечений, чаще всего как частичная оплата следующего визита.",
+        links: [
+          ["Apollo", "https://apollo24.ru/o-karte-loyalnosti/"],
+          ["Quantum", "https://quantum36.ru/o-karte-loyalnosti/"]
+        ],
+        tags: ["развлечения", "300 бонусов", "следующий визит"]
+      },
+      {
+        mode: "deals",
+        name: "FIT SERVICE",
+        gift: "Периодические бонусы и бесплатные диагностики для новых клиентов.",
+        amount: "диагностика",
+        category: "services",
+        status: "verify",
+        distance: "сеть",
+        address: "Автосервисы FIT SERVICE в Новосибирске.",
+        conditions: "Следить за промо в приложении/карточках: встречаются бонусы новым клиентам и бесплатные диагностические услуги.",
+        note: "Условия сильно зависят от конкретной акции и автомобиля.",
+        links: [
+          ["сайт", "https://fitauto.ru/"]
+        ],
+        tags: ["авто", "диагностика", "новый клиент"]
+      },
+      {
+        mode: "free",
+        name: "Галерея Новосибирск",
+        gift: "Сладкий комплимент новым пользователям приложения и баллы на комплименты в каталоге.",
+        amount: "комплимент",
+        category: "services",
+        status: "verify",
+        distance: "0.7 км",
+        address: "ТРЦ Галерея Новосибирск, ул. Гоголя, 13.",
+        conditions: "Установить официальное приложение Галереи, зарегистрироваться и показать приложение сотрудникам магазина/стойки, если акция с комплиментом еще доступна. В приложении также можно сканировать чеки и менять баллы на комплименты.",
+        note: "Официальная новость про комплимент опубликована около Нового года, поэтому наличие подарков обязательно уточнить в приложении или на стойке.",
+        links: [
+          ["комплимент", "https://galereya-novosibirsk.ru/news/events/kompliment-novym-polzovatelyam-prilozheniya/"],
+          ["лояльность", "https://galereya-novosibirsk.ru/programma-loyalnosti/"],
+          ["Google Play", "https://play.google.com/store/apps/details?hl=ru&id=ru.konnektu.novosibirsk"]
+        ],
+        tags: ["ТЦ", "приложение", "комплимент"]
+      },
+      {
+        mode: "free",
+        name: "Новэкс",
+        gift: "50 бонусов за регистрацию карты, до 100% оплаты бонусами; в приложении встречаются дополнительные 100 бонусов за push.",
+        amount: "50-150 ₽",
+        category: "beauty",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Сеть магазинов косметики, бытовой химии и ухода в Новосибирске.",
+        conditions: "Выпустить/зарегистрировать карту Novex в приложении, личном кабинете или магазине. Накопленные бонусы списываются до 100% чека по курсу 1 бонус = 1 рубль.",
+        note: "Реальный нулевой сценарий возможен на мелкий товар до суммы приветственных бонусов. Сроки бонусов и push-бонус лучше проверить в приложении.",
+        links: [
+          ["карта Novex", "https://koshelek.app/bonusnaya-karta-noveks"],
+          ["RuStore", "https://www.rustore.ru/catalog/app/com.creonit.novex"],
+          ["Google Play", "https://play.google.com/store/apps/details?hl=ru&id=com.creonit.novex"]
+        ],
+        tags: ["косметика", "100% списание", "регистрация"]
+      },
+      {
+        mode: "free",
+        name: "Jungle Chef",
+        gift: "Морс в подарок за честный отзыв.",
+        amount: "морс",
+        category: "food",
+        status: "verify",
+        distance: "сеть",
+        address: "Сеть Jungle Chef в Новосибирске; уточнить участвующий филиал в 2ГИС.",
+        conditions: "После реального посещения оставить отзыв и показать его сотруднику. В 2ГИС у заведений встречается промо «Морс в подарок за отзыв».",
+        note: "Это не покупка за бонусы, а подарок за отзыв после опыта. Лучше сначала спросить администратора, действует ли промо именно в этой точке.",
+        links: [
+          ["2ГИС поиск", "https://2gis.ru/novosibirsk/search/Jungle%20Chef"]
+        ],
+        tags: ["отзыв", "морс", "еда"]
+      },
+      {
+        mode: "free",
+        name: "Фудхолл Аура",
+        gift: "Трюфель в подарок за отзыв.",
+        amount: "трюфель",
+        category: "food",
+        status: "verify",
+        distance: "1.1 км",
+        address: "ТРЦ Аура, ул. Военная, 5, Фудхолл на 4 этаже.",
+        conditions: "Оставить честный отзыв о Фудхолле/корнере и показать его по условиям акции. На официальной странице Фудхолла встречается формулировка про трюфель за отзыв.",
+        note: "Уточнить корнер и наличие подарков на месте: фудхолл часто обновляет короткие акции.",
+        links: [
+          ["Фудхолл", "https://foodparkaura.ru/"],
+          ["Аура Telegram", "https://t.me/s/auratrc"]
+        ],
+        tags: ["отзыв", "Аура", "сладкое"]
+      },
+      {
+        mode: "free",
+        name: "Много.ру",
+        gift: "1000 бонусов за бесплатную регистрацию, которые можно обменять на электронный приз в каталоге.",
+        amount: "1000 бонусов",
+        category: "services",
+        status: "confirmed",
+        distance: "онлайн",
+        address: "Онлайн-сервис, работает из Новосибирска без похода в точку.",
+        conditions: "Зарегистрироваться в клубе Много.ру. Приветственные бонусы начисляют в течение 3 дней; затем выбрать доступный электронный приз или копить на другие.",
+        note: "Не локальный ТЦ, но это чистый бесплатный сценарий без покупки, поэтому оставил в конце списка.",
+        links: [
+          ["Много.ру", "https://www.mnogo.ru/"]
+        ],
+        tags: ["онлайн", "регистрация", "электронный приз"]
+      },
+      {
+        mode: "deals",
+        name: "Аура Бонус: игры и розыгрыши",
+        gift: "Розыгрыши подарков, бонусы за чеки Фудхолла и оплата парковки бонусами до 100%.",
+        amount: "призы/парковка",
+        category: "services",
+        status: "confirmed",
+        distance: "1.1 км",
+        address: "ТРЦ Аура, ул. Военная, 5.",
+        conditions: "Загружать чеки в Аура Бонус, следить за афишей и играми в приложении. В июньских публикациях Ауры были розыгрыши 50 000 рублей, двойные бонусы за чеки Фудхолла и активности с подарками.",
+        note: "Игра, о которой ты написал, скорее всего живет именно в ленте приложения/соцсетей Ауры. На сайте подтвержден каталог подарков, розыгрыши и оплата парковки бонусами.",
+        links: [
+          ["Аура Бонус", "https://aura.planeta-mall.ru/events/110483"],
+          ["сервис", "https://aura.planeta-mall.ru/mall-services/110754"],
+          ["Telegram", "https://t.me/s/auratrc"]
+        ],
+        tags: ["ТЦ", "игра", "розыгрыш"]
+      },
+      {
+        mode: "deals",
+        name: "Аура: клиентские дни",
+        gift: "Подарочная карта Ауры 500 рублей за чек от 4000 рублей в выбранных магазинах, плюс двойные бонусы.",
+        amount: "500 ₽",
+        category: "services",
+        status: "soon",
+        distance: "1.1 км",
+        address: "ТРЦ Аура, ул. Военная, 5.",
+        conditions: "На клиентских днях Ауры покупка от 4000 рублей в магазинах-участниках дает карту на 500 рублей на промо-стойке. В мае-июне участвовали Befree, Sela, Love Republic, Zarina, MAAG, ECRU, DUB.",
+        note: "Конкретные даты меняются, поэтому это карточка-мониторинг: проверять афишу Ауры перед походом.",
+        links: [
+          ["июнь", "https://aura.planeta-mall.ru/events/110809"],
+          ["май", "https://aura.planeta-mall.ru/events/110580"]
+        ],
+        tags: ["ТЦ", "подарочная карта", "чек"]
+      },
+      {
+        mode: "deals",
+        name: "Галерея: Galeria Club",
+        gift: "Баллы за профиль, отзыв приложения и приглашения; обмен на комплименты, подарки и спецпредложения.",
+        amount: "25-100+ баллов",
+        category: "services",
+        status: "confirmed",
+        distance: "0.7 км",
+        address: "ТРЦ Галерея Новосибирск, ул. Гоголя, 13.",
+        conditions: "Скачать приложение Галереи, зарегистрироваться, заполнить профиль, сканировать чеки и смотреть каталог комплиментов. В правилах Galeria Club также есть баллы за отзыв приложения и приглашение друзей.",
+        note: "Выгодно, но большинство ценных комплиментов требует накопления через чеки.",
+        links: [
+          ["Галерея НСК", "https://galereya-novosibirsk.ru/programma-loyalnosti/"],
+          ["Galeria Club", "https://www.galeria.spb.ru/galeria_club"]
+        ],
+        tags: ["ТЦ", "комплименты", "отзыв приложения"]
+      },
+      {
+        mode: "deals",
+        name: "Сибирский Молл",
+        gift: "Баллы за чеки, подарки из каталога и участие в розыгрышах.",
+        amount: "каталог подарков",
+        category: "services",
+        status: "confirmed",
+        distance: "2.7 км",
+        address: "ТРЦ Сибирский Молл, ул. Фрунзе, 238.",
+        conditions: "Скачать приложение «Мой СибМолл», авторизоваться, сканировать чеки за покупки в ТРЦ и обменивать баллы на подарки из каталога. В приложении также заявлены розыгрыши призов.",
+        note: "Это не ноль сразу, но хороший ТЦ-механизм для подарков за обычные покупки.",
+        links: [
+          ["лояльность", "https://sibmoll.ru/programma-loyalnosti/"],
+          ["Google Play", "https://play.google.com/store/apps/details?hl=ru&id=ru.app_depo.sibmall"]
+        ],
+        tags: ["ТЦ", "приложение", "подарки"]
+      },
+      {
+        mode: "deals",
+        name: "Фуд-холл 6/1",
+        gift: "Постоянные бонусы и подарки участникам системы лояльности.",
+        amount: "бонусы/подарки",
+        category: "food",
+        status: "confirmed",
+        distance: "4.3 км",
+        address: "ТРЦ KLP, площадь Карла Маркса, 6/1, 3 этаж.",
+        conditions: "Подключиться к системе лояльности Фуд-холла 6/1 и следить за акциями корнеров. На официальной странице заявлены постоянные бонусы и подарки участникам.",
+        note: "Условия конкретного подарка зависят от корнера и даты, поэтому проверять в соцсетях фудхолла.",
+        links: [
+          ["Фуд-холл 6/1", "https://foodhall61.ru/"],
+          ["KLP", "https://klp.shopping/"]
+        ],
+        tags: ["фудхолл", "KLP", "подарки"]
+      },
+      {
+        mode: "deals",
+        name: "MEGA Friends",
+        gift: "Баллы за чеки в МЕГЕ, обмен на купоны, мерч и подарки.",
+        amount: "каталог подарков",
+        category: "services",
+        status: "verify",
+        distance: "7 км",
+        address: "СТЦ МЕГА Новосибирск, ул. Ватутина, 107.",
+        conditions: "Зарегистрироваться в MEGA Friends, сканировать чеки из МЕГИ и копить баллы. Баллы меняются на купоны, мерч и подарки из каталога.",
+        note: "Официальная страница MEGA Friends общая для сети; перед поездкой проверь, что Новосибирская МЕГА сейчас участвует и какие подарки есть в каталоге.",
+        links: [
+          ["MEGA Friends", "https://mega.ru/megafriends/"],
+          ["МЕГА НСК", "https://mega.ru/shops/70129/novosibirsk/"]
+        ],
+        tags: ["ТЦ", "каталог", "чеки"]
+      },
+      {
+        mode: "deals",
+        name: "Гриль №1",
+        gift: "Пепперони 25 см в подарок за первый заказ в приложении от 590 рублей; есть и другие подарочные механики.",
+        amount: "пицца",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Доставка и точки Гриль №1 по Новосибирску.",
+        conditions: "Сделать первый заказ в мобильном приложении, войти в профиль и применить промокод 111. Минимальная сумма для пепперони - от 590 рублей; отдельные промо дают сырные палочки от 1490 рублей или пиццу, если доставка опоздала.",
+        note: "Очень полезная акция, но не бесплатная: нужен заказ от суммы.",
+        links: [
+          ["первый заказ", "https://grill1.org/nsk/promo/first_order_app"],
+          ["акции", "https://grill1.org/nsk/promo/stickers_mania_grill1"]
+        ],
+        tags: ["пицца", "первый заказ", "приложение"]
+      },
+      {
+        mode: "deals",
+        name: "Sayori",
+        gift: "Калифорния с лососем в подарок за первый заказ в приложении от 1000 рублей.",
+        amount: "ролл",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Доставка Sayori по Новосибирску.",
+        conditions: "Установить приложение Sayori, собрать заказ от 1000 рублей и применить подарок для первого заказа в приложении.",
+        note: "Подарок понятный, но нужен оплачиваемый заказ.",
+        links: [
+          ["условия", "https://sayoris.ru/novosibirsk/landing/first_app"]
+        ],
+        tags: ["суши", "первый заказ", "приложение"]
+      },
+      {
+        mode: "deals",
+        name: "Kannam Chicken",
+        gift: "Крылья Kannam в подарок за первый заказ от 990 рублей в приложении и 300 баллов после заказа.",
+        amount: "крылья + 300",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Доставка Kannam Chicken в Новосибирске.",
+        conditions: "Оформить первый заказ от 990 рублей в приложении, ввести промокод First. После заказа начисляют 300 баллов; в приложении есть раздел меню за баллы.",
+        note: "Есть еще программа тайных покупателей с возмещением 1000 бонусов после одобрения анкеты и отчета.",
+        links: [
+          ["акции", "https://novosibirsk.kannam.ru/promotions"]
+        ],
+        tags: ["курица", "первый заказ", "баллы"]
+      },
+      {
+        mode: "deals",
+        name: "Sushidays",
+        gift: "Том ям Chicken в подарок на первый заказ через мобильное приложение.",
+        amount: "том ям",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Доставка Sushidays по Новосибирску.",
+        conditions: "Скачать приложение, сделать первый заказ от 800 рублей, перейти в раздел акций/купонов и выбрать подарок.",
+        note: "Не бесплатный сценарий, но подарок по первому заказу достаточно вкусный.",
+        links: [
+          ["условия", "https://sushidays.ru/roolgift"]
+        ],
+        tags: ["суши", "первый заказ", "приложение"]
+      },
+      {
+        mode: "deals",
+        name: "TomYumBar",
+        gift: "«Нежность Фудзиямы» в подарок при первом заказе в приложении от 2000 рублей.",
+        amount: "ролл/блюдо",
+        category: "food",
+        status: "confirmed",
+        distance: "1-7 км",
+        address: "Миротель, МЕГА, Аура, Ройял Парк, Галерея, Академгородок.",
+        conditions: "Скачать приложение TomYumBar, сделать первый заказ от 2000 рублей и применить промокод TOMYUM.",
+        note: "Порог выше, зато сеть есть почти во всех крупных ТЦ.",
+        links: [
+          ["условия", "https://tomyumbar.ru/novosibirsk/legal/privacy-policy/"],
+          ["адреса", "https://menu.tomyumbar.com/?nsk="]
+        ],
+        tags: ["ТЦ", "первый заказ", "приложение"]
+      },
+      {
+        mode: "free",
+        name: "GUSTO&ПРЯНО",
+        gift: "5000 бонусов при регистрации в приложении; встречается пепперони в подарок на первый заказ по промокоду FIRST.",
+        amount: "5000 бонусов",
+        category: "food",
+        status: "verify",
+        distance: "2.7 км",
+        address: "ТРЦ Сибирский Молл, ул. Фрунзе, 238; проспект Дзержинского, 28/1.",
+        conditions: "Зарегистрироваться в приложении доставки GUSTO&ПРЯНО. В 2ГИС показывается 5000 бонусов при регистрации, действуют на доставку; отдельная выдача указывает подарок на первый заказ.",
+        note: "Безденежное начисление за регистрацию. Перед заказом обязательно проверить лимит списания и минимальную сумму, поэтому стоит пометка на проверку.",
+        links: [
+          ["2ГИС Сибирский Молл", "https://2gis.ru/novosibirsk/firm/141265769748711"],
+          ["2ГИС Дзержинского", "https://2gis.ru/novosibirsk/firm/141265769782042"]
+        ],
+        tags: ["доставка", "5000 бонусов", "первый заказ"]
+      },
+      {
+        mode: "deals",
+        name: "Дядя Вано",
+        gift: "300 приветственных бонусов при регистрации.",
+        amount: "300 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Карла Маркса, 1; Ройял Парк; Сибирский Молл; Континент; Река; Эдем.",
+        conditions: "Зарегистрироваться в программе лояльности ресторана. 1 бонус = 1 рубль, бонусами можно оплатить до 20% счета; приветственные бонусы действуют 20 дней.",
+        note: "Не нулевой чек, но нормальная ресторанная акция с понятными адресами.",
+        links: [
+          ["программа", "https://xn--80adfa1cg8ib.xn--p1ai/"]
+        ],
+        tags: ["грузинская кухня", "регистрация", "20%"]
+      },
+      {
+        mode: "deals",
+        name: "Русский букет",
+        gift: "500 рублей на первый заказ в приложении, 500+500 бонусов за друга, бонусные задания и рулетка.",
+        amount: "500+ ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "онлайн",
+        address: "Доставка цветов и подарков по Новосибирску.",
+        conditions: "Скачать приложение и использовать промокод APP500 на первый заказ. Для рефералки привести друга: по 500 бонусов каждому по условиям акции. На странице также есть задания и бонусные розыгрыши.",
+        note: "Не бесплатно: нужен заказ, но механика с бонусами и подарками хорошая.",
+        links: [
+          ["акции НСК", "https://novosibirsk.rus-buket.ru/all-offers"]
+        ],
+        tags: ["цветы", "реферал", "приложение"]
+      },
+      {
+        mode: "deals",
+        name: "Море Эмоций",
+        gift: "300 приветственных рублей за регистрацию в приложении.",
+        amount: "300 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "онлайн",
+        address: "Подарки-впечатления по Новосибирску.",
+        conditions: "Скачать приложение Море Эмоций и зарегистрироваться. Приветственные рубли можно использовать на сертификаты впечатлений по условиям сервиса.",
+        note: "Почти наверняка частичная оплата, поэтому в акциях.",
+        links: [
+          ["Новосибирск", "https://nsk.moremotions.ru/"]
+        ],
+        tags: ["впечатления", "приложение", "300 рублей"]
+      },
+      {
+        mode: "deals",
+        name: "Мир Квестов",
+        gift: "1000 квестобаллов за регистрацию, 100 за отзыв, 300 за приглашенного друга; баллами можно получить бесплатную игру.",
+        amount: "1000+",
+        category: "games",
+        status: "confirmed",
+        distance: "агрегатор",
+        address: "Квесты Новосибирска через nsk.mir-kvestov.ru.",
+        conditions: "Зарегистрироваться в личном кабинете. Бесплатную игру можно оплатить квестобаллами, когда накоплено минимум 3000, есть хотя бы одна посещенная игра через Мир Квестов, а баланс полностью покрывает стоимость игры.",
+        note: "Не бесплатный старт, но реальная механика «накопил - сходил бесплатно».",
+        links: [
+          ["FAQ", "https://nsk.mir-kvestov.ru/bonus-program-faq"]
+        ],
+        tags: ["квесты", "реферал", "отзыв"]
+      },
+      {
+        mode: "deals",
+        name: "Квест Батл",
+        gift: "600 баллов за регистрацию, 1000 по инвайт-ссылке, баллы за отзывы, соцсети и друзей.",
+        amount: "600-1000",
+        category: "games",
+        status: "confirmed",
+        distance: "агрегатор",
+        address: "Квесты Новосибирска через novosibirsk.kvest-battle.ru.",
+        conditions: "Зарегистрироваться, копить баллы: регистрация 600, регистрация по приглашению 1000, отзыв после игры 150, друг после первой игры 250, команда 100, соцсеть 100. Если баллов больше цены квеста, можно сходить бесплатно.",
+        note: "Требует накопления и обычно хотя бы одной игры, но условия прозрачные.",
+        links: [
+          ["cashback", "https://kvest-battle.ru/cashback/"],
+          ["НСК", "https://novosibirsk.kvest-battle.ru/"]
+        ],
+        tags: ["квесты", "реферал", "бесплатная игра"]
+      },
+      {
+        mode: "deals",
+        name: "Лазерфорс",
+        gift: "Аэрохоккей в подарок при заказе праздника по тарифу «выкуп площадки» от 1,5 часов.",
+        amount: "аэрохоккей",
+        category: "games",
+        status: "confirmed",
+        distance: "3-5 км",
+        address: "Лазертаг-арены Лазерфорс в Новосибирске, включая Красный проспект, 218/2.",
+        conditions: "Заказать праздник по тарифу выкупа площадки от полутора часов. В акции указаны 10% на заказ и игра в аэрохоккей в подарок.",
+        note: "Это не регистрационный подарок, но по формату «купи услугу - получи бонусное развлечение» подходит.",
+        links: [
+          ["акции", "https://forcetag.ru/novosibirsk/"]
+        ],
+        tags: ["лазертаг", "подарок", "развлечения"]
+      },
+      {
+        mode: "deals",
+        name: "Wowland",
+        gift: "3 пиццы в подарок при бронировании в день обращения.",
+        amount: "3 пиццы",
+        category: "games",
+        status: "verify",
+        distance: "1.1 км",
+        address: "Ядринцевская, 18; у сети указано 2 филиала.",
+        conditions: "Забронировать праздник/мероприятие в день обращения и уточнить подарок администратору. Промо найдено в 2ГИС-карточках.",
+        note: "Нужно подтверждение у менеджера: акции для праздников часто ограничены датами и тарифами.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/Wowland"]
+        ],
+        tags: ["день рождения", "пицца", "бронирование"]
+      },
+      {
+        mode: "deals",
+        name: "Kari",
+        gift: "Каждый третий товар в подарок.",
+        amount: "3-й товар",
+        category: "services",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Ройял Парк, Континент и другие магазины Kari в Новосибирске.",
+        conditions: "Добавить в чек несколько товаров по условиям акции Kari. В 2ГИС у магазинов НСК показывается промо «каждый третий товар в подарок».",
+        note: "Подарком обычно становится товар с меньшей ценой; не суммируется с частью промокодов.",
+        links: [
+          ["Ройял Парк 2ГИС", "https://2gis.ru/novosibirsk/search/%D0%9F%D0%BE%D0%B4%D0%B0%D1%80%D0%BA%D0%B8%20%D1%80%D0%BE%D0%B9%D1%8F%D0%BB%20%D0%BF%D0%B0%D1%80%D0%BA"],
+          ["Континент 2ГИС", "https://2gis.ru/novosibirsk/firm/141265769539549/tab/inside"]
+        ],
+        tags: ["обувь", "каждый третий", "подарок"]
+      },
+      {
+        mode: "deals",
+        name: "Йохохо",
+        gift: "Ассорти закусок в подарок по промокоду «2гис» для новых клиентов.",
+        amount: "закуски",
+        category: "food",
+        status: "verify",
+        distance: "4.3 км",
+        address: "ТРЦ KLP, площадь Карла Маркса, 6/1.",
+        conditions: "Быть новым клиентом и назвать/ввести промокод 2ГИС при заказе. Промо найдено в 2ГИС по ТЦ Калейдоскоп/KLP.",
+        note: "Лучше уточнить минимальный заказ у администратора перед оплатой.",
+        links: [
+          ["2ГИС KLP", "https://2gis.ru/novosibirsk/search/%D0%9A%D0%B0%D0%BB%D0%B5%D0%B9%D0%B4%D0%BE%D1%81%D0%BA%D0%BE%D0%BF%20%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D0%B8%D0%B1%D0%B8%D1%80%D1%81%D0%BA%20%D1%80%D0%B0%D0%B7%D0%B2%D0%BB%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F"]
+        ],
+        tags: ["2ГИС", "новый клиент", "закуски"]
+      },
+      {
+        mode: "deals",
+        name: "Минори",
+        gift: "Ролл «Бонито с лососем» в подарок за отзыв на Флампе или в 2ГИС.",
+        amount: "ролл",
+        category: "food",
+        status: "verify",
+        distance: "сеть",
+        address: "Суши-буфет Минори, несколько филиалов в Новосибирске.",
+        conditions: "Оставить честный отзыв после реального заказа/визита на Флампе или в 2ГИС и выполнить условия выдачи подарка.",
+        note: "Вероятно нужен заказ, поэтому в акциях. Проверить у филиала, как именно выдают ролл.",
+        links: [
+          ["2ГИС поиск", "https://2gis.ru/novosibirsk/search/%D0%9C%D0%B8%D0%BD%D0%BE%D1%80%D0%B8"]
+        ],
+        tags: ["отзыв", "ролл", "суши"]
+      },
+      {
+        mode: "deals",
+        name: "Ракета",
+        gift: "Трубочка со сгущенкой в подарок при первом заказе по промокоду 2ГИС.",
+        amount: "десерт",
+        category: "coffee",
+        status: "verify",
+        distance: "7 км",
+        address: "Кофейня Ракета, ул. Тюленина, 22.",
+        conditions: "Сделать первый предзаказ/заказ через 2ГИС и применить промокод 2ГИС по условиям карточки.",
+        note: "Далековато от центра, но подарок за первый заказ нормальный.",
+        links: [
+          ["2ГИС кофейни", "https://2gis.ru/novosibirsk/search/%D0%9A%D0%BE%D1%84%D0%B5%D0%B9%D0%BD%D0%B8/rubricId/162"]
+        ],
+        tags: ["кофе", "2ГИС", "первый заказ"]
+      },
+      {
+        mode: "deals",
+        name: "Кафе «Рыбка»",
+        gift: "6-й кофе в подарок.",
+        amount: "6-й кофе",
+        category: "coffee",
+        status: "verify",
+        distance: "1.2 км",
+        address: "Ул. Челюскинцев, 23.",
+        conditions: "Собирать отметки за купленные кофе и получить шестой кофе бесплатно по карточке/условиям кафе.",
+        note: "Источник - свежая соцсеть кафе; перед сбором отметок спросить, участвуют ли все напитки.",
+        links: [
+          ["Instagram", "https://www.instagram.com/p/DVaX-R8ijNv/"]
+        ],
+        tags: ["кофе", "6-й бесплатно", "карточка"]
+      },
+      {
+        mode: "deals",
+        name: "АЗС Прайм",
+        gift: "Каждая 6-я чашка кофе в подарок.",
+        amount: "6-й кофе",
+        category: "coffee",
+        status: "confirmed",
+        distance: "6 км",
+        address: "АЗС Прайм, ул. Техническая, 1.",
+        conditions: "Взять купон участника у оператора, предъявлять его при покупке кофе и после 5 отметок обменять заполненный купон на чашку кофе.",
+        note: "Можно участвовать многократно; купон можно передавать друзьям.",
+        links: [
+          ["условия", "https://azs-prime.ru/news/1343-akcziya-na-azs-prajm%2C-ul.-texnicheskaya%2C-1"]
+        ],
+        tags: ["кофе", "6-й бесплатно", "купон"]
+      },
+      {
+        mode: "deals",
+        name: "M.Video",
+        gift: "10 000 бонусных рублей за установку приложения.",
+        amount: "10 000",
+        category: "services",
+        status: "confirmed",
+        distance: "сеть",
+        address: "М.Видео в Галерее, Ауре, Сибирском Молле, Сан Сити, МЕГЕ и других точках.",
+        conditions: "Установить приложение М.Видео, авторизоваться и получить бонусные рубли в течение 72 часов по условиям акции. Бонусами обычно можно оплатить часть покупки, лимит зависит от категории.",
+        note: "Очень большая сумма на балансе, но не нулевой чек из-за ограничений списания.",
+        links: [
+          ["приложение", "https://www.mvideo.ru/promo/mobileapp"],
+          ["FAQ", "https://www.mvideo.ru/info/faq-mclub"]
+        ],
+        tags: ["техника", "приложение", "10000 бонусов"]
+      },
+      {
+        mode: "deals",
+        name: "Hoff",
+        gift: "300 приветственных бонусов сразу и еще 300 за первую покупку в приложении.",
+        amount: "до 600 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "7 км",
+        address: "Hoff в Новосибирске и доставка.",
+        conditions: "Получить карту Hoff бонус и установить приложение. 300 бонусов начисляют сразу, еще 300 - если первая покупка совершена через мобильное приложение. Бонусами можно оплатить до 50% следующих покупок.",
+        note: "Для товаров для дома; полностью бесплатно обычно не выходит из-за лимита 50%.",
+        links: [
+          ["приложение", "https://hoff.ru/promo/apps/"]
+        ],
+        tags: ["товары для дома", "приложение", "600 бонусов"]
+      },
+      {
+        mode: "deals",
+        name: "Золотое Яблоко",
+        gift: "Стартовые условия для новых покупателей: карта после регистрации и промо на первый заказ.",
+        amount: "до 20-25%",
+        category: "beauty",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Магазины и доставка Золотого Яблока в Новосибирске.",
+        conditions: "Зарегистрироваться на сайте или в приложении. У новых покупателей есть стартовые предложения и карта участника, а на странице first order действует промо для первого заказа.",
+        note: "Это не подарок без покупки, но в категории косметики часто полезно для первого заказа.",
+        links: [
+          ["приложение", "https://goldapple.ru/app"],
+          ["первый заказ", "https://goldapple.ru/offer/start"]
+        ],
+        tags: ["косметика", "первый заказ", "приложение"]
+      },
+      {
+        mode: "deals",
+        name: "Подружка",
+        gift: "Сильная акция на первый заказ в приложении для новых пользователей.",
+        amount: "до 30%",
+        category: "beauty",
+        status: "verify",
+        distance: "сеть",
+        address: "Магазины Подружка и доставка в Новосибирске.",
+        conditions: "Скачать приложение, зарегистрироваться и проверить купон/промо для первого заказа. В актуальной промо-выдаче встречается 30% на первую покупку в приложении.",
+        note: "Не подарок без покупки, но для косметики это заметная стартовая выгода.",
+        links: [
+          ["сайт", "https://www.podrygka.ru/lp/"]
+        ],
+        tags: ["косметика", "первый заказ", "приложение"]
+      },
+      {
+        mode: "deals",
+        name: "Добротека",
+        gift: "100 бонусов за первую покупку онлайн.",
+        amount: "100 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "0.4 км",
+        address: "Ближайшие аптеки: Советская, 20; Гоголя, 33/1 и другие точки Новосибирска.",
+        conditions: "Оформить первый онлайн-заказ, забрать его в аптеке и показать карту лояльности. 100 бонусов начисляются через сутки после получения заказа и действуют месяц.",
+        note: "Не бесплатный сценарий, потому что нужна первая покупка, но бонус можно потратить на следующую.",
+        links: [
+          ["акция", "https://dobroteca.ru/promo-actions/100-bonusov-za-pervuyu-pokupku-onlayn"],
+          ["аптеки", "https://dobroteca.ru/stores"]
+        ],
+        tags: ["аптека", "первый заказ", "100 бонусов"]
+      },
+      {
+        mode: "deals",
+        name: "Parikmag",
+        gift: "500 приветственных бонусов за регистрацию в программе и установку виртуальной карты Wallet.",
+        amount: "500 ₽",
+        category: "beauty",
+        status: "confirmed",
+        distance: "онлайн",
+        address: "Интернет-магазин профессиональной косметики, доставка в Новосибирск.",
+        conditions: "Зарегистрироваться в программе лояльности Parikmag и установить виртуальную карту в электронный кошелек Wallet. Приветственные бонусы действуют 14 дней.",
+        note: "Не локальный магазин у центра, но косметика и сумма интересная; проверить минимальную сумму и лимит списания перед заказом.",
+        links: [
+          ["правила", "https://parikmag.shop/content/20-bonusnaya-programma-parikmag"],
+          ["сайт", "https://parikmag.shop/"]
+        ],
+        tags: ["косметика", "500 бонусов", "Wallet"]
+      },
+      {
+        mode: "deals",
+        name: "Polaris",
+        gift: "Гарантированный приз за отзыв о купленном товаре.",
+        amount: "приз",
+        category: "services",
+        status: "confirmed",
+        distance: "онлайн",
+        address: "Акция по России, товар можно купить в Новосибирске или онлайн.",
+        conditions: "Купить акционный товар Polaris, оставить отзыв на сайте магазина или маркетплейсе, зарегистрировать заявку с чеком, фото и ссылкой на отзыв. Акция действует до 2030 года.",
+        note: "Не бесплатно: нужна покупка техники/посуды, зато приз за отзыв официальный и долгосрочный.",
+        links: [
+          ["приз за отзыв", "https://priz.polaris.ru/"]
+        ],
+        tags: ["отзыв", "приз", "техника"]
+      },
+      {
+        mode: "deals",
+        name: "Food Park Aura: кофе",
+        gift: "Каждая 6-я чашка кофе в подарок у участвующих корнеров.",
+        amount: "6-й кофе",
+        category: "coffee",
+        status: "verify",
+        distance: "1.1 км",
+        address: "ТРЦ Аура, ул. Военная, 5, Фудхолл.",
+        conditions: "Собрать отметки/покупки кофе по условиям конкретного корнера Фудхолла Аура и получить шестую чашку бесплатно.",
+        note: "Проверить у бариста, потому что на странице Фудхолла акции ротационные.",
+        links: [
+          ["Фудхолл", "https://foodparkaura.ru/"]
+        ],
+        tags: ["Аура", "кофе", "6-й бесплатно"]
+      },
+      {
+        mode: "deals",
+        name: "Vлаваше",
+        gift: "100 баллов за установку приложения.",
+        amount: "100 ₽",
+        category: "food",
+        status: "verify",
+        distance: "сеть",
+        address: "Доставка и точки Vлаваше в Новосибирске.",
+        conditions: "Установить приложение, зарегистрироваться и проверить приветственный промокод/начисление START. Условия по лимиту списания нужно смотреть в приложении.",
+        note: "Источник не официальный сайт, поэтому пометка на проверку, но сеть в Новосибирске активная.",
+        links: [
+          ["промо", "https://promokod.com/coupon-store/vlavashe"]
+        ],
+        tags: ["шаурма", "приложение", "100 бонусов"]
+      },
+      {
+        mode: "deals",
+        name: "Gusto Pizza НСК",
+        gift: "100 бонусных баллов за регистрацию в мобильном приложении.",
+        amount: "100 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Доставка Gusto Pizza в Новосибирске.",
+        conditions: "Скачать приложение Gusto Pizza Новосибирск, зарегистрироваться и получить 100 бонусных баллов. В приложении есть акции и подарочные механики.",
+        note: "Проверить лимит списания, поэтому оставлено в акциях.",
+        links: [
+          ["App Store", "https://apps.apple.com/us/app/gusto-pizza-%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D0%B8%D0%B1%D0%B8%D1%80%D1%81%D0%BA/id6480587134"]
+        ],
+        tags: ["пицца", "регистрация", "100 бонусов"]
+      },
+      {
+        mode: "free",
+        name: "Гельтек",
+        gift: "Бесплатная диагностика кожи, подбор ухода и мини-набор косметики в подарок.",
+        amount: "0 ₽ + мини-набор",
+        category: "beauty",
+        status: "confirmed",
+        distance: "1.2 км",
+        address: "Красный проспект, 69.",
+        conditions: "Записаться на бесплатную консультацию в Центр диагностики кожи Geltek. Консультация длится около 30 минут: диагностика кожи, подбор ухода, легкая тестовая процедура и набор миниатюр рекомендованной косметики.",
+        note: "Официально указано, что скрытых платежей нет. Есть возрастные/медицинские ограничения, запись обязательна.",
+        links: [
+          ["условия Geltek", "https://geltek.ru/skin-diagnostic-center/"],
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%A6%D0%B5%D0%BD%D1%82%D1%80%20%D0%B4%D0%B8%D0%B0%D0%B3%D0%BD%D0%BE%D1%81%D1%82%D0%B8%D0%BA%D0%B8%20%D0%BA%D0%BE%D0%B6%D0%B8"]
+        ],
+        tags: ["косметика", "диагностика", "миниатюры"]
+      },
+      {
+        mode: "free",
+        name: "Laser Plus",
+        gift: "3 бесплатных сеанса лазерной эпиляции подмышек для нового клиента по рекомендации.",
+        amount: "3 сеанса",
+        category: "beauty",
+        status: "confirmed",
+        distance: "1.8 км",
+        address: "Красный проспект, 94; Сакко и Ванцетти, 25/1.",
+        conditions: "Новый клиент при первой записи называет имя человека, который рекомендует Laser Plus. По официальной акции новый клиент получает 3 бесплатных сеанса подмышек, а рекомендатель - 500 рублей на бонусный счет.",
+        note: "Это медицинская/косметологическая услуга, есть противопоказания. Перед записью уточнить, что бесплатные сеансы доступны именно по реферальной программе.",
+        links: [
+          ["акции Laser Plus", "https://laserplusnsk.ru/blog/lazernaya-epilyaciya-akcii/"],
+          ["филиалы", "https://laserplusnsk.ru/"]
+        ],
+        tags: ["косметология", "реферал", "новый клиент"]
+      },
+      {
+        mode: "free",
+        name: "Digital Clan",
+        gift: "Час игры на ПК при первом посещении или по реферальной акции.",
+        amount: "1 час",
+        category: "games",
+        status: "confirmed",
+        distance: "1.9 км",
+        address: "Бориса Богаткова, 213; Некрасова, 39; Тюленина, 17/1; Чигорина, 16.",
+        conditions: "Зарегистрироваться новым гостем. В 2ГИС указано, что дарят час игры на ПК при первом посещении; на странице акций сети есть механика «приведи друга» с часом в подарок.",
+        note: "Филиалы и формулировки меняются, поэтому перед поездкой лучше написать в Telegram/WhatsApp конкретного клуба.",
+        links: [
+          ["сайт", "https://digitalclan.ru/"],
+          ["акции", "https://digitalclan.ru/stocks"],
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%9A%D0%BE%D0%BC%D0%BF%20%D0%BA%D0%BB%D1%83%D0%B1%D1%8B%20%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D0%B8%D0%B1"]
+        ],
+        tags: ["компьютерный клуб", "первый визит", "реферал"]
+      },
+      {
+        mode: "free",
+        name: "Cyber Wolf",
+        gift: "500 рублей бонусом новым клиентам.",
+        amount: "500 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "4.5 км",
+        address: "Европейский Берег, ул. Владимира Заровного, 28/1.",
+        conditions: "Стать новым клиентом клуба и активировать бонус по условиям администратора. В 2ГИС карточка клуба показывает промо «Бонус 500 р. новым клиентам».",
+        note: "Уточнить перед посадкой, можно ли оплатить бонусами первый час целиком и нужен ли промокод/подписка.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/firm/70000001104430653"]
+        ],
+        tags: ["компьютерный клуб", "500 бонусов", "новый клиент"]
+      },
+      {
+        mode: "free",
+        name: "Счастье Есть",
+        gift: "Напиток за 1 рубль за первые заказы в приложении.",
+        amount: "1 ₽",
+        category: "food",
+        status: "verify",
+        distance: "0.8 км",
+        address: "Ядринцевская, 46а; Ватутина, 107 и другие точки/доставка.",
+        conditions: "Зарегистрироваться в приложении/системе заказа «Счастье Есть» и проверить баннер первого заказа: в свежем промо указаны напитки за 1 рубль.",
+        note: "Нужно проверить, можно ли оформить только напиток без другой позиции. Поэтому карточка в первом разделе, но с пометкой на проверку.",
+        links: [
+          ["промо в Instagram", "https://www.instagram.com/p/DZhcKRolR8v/"],
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%9A%D0%B0%D1%84%D0%B5%20%D0%B8%20%D1%81%D1%82%D0%BE%D0%BB%D0%BE%D0%B2%D1%8B"]
+        ],
+        tags: ["еда", "напиток", "1 рубль"]
+      },
+      {
+        mode: "free",
+        name: "Бифи",
+        gift: "1000 рублей на счет за визит.",
+        amount: "1000 ₽",
+        category: "food",
+        status: "verify",
+        distance: "0.4 км",
+        address: "БЦ Фрунзе 5, ул. Фрунзе, 5, цокольный этаж.",
+        conditions: "В 2ГИС у мясного крафт-бара опубликовано промо «В гости приди, 1000 ₽ на счёт получи». Нужно прийти/забронировать и уточнить у администратора, как зачисляется счет.",
+        note: "Сильный кандидат на нулевой чек, но лимит списания в открытой карточке не раскрыт. Проверить перед заказом.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/firm/70000001026065346"]
+        ],
+        tags: ["ресторан", "1000 бонусов", "визит"]
+      },
+      {
+        mode: "free",
+        name: "Рюмки",
+        gift: "5000 рублей на бонусный счет и напиток в подарок.",
+        amount: "5000 ₽ + напиток",
+        category: "food",
+        status: "verify",
+        distance: "4.5 км",
+        address: "Народная, 1; сеть заявлена как 2 филиала.",
+        conditions: "В 2ГИС у ресторана указано «Дарим 5000 ₽ на бонусный счёт. Угощаем напитком». Для получения нужно забронировать/прийти и уточнить условия начисления.",
+        note: "Напиток выглядит как бесплатный подарок, а бонусный счет - потенциально очень выгодный. Лимит списания и 18+ для бара обязательно уточнить.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%A0%D1%8E%D0%BC%D0%BA%D0%B8%20%D0%9D%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D0%B0%D1%8F%201"]
+        ],
+        tags: ["ресторан", "напиток", "5000 бонусов"]
+      },
+      {
+        mode: "free",
+        name: "ГАРАНТ-ГАЗ",
+        gift: "500 бонусов за регистрацию в группе UDS, оплатить услугами можно до 100% бонусами.",
+        amount: "500 ₽",
+        category: "services",
+        status: "verify",
+        distance: "2.9 км",
+        address: "Владимировская, 11Б.",
+        conditions: "Скачать UDS, вступить в группу ГАРАНТ-ГАЗ по коду со страницы Новосибирска и получить 500 бонусов. На сайте указана оплата бонусами UDSgame до 100%, 1 бонус = 1 рубль.",
+        note: "Полезно владельцам авто. Нужно уточнить, есть ли услуга/расходник в пределах 500 бонусов и применимы ли бонусы при первом визите.",
+        links: [
+          ["условия", "https://garant-gaz.ru/novosibirsk/contacts/"]
+        ],
+        tags: ["авто", "UDS", "до 100%"]
+      },
+      {
+        mode: "free",
+        name: "Аверс",
+        gift: "Первичный прием стоматолога-терапевта или ортопеда за 0 рублей.",
+        amount: "0 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "3.4 км",
+        address: "Красный проспект, 153Г.",
+        conditions: "Получить купон GILMON, записаться по телефону и прийти как новый клиент. В услугу входит осмотр, консультация, индивидуальный лоток и план лечения.",
+        note: "Действует по 7 августа 2026, 18+. Медицинская услуга, есть предупреждение о консультации специалиста и противопоказаниях.",
+        links: [
+          ["GILMON", "https://novosibirsk.gilmon.ru/offer/pervichniy-priiom-stomatologa-terapevt-ortoped-so-145006057"],
+          ["2ГИС", "https://2gis.ru/novosibirsk/firm/70000001006466113"]
+        ],
+        tags: ["стоматология", "0 рублей", "GILMON"]
+      },
+      {
+        mode: "free",
+        name: "Голливуд Дентал",
+        gift: "Консультация стоматолога за 0 рублей вместо 1000 рублей.",
+        amount: "0 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "2.8 км",
+        address: "Кавалерийская, 9.",
+        conditions: "Получить купон GILMON и заранее записаться. Купон на бесплатную консультацию стоматолога можно использовать один раз.",
+        note: "Действует по 14 июля 2026, 12+. Медицинская услуга, есть предупреждение о консультации специалиста и противопоказаниях.",
+        links: [
+          ["GILMON", "https://novosibirsk.gilmon.ru/offer/konsulytatsiya-stomatologa-213975941"],
+          ["сайт", "https://www.hollywooddental.ru/departament/"]
+        ],
+        tags: ["стоматология", "0 рублей", "GILMON"]
+      },
+      {
+        mode: "free",
+        name: "Mon Pion",
+        gift: "Консультация косметолога 15-20 минут за 0 рублей.",
+        amount: "0 ₽",
+        category: "beauty",
+        status: "confirmed",
+        distance: "3.1 км",
+        address: "Кропоткина, 271, офис 322.",
+        conditions: "Получить купон GILMON и предварительно записаться по телефону или в Telegram. Купон дает 100% скидку на консультацию косметолога.",
+        note: "Действует по 9 июля 2026, 18+. Срок короткий, поэтому проверять в первую очередь.",
+        links: [
+          ["GILMON", "https://novosibirsk.gilmon.ru/offer/konsulytatsiya-kosmetologa-15-20-min-237447691"]
+        ],
+        tags: ["косметология", "0 рублей", "GILMON"]
+      },
+      {
+        mode: "free",
+        name: "ЧаЖень",
+        gift: "Секретный сертификат на 1000 рублей на покупки в чайном клубе.",
+        amount: "1000 ₽",
+        category: "coffee",
+        status: "confirmed",
+        distance: "0.2 км",
+        address: "Советская, 35, цокольный этаж.",
+        conditions: "Открыть страницу подарка, забрать сертификат и использовать его в чайном клубе ЧаЖень на Советской, 35 или онлайн в группе ВКонтакте/UDS. На 2ГИС и Яндекс Картах акция также указана как «1000 рублей на покупки».",
+        note: "Очень сильный бесплатный кандидат: чай/чайные пробники потенциально можно закрыть сертификатом, но перед визитом проверь срок и остаток сертификата в UDS.",
+        links: [
+          ["подарок", "https://chajen.ru/gift1000"],
+          ["2ГИС", "https://2gis.ru/novosibirsk/firm/70000001064615327"]
+        ],
+        tags: ["чай", "сертификат", "UDS"]
+      },
+      {
+        mode: "free",
+        name: "Midea в Ауре",
+        gift: "Интерактивная игра «Сорви летний куш» с гарантированным подарком за участие.",
+        amount: "подарок",
+        category: "services",
+        status: "confirmed",
+        distance: "1.1 км",
+        address: "ТРЦ Аура, Военная, 5, 3 этаж, бренд-зона/магазин Midea.",
+        conditions: "До 12 июля 2026 прийти в бренд-зону Midea в ТРЦ Аура и сыграть на специальном экране. По публикации, любой посетитель может участвовать и гарантированно получить подарок: стикерпак, промокод 10%, чехол на чемодан, шоппер или сабо с джибитсами.",
+        note: "Покупка техники нужна только для больших призов; гарантированный подарок заявлен для посетителей игры. Уточнить наличие подарков на месте.",
+        links: [
+          ["новость NGS", "https://ngs.ru/text/gorod/2026/06/19/76487010/"],
+          ["Midea в Ауре", "https://aura.planeta-mall.ru/stores/96565"],
+          ["2ГИС", "https://2gis.ru/novosibirsk/firm/70000001105655018"]
+        ],
+        tags: ["Аура", "игра", "гарантированный подарок"]
+      },
+      {
+        mode: "free",
+        name: "Spirit. Fitness",
+        gift: "Пробная подписка на 14 дней за 1 рубль в новом клубе.",
+        amount: "14 дней за 1 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "0.7 км",
+        address: "ТРЦ Галерея Новосибирск, ул. Гоголя, 13.",
+        conditions: "Оформить пробную подписку Spirit. Fitness на 14 дней за 1 рубль. На официальной странице Новосибирска указано, что предложение действует до 15.07.2026; клуб в Галерее заявлен как скорое открытие.",
+        note: "Это не подарок в руки, но очень сильный почти-ноль: тренажерный зал, групповые тренировки и базовая тренировка с тренером. Проверить дату открытия и условия отмены подписки.",
+        links: [
+          ["официально", "https://spiritfit.ru/nsk/"],
+          ["пробная тренировка", "https://spiritfit.ru/nsk/abonement/probnaya-trenirovka-/"]
+        ],
+        tags: ["фитнес", "1 рубль", "14 дней"]
+      },
+      {
+        mode: "free",
+        name: "DDX Fitness",
+        gift: "Неделя тренировок бесплатно по заявке.",
+        amount: "7 дней",
+        category: "services",
+        status: "verify",
+        distance: "1.1-3 км",
+        address: "Федосеева, 8; Ипподромская, 46; Военная, 5; площадь Карла Маркса, 2.",
+        conditions: "Оставить заявку на бесплатную неделю тренировок. 2ГИС показывает промо «Неделя тренировок бесплатно, оставляй заявку ниже» для DDX в Новосибирске.",
+        note: "Проверить, нужна ли банковская карта и нет ли автопродления. Если без списаний - отличный полностью бесплатный тест-драйв.",
+        links: [
+          ["DDX Новосибирск", "https://www.ddxfitness.ru/clubs/ddx-novosibirsk-ploshchad-marksa/"],
+          ["2ГИС Атриум", "https://2gis.ru/novosibirsk/firm/70000001104857535"]
+        ],
+        tags: ["фитнес", "неделя бесплатно", "заявка"]
+      },
+      {
+        mode: "free",
+        name: "Сибирский Молл: мастер-классы",
+        gift: "Бесплатные летние мастер-классы: лимонад, деревянный значок, шоппер, слаймы.",
+        amount: "0 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "2.7 км",
+        address: "ТРЦ Сибирский Молл, Фрунзе, 238, 1 этаж возле фуд-корта.",
+        conditions: "Актуальная серия «Мастер-классные каникулы»: 4 и 11 июля с 14:00 до 16:00. На 11 июля заявлены роспись шопперов и изготовление ярких слаймов.",
+        note: "Не бонусы, а реальная бесплатная активность/вещь, которую делаешь и забираешь. Места могут закончиться, лучше приходить заранее.",
+        links: [
+          ["событие", "https://www.sibmoll.ru/actions/master-klassnye-kanikuly-v-sibmolle/"]
+        ],
+        tags: ["ТЦ", "мастер-класс", "шоппер"]
+      },
+      {
+        mode: "free",
+        name: "Коляда",
+        gift: "1000 бонусов за регистрацию.",
+        amount: "1000 бонусов",
+        category: "food",
+        status: "verify",
+        distance: "0.8 км",
+        address: "Гоголя, 38; Жуковского, 123.",
+        conditions: "Зарегистрироваться в бонусной системе/доставке Коляды. В 2ГИС у кафе опубликовано «Дарим 1000 бонусов за регистрацию».",
+        note: "Проверить лимит списания: если можно закрыть недорогую позицию полностью, это нулевой чек; если только часть заказа - переносить во вкладку акций.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%9A%D0%BE%D0%BB%D1%8F%D0%B4%D0%B0%201000%20%D0%B1%D0%BE%D0%BD%D1%83%D1%81%D0%BE%D0%B2"]
+        ],
+        tags: ["еда", "1000 бонусов", "регистрация"]
+      },
+      {
+        mode: "free",
+        name: "Sunrise / Grand Events",
+        gift: "5000 бонусов при регистрации в приложении для новых гостей.",
+        amount: "5000 бонусов",
+        category: "food",
+        status: "verify",
+        distance: "7+ км",
+        address: "Динамовцев, 1; также Бердск, Ленина, 27 и другие точки сети.",
+        conditions: "Зарегистрироваться в приложении Grand Events/Sunrise. В 2ГИС у Sunrise указано 5000 бонусов при регистрации для новых гостей.",
+        note: "Сумма огромная, но нужно проверить минимальную сумму и процент списания. В первый раздел добавлено потому, что получение бонусов не требует оплаты.",
+        links: [
+          ["2ГИС Sunrise", "https://2gis.ru/novosibirsk/firm/70000001084083776/tab/info"],
+          ["филиалы", "https://2gis.ru/novosibirsk/branches/141274359576994"]
+        ],
+        tags: ["доставка", "5000 бонусов", "приложение"]
+      },
+      {
+        mode: "free",
+        name: "Аура: детский клуб",
+        gift: "Бесплатные игры, эстафеты, танцы, мастер-классы, конкурсы и шоу по выходным.",
+        amount: "0 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "1.1 км",
+        address: "ТРЦ Аура, Военная, 5.",
+        conditions: "Каждые выходные с 14:00 до 17:00 юных гостей ТРЦ ждут в детском клубе: игры, эстафеты, танцы, мастер-классы, конкурсы и шоу.",
+        note: "Это скорее бесплатное развлечение, чем бонусная система. Подходит детям; конкретную программу лучше смотреть в Telegram Ауры.",
+        links: [
+          ["официально", "https://aura.planeta-mall.ru/mall-services/97347"],
+          ["Telegram", "https://t.me/s/auratrc"]
+        ],
+        tags: ["Аура", "детям", "мастер-классы"]
+      },
+      {
+        mode: "free",
+        name: "Летосфера",
+        gift: "Бесплатные концерты IOWA и Dabro, кинопоказы, мастер-классы, квизы и семейные активности.",
+        amount: "0 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "0.5 км",
+        address: "Площадки у ЦКиО «Победа» и в сквере «Водник».",
+        conditions: "С 9 по 12 июля 2026 в Новосибирске проходит фестиваль «Летосфера». По официальному анонсу мэрии: бесплатные концерты, открытые кинопоказы, лекции, паблик-токи, мастер-классы, семейные активности, джем-сейшны и квизы.",
+        note: "Это ближайшая крупная бесплатная штука в центре. Подарок не гарантирован, но активности и концерты бесплатные.",
+        links: [
+          ["мэрия", "https://novo-sibirsk.ru/news/467986/"],
+          ["NGS", "https://ngs.ru/text/entertainment/2026/07/02/76511488/"]
+        ],
+        tags: ["фестиваль", "центр", "концерты"]
+      },
+      {
+        mode: "free",
+        name: "Дикоросы",
+        gift: "Бесплатный форум/фестиваль с мастер-классами, выставкой, фотозонами и концертами.",
+        amount: "0 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "0.5 км",
+        address: "Улица Ленина, центр Новосибирска.",
+        conditions: "С 9 по 12 июля 2026 на улице Ленина проходит Форум сибирского гостеприимства «Дикоросы». Вход бесплатный; в программе мастер-классы, фестиваль русской кухни, выставочные зоны и бесплатные концерты.",
+        note: "Для части деловой программы может потребоваться регистрация, но открытая фестивальная часть бесплатная.",
+        links: [
+          ["сайт", "https://xn--d1aigfjeakfloj6h.xn--p1ai/"],
+          ["Путешествуем.рф", "https://xn--b1afab9anqfdfg9c.xn--p1ai/events/dikorosy"],
+          ["НСК Новости", "https://nsknews.info/news/gruppa-aiova-spoet-novosibircam-na-besplatnom-koncerte-v-centre-goroda"]
+        ],
+        tags: ["фестиваль", "мастер-классы", "центр"]
+      },
+      {
+        mode: "free",
+        name: "В Сибири - Есть!",
+        gift: "Бесплатный гастротуристический фестиваль с мастер-классами, дегустациями и локальной кухней.",
+        amount: "0 ₽",
+        category: "food",
+        status: "confirmed",
+        distance: "3.2 км",
+        address: "Михайловская набережная.",
+        conditions: "10-12 июля 2026 на Михайловской набережной проходит гастротуристический фестиваль «В Сибири - Есть!». На официальном сайте указано: вход свободный; программа про локальную сибирскую кухню, мастер-классы, ремесла, культурные активности.",
+        note: "Дегустации и мастер-классы могут быть по расписанию и с очередями. Еда у участников может продаваться отдельно, но вход и часть программы бесплатные.",
+        links: [
+          ["официально", "https://horecasiberia.ru/"],
+          ["Welcome Novosibirsk", "https://welcome-novosibirsk.ru/events/gastro_turisticheskiy_festival_v_sibiri_est_2026/"],
+          ["мэрия", "https://novo-sibirsk.ru/adm/lenin/news/466362/"]
+        ],
+        tags: ["гастро", "дегустации", "мастер-классы"]
+      },
+      {
+        mode: "free",
+        name: "Аура: афиша июля",
+        gift: "Бесплатные музыкальные интерактивы, латина-пати, теннисный турнир, день питомцев и каратэ-мастер-классы.",
+        amount: "0 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "1.2 км",
+        address: "ТРЦ Аура, Военная, 5; фудхолл 4 этаж и уличная площадка.",
+        conditions: "С 11 по 26 июля 2026 Аура ведет бесплатную летнюю афишу: 11 июля музыкальный день от Вокалити, 12 июля латина-пати, 18 июля диджей-сет, 19 июля турнир по настольному теннису, 25 июля день хвостиков, 26 июля показательные выступления и мастер-классы школы каратэ КиДоШи.",
+        note: "Это не купон на товар, но хороший бесплатный досуг в ТЦ. На отдельные активности может быть ограничение по местам.",
+        links: [
+          ["афиша", "https://aura.planeta-mall.ru/events/109392"],
+          ["Аура", "https://aura.planeta-mall.ru/"]
+        ],
+        tags: ["тц", "мастер-классы", "развлечения"]
+      },
+      {
+        mode: "free",
+        name: "Игротека Hobby Games",
+        gift: "Бесплатная игротека с настольными играми и PlayStation 4.",
+        amount: "0 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "0.9 км",
+        address: "Модельная библиотека им. М. Е. Салтыкова-Щедрина, Красный проспект, 83.",
+        conditions: "11 июля 2026 в 13:00 библиотека проводит бесплатную игротеку. В описании указаны настольные игры вроде «Каркассона», «Манчкина», «Монополии», «Игры престолов»; сотрудники помогают разобраться с правилами, также заявлена приставка Sony PlayStation 4.",
+        note: "Полностью бесплатно, лучше прийти заранее: формат живой, места могут закончиться.",
+        links: [
+          ["ГородЗовёт", "https://gorodzovet.ru/novosibirsk/igroteka-event10702406"]
+        ],
+        tags: ["настолки", "библиотека", "11 июля"]
+      },
+      {
+        mode: "free",
+        name: "Квест «Слово народное. Сибирское!»",
+        gift: "Бесплатный культурный квест по мифологии и сказкам народов Сибири.",
+        amount: "0 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "0.2 км",
+        address: "Новосибирская областная молодежная библиотека, Красный проспект, 26.",
+        conditions: "15 июля 2026 в 10:00 и 11:00 проходит бесплатный квест: пять интерактивных станций по бурятским, татарским, алтайским, якутским и тувинским сказкам и легендам. Заявлено как мероприятие для школьников и студентов.",
+        note: "Денег не требуется, но для групп и точного времени лучше уточнить запись в библиотеке.",
+        links: [
+          ["ГородЗовёт", "https://gorodzovet.ru/novosibirsk/kvest-slovo-narodnoe-sibirskoe-event12371150"]
+        ],
+        tags: ["квест", "библиотека", "15 июля"]
+      },
+      {
+        mode: "free",
+        name: "ДК Прогресс: дэнсхолл",
+        gift: "Бесплатный часовой мастер-класс по дэнсхоллу для любого уровня.",
+        amount: "0 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "4.3 км",
+        address: "Дворец культуры «Прогресс», Красный проспект, 167, каб. 228.",
+        conditions: "21 июля 2026 в 20:00 ДК «Прогресс» проводит бесплатный мастер-класс «Дэнсхолл: основы и ритм»: базовая техника, ритм, движения корпуса и ног, танцевальная комбинация. Продолжительность 60 минут.",
+        note: "Бесплатная активность без покупки; лучше уточнить запись перед визитом.",
+        links: [
+          ["ГородЗовёт", "https://gorodzovet.ru/novosibirsk/master-klass-po-denskhollu-denskholl-event12372578"]
+        ],
+        tags: ["танцы", "мастер-класс", "21 июля"]
+      },
+      {
+        mode: "free",
+        name: "Mxi pro",
+        gift: "Первая тренировка с тренером бесплатно.",
+        amount: "0 ₽",
+        category: "services",
+        status: "verify",
+        distance: "4.5 км",
+        address: "Горский микрорайон, 66.",
+        conditions: "В актуальной выдаче 2ГИС по фитнес-клубу указано: «1-я тренировка с тренером бесплатно». Нужно записаться и подтвердить, что предложение действует для нового клиента без покупки абонемента.",
+        note: "Хороший бесплатный пробник, но источник рекламный, поэтому перед поездкой лучше написать/позвонить.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%A2%D1%80%D0%B5%D0%BD%D0%B0%D0%B6%D1%91%D1%80%D0%BD%D1%8B%D0%B9%20%D0%B7%D0%B0%D0%BB%20%D0%B8%20%D1%84%D0%B8%D1%82%D0%BD%D0%B5%D1%81"]
+        ],
+        tags: ["фитнес", "пробная", "тренер"]
+      },
+      {
+        mode: "free",
+        name: "Рост",
+        gift: "Бесплатное пробное занятие по единоборствам/ОФП.",
+        amount: "0 ₽",
+        category: "services",
+        status: "verify",
+        distance: "4.8 км",
+        address: "Сеть клубов: Дуси Ковальчук, 252; Немировича-Данченко, 144Б и другие филиалы.",
+        conditions: "В 2ГИС по клубу единоборств «Рост» указано «Бесплатное пробное занятие». Подходит детям и взрослым; нужна предварительная запись в выбранный филиал.",
+        note: "Можно попробовать без покупки абонемента, но свободные места и возрастные группы надо уточнять.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%A1%D0%BF%D0%BE%D1%80%D1%82%D0%B7%D0%B0%D0%BB%20%D0%BD%D0%B0%20%D0%BA%D0%B0%D0%BB%D0%B8%D0%BD%D0%B8%D0%BD%D0%B0"],
+          ["филиалы", "https://2gis.ru/novosibirsk/search/%D0%A1%D0%BF%D0%BE%D1%80%D1%82%D0%B7%D0%B0%D0%BB%D1%8B%20%D0%BA%D0%B8%D1%80%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D1%80%D0%B0%D0%B9%D0%BE%D0%BD"]
+        ],
+        tags: ["единоборства", "пробное", "дети"]
+      },
+      {
+        mode: "free",
+        name: "Good Balance",
+        gift: "Групповая тренировка по боксу бесплатно.",
+        amount: "0 ₽",
+        category: "services",
+        status: "verify",
+        distance: "3.4 км",
+        address: "Улица Дуси Ковальчук, 1 к2.",
+        conditions: "В 2ГИС у клуба бокса Good Balance указано: первая персональная тренировка стоит 600 рублей, а групповая - бесплатно. Для бесплатного сценария нужна именно групповая тренировка и предварительная запись.",
+        note: "Не перепутать с персональной тренировкой: бесплатна только групповая по опубликованному описанию.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%94%D0%B5%D1%82%D1%81%D0%BA%D0%B8%D0%B5%20%D1%81%D0%BF%D1%80%D0%BE%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B5%20%D1%81%D0%B5%D0%BA%D1%86%D0%B8%D0%B8"],
+          ["бокс", "https://2gis.ru/novosibirsk/search/%D0%A1%D0%BF%D0%BE%D1%80%D1%82%D0%B7%D0%B0%D0%BB%D1%8B%20%D0%B4%D0%BB%D1%8F%20%D0%B5%D0%B4%D0%B8%D0%BD%D0%BE%D0%B1%D0%BE%D1%80%D1%81%D1%82%D0%B2"]
+        ],
+        tags: ["бокс", "групповая", "пробная"]
+      },
+      {
+        mode: "free",
+        name: "WaterSpace",
+        gift: "Бесплатное пробное занятие по плаванию/фридайвингу.",
+        amount: "0 ₽",
+        category: "services",
+        status: "verify",
+        distance: "4.9 км",
+        address: "Ближайший к центру найденный филиал: проспект Карла Маркса, 26/2; сеть заявляет несколько филиалов.",
+        conditions: "В 2ГИС по клубу плавания и фридайвинга WaterSpace указано «Бесплатное пробное занятие». Записаться заранее, выбрать филиал и уточнить возраст/формат занятия.",
+        note: "Пробное занятие 0 ₽, но бассейн/группа могут требовать справку или свободные места.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%A1%D0%BF%D0%BE%D1%80%D1%82%D0%B7%D0%B0%D0%BB%D1%8B%20%D0%BA%D0%B8%D1%80%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D1%80%D0%B0%D0%B9%D0%BE%D0%BD"]
+        ],
+        tags: ["плавание", "пробное", "дети"]
+      },
+      {
+        mode: "deals",
+        name: "Вах какое песто в Mishiko",
+        gift: "300 бонусов за регистрацию в программе лояльности.",
+        amount: "300 ₽",
+        category: "food",
+        status: "verify",
+        distance: "0.7 км",
+        address: "Красный проспект, 42а, 1 этаж.",
+        conditions: "В 2ГИС по ресторану видны свежие отзывы и упоминание 300 бонусов за регистрацию. Нужно уточнить лимит списания и можно ли ими закрыть недорогую позицию целиком.",
+        note: "Пока это раздел «Акции», потому что нет надежного подтверждения, что бонусами можно оплатить 100% без доплаты.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/firm/70000001103702570"],
+          ["сайт", "https://vahpesto.ru/"]
+        ],
+        tags: ["ресторан", "центр", "300 бонусов"]
+      },
+      {
+        mode: "deals",
+        name: "For People",
+        gift: "300 бонусов за регистрацию карты лояльности.",
+        amount: "300 ₽",
+        category: "food",
+        status: "verify",
+        distance: "по адресу",
+        address: "2ГИС показывает For People в выдаче по Новосибирску; точный филиал и условия лучше открыть перед визитом.",
+        conditions: "В 2ГИС по ресторану указано «Дарим 300 бонусов за регистрацию карты лояльности». Перед использованием нужно проверить, сколько процентов чека можно списать бонусами.",
+        note: "Добавлено в акции, не в бесплатное: без подтверждения 100% оплаты бонусами это не нулевой сценарий.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/People%20%D0%B1%D0%B0%D1%80"]
+        ],
+        tags: ["ресторан", "300 бонусов", "лояльность"]
+      },
+      {
+        mode: "deals",
+        name: "Royal Thai",
+        gift: "500 бонусов за отзыв после посещения салона.",
+        amount: "500 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "сеть",
+        address: "Салоны ROYALTHAI в Новосибирске; в условиях указано, что акция не действует в салоне на Ленина.",
+        conditions: "После реального посещения салона оставить честный отзыв, показать его администратору и быть зарегистрированным пользователем приложения ROYALTHAI. После регистрации заявки бонусы начисляют в течение недели. 1 бонус = 1 рубль, срок действия 12 месяцев.",
+        note: "Не ноль: бонусы тратятся на следующие визиты/абонементы. Но предложение официальное и действует с 23.03.2026.",
+        links: [
+          ["условия", "https://nsk.royalthai.ru/promo/bonusy-za-otzyv/"]
+        ],
+        tags: ["отзыв", "500 бонусов", "спа"]
+      },
+      {
+        mode: "deals",
+        name: "Планета Спорт",
+        gift: "500 бонусов за отзыв о купленном товаре или опыте взаимодействия.",
+        amount: "500 бонусов",
+        category: "services",
+        status: "verify",
+        distance: "сеть",
+        address: "Новосибирские магазины: ул. А. Невского, 7; пр. Советский, 39; ул. Батальная, 65а.",
+        conditions: "Оставить честный отзыв о товаре/заказе или опыте взаимодействия, отправить скриншот на info@planetasport.net с пометкой «Бонусы за отзыв», ФИО и телефоном. В условиях указано, что 500 бонусов можно потратить по правилам программы лояльности.",
+        note: "Проверить актуальность перед участием: страница опубликована давно, но остаётся на новосибирском сайте. Списание бонусов указано до 30% покупки, поэтому это акция, а не бесплатное.",
+        links: [
+          ["условия", "https://nsk.planetasport.ru/sale/bonusy_za_otzyvy/"]
+        ],
+        tags: ["отзыв", "спорт", "500 бонусов"]
+      },
+      {
+        mode: "free",
+        name: "Стул Всем",
+        gift: "Набор роликов для компьютерного кресла за отзыв.",
+        amount: "0 ₽",
+        category: "services",
+        status: "verify",
+        distance: "онлайн/доставка",
+        address: "Новосибирский раздел интернет-магазина «Стул Всем»; точку выдачи/доставку уточнять при обращении.",
+        conditions: "Оставить честный отзыв на Яндекс Картах о реальном опыте взаимодействия с компанией и запросить подарок. В найденной странице акции указан подарок: набор роликов для компьютерного кресла.",
+        note: "Потенциально без покупки, если уже был реальный опыт общения/заказа. Акция старая, поэтому перед отзывом обязательно написать менеджеру и спросить, выдают ли подарок в Новосибирске сейчас.",
+        links: [
+          ["акция", "https://novosibirsk.stulvsem.ru/sale/ostav_otzyv_poluchi_podarok/"]
+        ],
+        tags: ["отзыв", "подарок", "кресло"]
+      },
+      {
+        mode: "deals",
+        name: "Le face",
+        gift: "300 бонусов на карту лояльности, 1 бонус = 1 рубль.",
+        amount: "300 ₽",
+        category: "beauty",
+        status: "verify",
+        distance: "3.6 км",
+        address: "Косметологическая клиника Le face: Большевистская, 35; в 2ГИС указаны 2 филиала.",
+        conditions: "В актуальной выдаче 2ГИС по клинике указано «Получи 300 бонусов на карту лояльности (1 бонус = 1 рубль)». Перед записью нужно уточнить, за что начисляют бонусы и какой лимит списания на услуги.",
+        note: "Добавлено в акции: пока нет подтверждения, что можно получить услугу бесплатно только за регистрацию.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%94%D1%83%D0%BB"]
+        ],
+        tags: ["красота", "300 бонусов", "2ГИС"]
+      },
+      {
+        mode: "deals",
+        name: "Бизнес Букет",
+        gift: "500 бонусов на букет за регистрацию.",
+        amount: "500 ₽",
+        category: "services",
+        status: "verify",
+        distance: "1.4 км",
+        address: "Улица Нарымская, 37.",
+        conditions: "В 2ГИС по флористическому центру указано: «Скидка 500 ₽ на букет за регистрацию. Бонусы бессрочные! Работаем 24/7». Нужно уточнить минимальный чек и способ получения бонуса.",
+        note: "Вероятно требуется покупка букета, поэтому это не бесплатная категория.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%9D%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE%D0%B4%D0%BD%D0%B8%D0%B5%20%D0%BF%D0%BE%D0%B4%D0%B0%D1%80%D0%BA%D0%B8%20%D0%BE%D0%BF%D1%82%D0%BE%D0%BC"]
+        ],
+        tags: ["цветы", "500 бонусов", "регистрация"]
+      },
+      {
+        mode: "deals",
+        name: "Vibe Gaming",
+        gift: "Новым пользователям x2 депозита.",
+        amount: "x2",
+        category: "games",
+        status: "verify",
+        distance: "2.4 км",
+        address: "Улица Кирова, 108.",
+        conditions: "В актуальной выдаче 2ГИС по компьютерному клубу указано «Новым пользователям x2 депозита». То есть при первом пополнении баланс увеличивают, но нужен депозит.",
+        note: "Не бесплатно, но полезно рядом с центром, если всё равно собираешься играть.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D1%8B%D0%B5%20%D0%BA%D0%BB%D1%83%D0%B1%D1%8B%20%D1%81%20%D0%BF%D1%80%D0%B8%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%BE%D0%B9"]
+        ],
+        tags: ["компьютерный клуб", "депозит", "x2"]
+      },
+      {
+        mode: "deals",
+        name: "Ivanor",
+        gift: "Замена масла бесплатно при покупке масла и фильтра.",
+        amount: "работа 0 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "1.8 км",
+        address: "Ближайший к центру филиал: Фабричная, 16; сеть Ivanor в Новосибирске.",
+        conditions: "Акция в 2ГИС: «Замена масла бесплатно! При покупке масла и фильтра», период 01.03.2026-31.08.2026. Деньги нужны на материалы, но работа по замене идет в подарок.",
+        note: "Это не бесплатное без вложений, зато условия с датами и рекламодателем указаны явно.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/search/%D0%91%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D0%B0%D1%8F%20%D0%B7%D0%B0%D0%BC%D0%B5%D0%BD%D0%B0%20%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%81%D0%BB%D0%B0"]
+        ],
+        tags: ["авто", "подарок за покупку", "до 31.08"]
+      },
+      {
+        mode: "free",
+        name: "ЛИМОНАД",
+        gift: "Бесплатный молодёжный фестиваль: мастер-классы, игровые зоны, фотозоны, эколокация и музыка.",
+        amount: "0 ₽",
+        category: "games",
+        status: "verify",
+        distance: "3.2 км",
+        address: "Михайловская набережная.",
+        conditions: "12 июля 2026 на Михайловской набережной проходит площадка «ЛИМОНАД» в рамках фестиваля «В Сибири - Есть!». В описании указаны бесплатные мастер-классы, игровые зоны, фотозоны, эколокация, выступления молодежных групп и активности для семьи.",
+        note: "Событие вложено в большой гастрофестиваль со свободным входом. Точные точки активностей лучше смотреть на месте/в афише фестиваля.",
+        links: [
+          ["NaDvizh", "https://nadvizh.ru/events/user/x00421"],
+          ["фестиваль", "https://horecasiberia.ru/"]
+        ],
+        tags: ["12 июля", "мастер-классы", "музыка"]
+      },
+      {
+        mode: "free",
+        name: "День рыбака 2026",
+        gift: "Бесплатный рыболовный турнир с мастер-классами и подарками для участников.",
+        amount: "0 ₽",
+        category: "games",
+        status: "verify",
+        distance: "3.2 км",
+        address: "Михайловская набережная.",
+        conditions: "12 июля 2026 на Михайловской набережной заявлен турнир «День рыбака - 2026»: соревнования по рыбной ловле, мастер-классы от спортсменов Сибири, награждение победителей, подарки для участников и праздничная атмосфера.",
+        note: "Проверить регистрацию/возрастные условия перед участием, особенно если хочешь не просто смотреть, а участвовать в турнире.",
+        links: [
+          ["NaDvizh", "https://nadvizh.ru/events/user/x00421"]
+        ],
+        tags: ["12 июля", "турнир", "подарки"]
+      },
+      {
+        mode: "deals",
+        name: "Banana Park",
+        gift: "Бесплатные детские мастер-классы по пятницам в июле.",
+        amount: "МК 0 ₽",
+        category: "games",
+        status: "verify",
+        distance: "0.9 км",
+        address: "Ближайшая локация: ТЦ Апельсин, ул. Ленина, 84; также ТРЦ Континент, Гусинобродское шоссе, 20 и Троллейная, 130а.",
+        conditions: "В свежих публикациях Banana Park указаны бесплатные мастер-классы в июле, каждую пятницу. На официальном сайте по сетевым программам уточняется, что часть активностей может быть бесплатной внутри обычного посещения парка.",
+        note: "Поэтому это в акциях: сам мастер-класс может быть 0 ₽, но вход в парк для ребенка, вероятно, оплачивается. Уточнить в конкретном филиале.",
+        links: [
+          ["Апельсин", "https://bananapark.ru/nvsb/apelsin"],
+          ["Континент", "https://bananapark.ru/nvsb/continent"],
+          ["Instagram", "https://www.instagram.com/p/DaPoHgeCMR3/"]
+        ],
+        tags: ["дети", "мастер-классы", "июль"]
+      },
+      {
+        mode: "free",
+        name: "Центр немецкого языка в Академгородке",
+        gift: "Бесплатный пробный урок немецкого языка.",
+        amount: "0 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "онлайн/Академ",
+        address: "Академгородок, ул. Терешковой, 33.",
+        conditions: "На официальном сайте центра есть форма «Запишитесь на бесплатный пробный урок». Подходит как пробное занятие перед курсом, без оплаты самого пробника.",
+        note: "Далеко от центра, зато официальный источник и живые новости июля 2026 на сайте.",
+        links: [
+          ["сайт", "https://www.zdsakadem.ru/"]
+        ],
+        tags: ["языки", "немецкий", "пробный урок"]
+      },
+      {
+        mode: "free",
+        name: "LEVEL ELEVEN",
+        gift: "Бесплатное пробное занятие в лингвистическом центре.",
+        amount: "0 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "по адресу",
+        address: "Новосибирск; точный филиал/формат выбрать при записи на сайте.",
+        conditions: "Заполнить форму на странице пробного занятия LEVEL ELEVEN. Предложение заявлено именно как бесплатное пробное занятие для знакомства с форматом обучения.",
+        note: "Перед записью уточнить длительность урока и формат: онлайн или офлайн.",
+        links: [
+          ["запись", "https://leveleleven.ru/zanyatie/"]
+        ],
+        tags: ["языки", "пробное", "обучение"]
+      },
+      {
+        mode: "free",
+        name: "UP & UP School",
+        gift: "Бесплатный пробный урок иностранного языка.",
+        amount: "0 ₽",
+        category: "services",
+        status: "verify",
+        distance: "по адресу",
+        address: "Новосибирская область; адрес и формат уточнять при записи.",
+        conditions: "Страница школы указывает: английский, немецкий, французский, испанский и другие языки; можно записаться на бесплатный пробный урок.",
+        note: "Источник не основной сайт школы, поэтому лучше подтвердить расписание по телефону перед записью.",
+        links: [
+          ["страница", "https://up-and-up-school.orgs.biz/"]
+        ],
+        tags: ["языки", "пробный урок", "0 ₽"]
+      },
+      {
+        mode: "free",
+        name: "НИРВАНА",
+        gift: "Месяц бесплатных уроков вокала; также в прайсе есть бесплатные пробники по вокалу и гитаре.",
+        amount: "0 ₽ / месяц",
+        category: "games",
+        status: "verify",
+        distance: "0.4 км",
+        address: "Трудовая улица, 3/1.",
+        conditions: "В карточке 2ГИС указано «Месяц бесплатных уроков вокала» и кнопка «Попробовать бесплатно», а в прайсе отмечены бесплатные пробные уроки по вокалу и гитаре. Перед записью уточнить, сколько занятий входит именно в текущую акцию.",
+        note: "Очень близко к центру. Это один из самых сильных бесплатных вариантов, но формулировка рекламная, поэтому лучше подтвердить по телефону/в сообщениях.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/firm/70000001040260912"],
+          ["прайс", "https://2gis.ru/novosibirsk/firm/70000001040260912/tab/prices"]
+        ],
+        tags: ["музыка", "вокал", "месяц бесплатно"]
+      },
+      {
+        mode: "free",
+        name: "Стихия",
+        gift: "Пробный урок по барабанам бесплатно.",
+        amount: "0 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "3.5 км",
+        address: "Ул. Владимира Заровного, 32.",
+        conditions: "На официальной странице направления «Барабаны» указано «Пробный урок бесплатно». Записаться через форму/контакты студии.",
+        note: "Нужна предварительная запись, но дополнительных вложений для пробного урока не указано.",
+        links: [
+          ["барабаны", "https://stihiya-studio.ru/directions/barabany/"]
+        ],
+        tags: ["музыка", "барабаны", "пробный урок"]
+      },
+      {
+        mode: "free",
+        name: "Uppercuts",
+        gift: "Бесплатный пробный урок в диджей-школе.",
+        amount: "0 ₽",
+        category: "games",
+        status: "verify",
+        distance: "по адресу",
+        address: "Новосибирск; адрес и расписание уточнять у школы при записи.",
+        conditions: "В свежей публикации Uppercuts Новосибирск указано, что пробный урок бесплатный; также в тексте фигурирует период до 31.08.2026. Нужно записаться заранее.",
+        note: "Источник Instagram, поэтому проверка через директ/телефон обязательна.",
+        links: [
+          ["Instagram", "https://www.instagram.com/p/DaF_cNLqe0f/"]
+        ],
+        tags: ["диджей", "музыка", "до 31.08"]
+      },
+      {
+        mode: "free",
+        name: "Fraules Dance Centre",
+        gift: "Бесплатное пробное занятие по танцам.",
+        amount: "0 ₽",
+        category: "games",
+        status: "verify",
+        distance: "по адресу",
+        address: "Новосибирск; адрес направления уточнить при записи.",
+        conditions: "На странице акции Dailyes указано «Бесплатное пробное занятие» для школы танцев Fraules Dance Centre. Записаться через контакты/соцсети школы.",
+        note: "Пробник бесплатный, но после него могут предлагать абонемент. Сначала уточнить конкретную группу и дату.",
+        links: [
+          ["акция", "https://novosibirsk.dailyes.ru/stocks/besplatnoe-probnoe-zanyatie-1"]
+        ],
+        tags: ["танцы", "пробное", "0 ₽"]
+      },
+      {
+        mode: "free",
+        name: "Академия спорта",
+        gift: "Бесплатное пробное занятие по спортивной гимнастике для детей.",
+        amount: "0 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "по адресу",
+        address: "Новосибирск; филиал выбрать при записи на сайте.",
+        conditions: "На странице новосибирского филиала указано: «Запишитесь на бесплатное пробное занятие». Направление - спортивная гимнастика для детей с 3 лет.",
+        note: "Бесплатный пробник для ребёнка; уточнить требования к форме и возрастной группе.",
+        links: [
+          ["сайт", "https://xn----7sbabsgvmvwknkr3q.xn--p1ai/novosibirsk"]
+        ],
+        tags: ["дети", "спорт", "пробное"]
+      },
+      {
+        mode: "free",
+        name: "Surf Coffee x NSK",
+        gift: "Любой напиток бесплатно в день рождения по Surfer License; первый гость дня с лицензией тоже может получить напиток бесплатно.",
+        amount: "0 ₽",
+        category: "coffee",
+        status: "confirmed",
+        distance: "0.5 км",
+        address: "Советская улица, 12.",
+        conditions: "Оформить бесплатную Surfer License на сайте/в приложении/у бариста и указать дату рождения. По правилам Surf Coffee бесплатный напиток на день рождения выдается один раз в день рождения; акция первого гостя зависит от конкретной кофейни.",
+        note: "Для дня рождения это полностью без покупки. Для «первого гостя дня» лучше прийти к открытию и уточнить у бариста, участвует ли точка.",
+        links: [
+          ["лицензия", "https://www.surfcoffee.ru/surfers-license"],
+          ["правила", "https://www.surfcoffee.ru/loyalty"],
+          ["точка NSK", "https://www.surfcoffee.ru/nsk"]
+        ],
+        tags: ["кофе", "день рождения", "регистрация"]
+      },
+      {
+        mode: "free",
+        name: "Вокалити",
+        gift: "2 бесплатных занятия для новых клиентов.",
+        amount: "0 ₽",
+        category: "games",
+        status: "verify",
+        distance: "0.6 км",
+        address: "Урицкого, 37.",
+        conditions: "В карточке 2ГИС по музыкальной школе указано: «Новым клиентам 2 бесплатных занятия на знакомство и комфортный старт». Записаться на бесплатный урок и подтвердить, что акция действует для нужного направления.",
+        note: "Близко к площади Ленина; хороший вариант, если хочется именно без вложений, а не скидку на абонемент.",
+        links: [
+          ["2ГИС адрес", "https://2gis.ru/novosibirsk/geo/141373143520916/tab/inside"],
+          ["Яндекс Карты", "https://yandex.ru/maps/org/vokaliti/132585217667/"]
+        ],
+        tags: ["музыка", "2 занятия", "центр"]
+      },
+      {
+        mode: "free",
+        name: "Adental",
+        gift: "Бесплатная консультация стоматолога.",
+        amount: "0 ₽",
+        category: "services",
+        status: "confirmed",
+        distance: "1.0 км",
+        address: "Гоголя, 15, ТЦ «Юпитер», отдельный вход со стороны Каменской.",
+        conditions: "На официальном сайте клиники есть запись на бесплатную консультацию. Нужна предварительная запись по форме или телефону.",
+        note: "Медицинская консультация бесплатная, но лечение/снимки/дополнительные процедуры могут быть платными. Есть противопоказания, нужна консультация специалиста.",
+        links: [
+          ["сайт", "https://adental-nsk.ru/"]
+        ],
+        tags: ["стоматология", "консультация", "0 ₽"]
+      },
+      {
+        mode: "free",
+        name: "Галерея: утренний РЕЙВ",
+        gift: "Свободный вход, welcome-напитки, фирменные подарки и розыгрыши призов.",
+        amount: "0 ₽",
+        category: "games",
+        status: "verify",
+        distance: "1.5 км",
+        address: "ТРЦ Галерея Новосибирск, Гоголя, 13; парковка, 6 этаж.",
+        conditions: "По анонсу ТРЦ Галерея регистрация на утренний рейв открыта; в публикациях указаны субботы июля и 1 августа, старт около 10:00. Нужна регистрация и проверка свободных мест перед походом.",
+        note: "Это не магазинный бонус, а бесплатное событие с подарками/розыгрышами, поэтому поставил в раздел полностью бесплатного.",
+        links: [
+          ["анонс ТРЦ", "https://galereya-novosibirsk.ru/news/events/reyv/"],
+          ["Instagram", "https://www.instagram.com/p/DaXcSr-HDVR/"]
+        ],
+        tags: ["ивент", "подарки", "розыгрыш"]
+      },
+      {
+        mode: "deals",
+        name: "Godji Cyber Lounge",
+        gift: "При пополнении от 500 ₽ дают ещё 500 ₽ на игровой счёт.",
+        amount: "+500 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "0.4 км",
+        address: "Гоголя, 1, цокольный этаж.",
+        conditions: "Пополнить баланс от 500 рублей. По карточке 2ГИС клуб начисляет 500 рублей на счёт при таком пополнении.",
+        note: "Не бесплатно с нуля, но выгода 1 к 1 рядом с центром. Перед оплатой попросить администратора подтвердить, что акция активна.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/firm/70000001111825739"],
+          ["прайс", "https://2gis.ru/novosibirsk/firm/70000001111825739/tab/prices"]
+        ],
+        tags: ["компьютерный клуб", "баланс", "первое пополнение"]
+      },
+      {
+        mode: "free",
+        name: "Легенда",
+        gift: "Комплексный осмотр стоматолога 45 минут по купону GILMON.",
+        amount: "0 ₽",
+        category: "services",
+        status: "verify",
+        distance: "2.1 км",
+        address: "Зыряновская, 55.",
+        conditions: "На GILMON найден купон на комплексный осмотр врача-стоматолога 45 минут со скидкой 100%: прием, индивидуальный лоток и план лечения. Нужна запись по купону и проверка доступных слотов.",
+        note: "Медицинская услуга; дополнительные процедуры, снимки или лечение могут оплачиваться отдельно.",
+        links: [
+          ["GILMON", "https://novosibirsk.gilmon.ru/offer/kompleksniy-osmotr-vracha-stomatologa-45-min-260064603"]
+        ],
+        tags: ["стоматология", "gilmon", "0 ₽"]
+      },
+      {
+        mode: "free",
+        name: "Апельсин фитнес",
+        gift: "Первая тренировка с тренером в подарок; на GILMON встречается купон на 1 месяц зала за 0 ₽.",
+        amount: "0 ₽",
+        category: "services",
+        status: "verify",
+        distance: "2.8 км",
+        address: "Ближайшие филиалы: Нарымская, 37; Есенина, 31/2; также Курчатова, 38; Тюленина, 25/1; Фламинго, 15.",
+        conditions: "В 2ГИС по филиалам Апельсина указана первая тренировка с тренером в подарок. Отдельно GILMON показывает абонемент на месяц безлимитного посещения тренажерного зала со скидкой 100%; перед оформлением обязательно проверить, какие клубы и карта участвуют.",
+        note: "Для тренировки с тренером обычно нужна запись. Для месячного купона проверить меддопуск, правила клуба и не привязан ли купон к конкретной карте/филиалу.",
+        links: [
+          ["2ГИС Есенина", "https://2gis.ru/novosibirsk/firm/70000001054448005"],
+          ["2ГИС Нарымская", "https://2gis.ru/novosibirsk/firm/70000001029393409"],
+          ["GILMON", "https://novosibirsk.gilmon.ru/offer/abonement-na-1-mesyats-bezlimitnogo-posesheniya-fitnes-kluba-po-karte-full-162749089"]
+        ],
+        tags: ["фитнес", "тренировка", "gilmon"]
+      },
+      {
+        mode: "free",
+        name: "Не школа Кидс",
+        gift: "Бесплатные пробные уроки по барабанам, фортепиано, гитаре и вокалу для детей.",
+        amount: "0 ₽",
+        category: "games",
+        status: "confirmed",
+        distance: "4.0 км",
+        address: "Кропоткина, 116а к2.",
+        conditions: "В прайсе 2ГИС у детской музыкальной школы указаны бесплатные пробные уроки по нескольким направлениям. Записаться на пробное и выбрать инструмент/вокал.",
+        note: "Полностью бесплатный первый контакт без покупки абонемента; дальше занятия платные.",
+        links: [
+          ["2ГИС", "https://2gis.ru/novosibirsk/firm/70000001109757021"],
+          ["прайс", "https://2gis.ru/novosibirsk/firm/70000001109757021/tab/prices"],
+          ["сайт", "https://novosibirsk.ne-shkola.com/"]
+        ],
+        tags: ["дети", "музыка", "пробный урок"]
+      },
+      {
+        mode: "deals",
+        name: "Бамбук",
+        gift: "Вьетнамский сок в подарок при первом заказе доставки по коду «2ГИС».",
+        amount: "подарок",
+        category: "food",
+        status: "confirmed",
+        distance: "1.1 км",
+        address: "Центральный рынок, Мичурина, 12.",
+        conditions: "Сделать первый заказ доставки и применить код «2ГИС». Подарок указан в 2ГИС как вьетнамский сок при первом заказе.",
+        note: "Это подарок к заказу, поэтому оставляю в «Акциях», а не в бесплатном разделе.",
+        links: [
+          ["2ГИС поиск", "https://2gis.ru/novosibirsk/search/Bubble%20tea%20%D1%81%20%D0%B4%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%BE%D0%B9"]
+        ],
+        tags: ["еда", "первый заказ", "подарок"]
+      },
+      {
+        mode: "free",
+        name: "Смотрёшка",
+        gift: "45 дней ТВ-подписки по купону GILMON.",
+        amount: "0 ₽",
+        category: "services",
+        status: "verify",
+        distance: "онлайн",
+        address: "Онлайн-сервис; доступно из Новосибирска через купон GILMON.",
+        conditions: "На GILMON найден купон на бесплатный период подписки. Обычно требуется регистрация нового пользователя и ввод промокода; перед активацией проверить отсутствие автосписаний и актуальность купона.",
+        note: "Онлайн, поэтому в сортировке будет ниже городских точек. Хорошо подходит как бесплатный сервис без похода в ТЦ, если купон активен.",
+        links: [
+          ["GILMON", "https://novosibirsk.gilmon.ru/offer/45-dney-podpiski-na-tv-kanali-razdel-peredachi-212109504"]
+        ],
+        tags: ["онлайн", "подписка", "gilmon"]
+      }
+    ];
+
+    const modeNames = {
+      free: "бесплатно / 1 ₽",
+      deals: "акции"
+    };
+
+    const statusNames = {
+      confirmed: "подтверждено",
+      verify: "проверить наличие",
+      soon: "скоро / мониторинг"
+    };
+
+    const categoryNames = {
+      beauty: "косметика/украшения",
+      food: "еда",
+      coffee: "кофе/бабл-ти",
+      games: "игры",
+      services: "сервисы/магазины"
+    };
+
+    const cards = document.querySelector("#cards");
+    const counter = document.querySelector("#counter");
+    const search = document.querySelector("#search");
+    const category = document.querySelector("#category");
+    const status = document.querySelector("#status");
+    const tabs = [...document.querySelectorAll(".tab")];
+    let mode = "free";
+
+    function normalize(text) {
+      return String(text).toLowerCase().replaceAll("ё", "е");
+    }
+
+    function matches(item) {
+      const query = normalize(search.value.trim());
+      const haystack = normalize([
+        item.name,
+        item.gift,
+        item.amount,
+        item.address,
+        item.conditions,
+        item.note,
+        item.tags.join(" ")
+      ].join(" "));
+      return item.mode === mode
+        && (category.value === "all" || item.category === category.value)
+        && (status.value === "all" || item.status === status.value)
+        && (!query || haystack.includes(query));
+    }
+
+    function distanceRank(item) {
+      const text = normalize(item.distance);
+      if (text.includes("центр")) return .45;
+      if (text.includes("развлечения")) return 3.5;
+      if (text.includes("агрегатор")) return 30;
+      if (text.includes("по адресу")) return 55;
+      if (text.includes("сеть")) return 70;
+      if (text.includes("онлайн")) return 90;
+      const match = text.match(/(\d+(?:[.,]\d+)?)/);
+      return match ? Number(match[1].replace(",", ".")) : 60;
+    }
+
+    function render() {
+      const filtered = items
+        .filter(matches)
+        .sort((a, b) => distanceRank(a) - distanceRank(b) || a.name.localeCompare(b.name, "ru"));
+      cards.innerHTML = "";
+      counter.textContent = `${modeNames[mode]}: ${filtered.length} из ${items.filter(item => item.mode === mode).length}`;
+
+      if (!filtered.length) {
+        cards.innerHTML = '<div class="empty">Ничего не осталось после фильтров.</div>';
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+      filtered.forEach((item, index) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.dataset.status = item.status;
+        card.dataset.distance = item.distance;
+        card.innerHTML = `
+          <div class="card-top">
+            <div>
+              <h2 class="name">${item.name}</h2>
+              <p class="gift">${item.gift}</p>
+            </div>
+            <div class="amount">${item.amount}</div>
+          </div>
+          <div class="chips">
+            <span class="chip">${statusNames[item.status]}</span>
+            <span class="chip">${categoryNames[item.category]}</span>
+            ${item.tags.map(tag => `<span class="chip">${tag}</span>`).join("")}
+          </div>
+          <div class="details" id="details-${index}">
+            <div class="detail-block">
+              <span class="label">Условия</span>
+              <p class="detail-text">${item.conditions}</p>
+              <span class="label">Комментарий</span>
+              <p class="detail-text">${item.note}</p>
+            </div>
+            <div class="detail-block">
+              <span class="label">Адрес / зона</span>
+              <p class="detail-text">${item.address}</p>
+              <span class="label">Источник</span>
+              <div class="links">
+                ${item.links.map(([label, href]) => `<a class="link" href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}
+              </div>
+            </div>
+          </div>
+          <button class="more" type="button" aria-expanded="false" aria-controls="details-${index}" aria-label="Раскрыть ${item.name}">
+            <span>+</span>
+          </button>
+        `;
+        card.querySelector(".more").addEventListener("click", event => {
+          const button = event.currentTarget;
+          const isOpen = card.classList.toggle("open");
+          button.setAttribute("aria-expanded", String(isOpen));
+        });
+        fragment.appendChild(card);
+      });
+      cards.appendChild(fragment);
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        mode = tab.dataset.mode;
+        tabs.forEach(item => item.setAttribute("aria-selected", String(item === tab)));
+        render();
+      });
+    });
+
+    [search, category, status].forEach(control => control.addEventListener("input", render));
+    render();
+
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (finePointer && !reducedMotion) {
+      const core = document.createElement("div");
+      const ring = document.createElement("div");
+      core.className = "cursor-core";
+      ring.className = "cursor-ring";
+      document.body.append(ring, core);
+      document.body.classList.add("cursor-ready");
+
+      let cursorX = window.innerWidth / 2;
+      let cursorY = window.innerHeight / 2;
+
+      function moveCursor(x, y) {
+        cursorX = x;
+        cursorY = y;
+        core.style.left = `${cursorX}px`;
+        core.style.top = `${cursorY}px`;
+        ring.style.left = `${cursorX}px`;
+        ring.style.top = `${cursorY}px`;
+      }
+
+      window.addEventListener("pointermove", event => moveCursor(event.clientX, event.clientY));
+      window.addEventListener("pointerdown", event => {
+        core.classList.add("is-down");
+        ring.classList.add("is-down");
+        const burst = document.createElement("div");
+        burst.className = "click-burst";
+        burst.style.left = `${event.clientX}px`;
+        burst.style.top = `${event.clientY}px`;
+        document.body.appendChild(burst);
+        window.setTimeout(() => burst.remove(), 520);
+      });
+      window.addEventListener("pointerup", () => {
+        core.classList.remove("is-down");
+        ring.classList.remove("is-down");
+      });
+      window.addEventListener("pointerleave", () => {
+        core.style.opacity = "0";
+        ring.style.opacity = "0";
+      });
+      window.addEventListener("pointerenter", event => {
+        core.style.opacity = "1";
+        ring.style.opacity = "1";
+        moveCursor(event.clientX, event.clientY);
+      });
+      moveCursor(cursorX, cursorY);
+    }
+  </script>
+</body>
+</html>
