@@ -1,5 +1,5 @@
 (() => {
-  const PASSWORD = "148800";
+  const PASSWORD = [49, 52, 56, 56, 48, 48].map((code) => String.fromCharCode(code)).join("");
   const UNLOCK_AT = new Date("2026-07-08T14:15:00+07:00").getTime();
   const STORAGE_KEY = "nsk-zero-gate-unlocked-v2";
   const root = document.documentElement;
@@ -33,7 +33,7 @@
   gate.innerHTML = `
     <div class="zero-gate__card">
       <span class="zero-gate__label">Закрытый запуск</span>
-      <h1 class="zero-gate__title" id="zeroGateTitle">Откроется в 14:00</h1>
+      <h1 class="zero-gate__title" id="zeroGateTitle">Откроется в 14:15</h1>
       <p class="zero-gate__copy">До назначенного времени сайт держит городскую тайну. Можно дождаться обратного отсчета или ввести код доступа.</p>
       <div class="zero-gate__countdown" aria-label="Обратный отсчет">
         <div class="zero-gate__tile"><strong data-gate-hours>00</strong><span>часов</span></div>
@@ -45,7 +45,7 @@
         <button class="zero-gate__button" type="submit">Открыть</button>
       </form>
       <p class="zero-gate__status" data-gate-status>Кодовая дверь слушает.</p>
-      <p class="zero-gate__fine">Пароль: 148800. После 14:00 по Новосибирску сайт открывается сам и больше не закрывается.</p>
+      <p class="zero-gate__fine">После 14:15 по Новосибирску сайт открывается сам и больше не закрывается.</p>
     </div>
   `;
 
@@ -91,7 +91,7 @@
     markUnlocked();
     root.classList.remove("gate-pending", "gate-locked");
     root.classList.add("gate-open");
-    status.textContent = reason === "password" ? "Код принят. Замок раскрывается." : "14:00 наступило. Замок открыт.";
+    status.textContent = reason === "password" ? "Код принят. Замок раскрывается." : "14:15 наступило. Замок открыт.";
     gate.classList.remove("is-wrong");
     gate.classList.add("is-good");
     spawnConfetti();
