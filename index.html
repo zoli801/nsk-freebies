@@ -542,7 +542,7 @@
     <header class="mast">
       <div>
         <h1>НСК: ноль рублей и почти-ноль</h1>
-        <p class="meta">Список по Новосибирску, проверка открытых источников на 7 июля 2026. Вверху - полностью бесплатные и почти-нулевые сценарии за 1 рубль без обязательной покупки, во второй вкладке - акции с пополнением, заказом или лимитом списания.</p>
+        <p class="meta">Список по Новосибирску, проверка открытых источников на 8 июля 2026. Вверху - полностью бесплатные и почти-нулевые сценарии за 1 рубль без обязательной покупки, во второй вкладке - акции с пополнением, заказом или лимитом списания. Тренировки, врачи и события вынесены в отдельную вкладку.</p>
       </div>
       <div class="stamp">без<br>мусора<br>скидок</div>
     </header>
@@ -551,6 +551,7 @@
       <div class="tabs" role="tablist">
         <button class="tab" id="tab-free" role="tab" type="button" aria-selected="true" data-mode="free">Бесплатно / 1 ₽</button>
         <button class="tab" id="tab-deals" role="tab" type="button" aria-selected="false" data-mode="deals">Акции</button>
+        <button class="tab" id="tab-activities" role="tab" type="button" aria-selected="false" data-mode="activities">Занятия / врачи / события</button>
       </div>
       <div class="controls">
         <input class="field" id="search" type="search" placeholder="Поиск: бабл-ти, отзыв, регистрация, кофе...">
@@ -561,7 +562,6 @@
           <option value="coffee">Кофе и бабл-ти</option>
           <option value="games">Игры, квесты и ПК</option>
           <option value="services">Магазины, баллы и предметы</option>
-          <option value="activities">Занятия, врачи, события</option>
         </select>
         <select class="field" id="status">
           <option value="all">Любой статус</option>
@@ -581,7 +581,7 @@
     </section>
 
     <footer class="foot">
-      Чистый бесплатный сценарий здесь означает: регистрация, приложение, отзыв, промокод, подтверждение почты, визит без обязательного заказа или символическая оплата 1 рубль без других вложений. Если акция требует покупку, пополнение, заказ от суммы или списывает только часть чека, она уехала во вкладку "Акции". Перед походом лучше проверить остатки подарков в приложении, соцсетях или по телефону: такие промо часто заканчиваются раньше, чем их убирают из карточек.
+      Чистый бесплатный сценарий здесь означает: регистрация, приложение, отзыв, промокод, подтверждение почты, визит без обязательного заказа или символическая оплата 1 рубль без других вложений. Если акция требует покупку, пополнение, заказ от суммы или списывает только часть чека, она уехала во вкладку "Акции". Тренировки, врачи, пробные занятия и события отделены в свою вкладку и не смешиваются с едой, напитками и предметными подарками. Перед походом лучше проверить остатки подарков в приложении, соцсетях или по телефону: такие промо часто заканчиваются раньше, чем их убирают из карточек.
     </footer>
   </main>
 
@@ -652,6 +652,24 @@
           ["SUNLIGHT", "https://sunlight.net/superstar/"],
           ["Boombate НСК", "https://nsk.boombate.com/"],
           ["Gilmon купон", "https://gilmon.ru/promocode/sunlight_10"]
+        ],
+        tags: ["украшения", "подвеска", "промокод"]
+      },
+      {
+        mode: "free",
+        name: "SOKOLOV",
+        gift: "Серебряная подвеска или другой маленький подарок по промокоду/купону без покупки.",
+        amount: "подарок",
+        category: "beauty",
+        status: "verify",
+        distance: "0.7-7 км",
+        address: "Магазины SOKOLOV в Галерее, Ауре, МЕГЕ и других ТЦ Новосибирска.",
+        conditions: "Найти активный купон SOKOLOV на бесплатный подарок, получить код и показать его на кассе. Обычно нужен номер телефона, один подарок на участника и наличие подарков в конкретном магазине.",
+        note: "Добавлено как проверяемый купонный сценарий: перед поездкой обязательно открыть купон и позвонить в выбранный магазин, потому что такие промо быстро заканчиваются.",
+        links: [
+          ["SOKOLOV", "https://sokolov.ru/"],
+          ["GILMON НСК", "https://novosibirsk.gilmon.ru/"],
+          ["Boombate НСК", "https://nsk.boombate.com/"]
         ],
         tags: ["украшения", "подвеска", "промокод"]
       },
@@ -1101,18 +1119,20 @@
       {
         mode: "deals",
         name: "Папа Джонс",
-        gift: "1000 бонусов за регистрацию в приложении/программе.",
-        amount: "1000 ₽",
+        gift: "1000 бонусов за регистрацию; в НСК-канале бывают промокоды на пиццу 23 см в подарок к заказу.",
+        amount: "1000 ₽ / пицца",
         category: "food",
         status: "confirmed",
         distance: "сеть",
         address: "Пиццерии и доставка по Новосибирску.",
-        conditions: "Зарегистрироваться в приложении/клубе. Бонусы списываются только частично от заказа, поэтому полностью бесплатно обычно не выходит.",
-        note: "Хорошо для большой скидки на первый заказ, не для нулевого чека.",
+        conditions: "Зарегистрироваться в приложении/клубе. Бонусы списываются только частично от заказа. Для подарочной пиццы проверять актуальный промокод в Telegram-канале Новосибирска и то, что подарок добавился в корзину с нулевой стоимостью.",
+        note: "Хорошо для большой скидки или подарка к заказу, но не для нулевого чека.",
         links: [
-          ["сайт", "https://papajohns.ru/"]
+          ["сайт", "https://papajohns.ru/"],
+          ["Telegram НСК", "https://t.me/s/nskpapajohns?before=250"],
+          ["промо НСК", "https://t.me/s/nskpapajohns?before=426"]
         ],
-        tags: ["пицца", "1000 бонусов", "приложение"]
+        tags: ["пицца", "1000 бонусов", "Telegram"]
       },
       {
         mode: "deals",
@@ -3598,7 +3618,8 @@
 
     const modeNames = {
       free: "бесплатно / 1 ₽",
-      deals: "акции"
+      deals: "акции",
+      activities: "занятия / врачи / события"
     };
 
     const statusNames = {
@@ -3639,10 +3660,24 @@
         item.note,
         item.tags.join(" ")
       ].join(" "));
-      return item.mode === mode
-        && (category.value === "all" || item.category === category.value)
+
+      const belongsToMode = mode === "activities"
+        ? item.category === "activities"
+        : item.mode === mode && item.category !== "activities";
+      const categoryMatches = mode === "activities"
+        || category.value === "all"
+        || item.category === category.value;
+
+      return belongsToMode
+        && categoryMatches
         && (status.value === "all" || item.status === status.value)
         && (!query || haystack.includes(query));
+    }
+
+    function belongsToCurrentTab(item) {
+      return mode === "activities"
+        ? item.category === "activities"
+        : item.mode === mode && item.category !== "activities";
     }
 
     function distanceRank(item) {
@@ -3662,7 +3697,7 @@
         .filter(matches)
         .sort((a, b) => distanceRank(a) - distanceRank(b) || a.name.localeCompare(b.name, "ru"));
       cards.innerHTML = "";
-      counter.textContent = `${modeNames[mode]}: ${filtered.length} из ${items.filter(item => item.mode === mode).length}`;
+      counter.textContent = `${modeNames[mode]}: ${filtered.length} из ${items.filter(belongsToCurrentTab).length}`;
 
       if (!filtered.length) {
         cards.innerHTML = '<div class="empty">Ничего не осталось после фильтров.</div>';
@@ -3721,6 +3756,7 @@
     tabs.forEach(tab => {
       tab.addEventListener("click", () => {
         mode = tab.dataset.mode;
+        if (mode === "activities") category.value = "all";
         tabs.forEach(item => item.setAttribute("aria-selected", String(item === tab)));
         render();
       });
