@@ -432,7 +432,7 @@
 
     .modes {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin-bottom: 16px;
     }
@@ -446,6 +446,46 @@
       background: var(--red);
       color: white;
       box-shadow: 3px 3px 0 var(--blue);
+    }
+
+    .route-tools {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      margin-bottom: 16px;
+      align-items: stretch;
+    }
+
+    .searchbox {
+      width: 100%;
+      min-height: 54px;
+      border: 2px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 3px 3px 0 var(--line);
+      border-radius: 6px;
+      padding: 0 14px;
+      font-weight: 900;
+      outline: none;
+    }
+
+    .searchbox:focus {
+      box-shadow: 5px 5px 0 var(--blue);
+    }
+
+    .count-badge {
+      display: grid;
+      place-items: center;
+      min-height: 54px;
+      border: 2px solid var(--line);
+      background: var(--blue);
+      color: white;
+      box-shadow: 3px 3px 0 var(--red);
+      border-radius: 6px;
+      padding: 0 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .route-list {
@@ -490,6 +530,41 @@
       margin: 0;
       line-height: 1.35;
       font-weight: 700;
+    }
+
+    .details {
+      margin-top: 12px;
+      border: 2px solid var(--line);
+      background: #fff;
+    }
+
+    .details summary {
+      padding: 9px 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .details-body {
+      display: grid;
+      gap: 9px;
+      padding: 0 10px 10px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .links a {
+      border: 2px solid var(--line);
+      background: var(--paper-2);
+      padding: 6px 8px;
+      font-weight: 900;
+      text-decoration: none;
+      text-transform: uppercase;
     }
 
     .mini {
@@ -720,7 +795,8 @@
       .brief-grid,
       .modes,
       .inventory,
-      .route-footer {
+      .route-footer,
+      .route-tools {
         grid-template-columns: 1fr;
       }
 
@@ -826,14 +902,18 @@
 
     <section class="section" id="route">
       <div class="section-head">
-        <h2>Маршрут</h2>
-        <p>Выберите темп и отмечайте станции. Прогресс сохраняется в браузере. Точки отсортированы от центра и больших ТЦ к дальним резервам.</p>
+        <h2>Все трофеи</h2>
+        <p>Здесь весь список с основной страницы, но без врачей, тренировок, пробных занятий и событий. Переключайте два окна: чистое бесплатно / 1 ₽ и акции с условиями.</p>
       </div>
 
-      <div class="modes" aria-label="Режим квеста">
-        <button class="mode-button active" type="button" data-mode="soft">Нежно: 4 трофея<br><small>для спокойного свидания</small></button>
-        <button class="mode-button" type="button" data-mode="classic">Классика: 6 трофеев<br><small>день с прогулкой</small></button>
-        <button class="mode-button" type="button" data-mode="hunt">Охота: 9 трофеев<br><small>почти городской спорт</small></button>
+      <div class="modes" aria-label="Окна квеста">
+        <button class="mode-button active" type="button" data-mode="free">Полностью бесплатно / 1 ₽<br><small>без покупки и без спорта/врачей</small></button>
+        <button class="mode-button" type="button" data-mode="deals">Акции<br><small>подарки к заказу, бонусы, купи-получи</small></button>
+      </div>
+
+      <div class="route-tools">
+        <input class="searchbox" id="searchBox" type="search" placeholder="Найти: кофе, бургер, Аура, отзыв, 1 ₽">
+        <div class="count-badge" id="listCount">Загрузка</div>
       </div>
 
       <div class="route-list" id="routeList"></div>
@@ -914,108 +994,6 @@
   </main>
 
   <script>
-    const stops = [
-      {
-        title: "ЛЭТУАЛЬ: первый шифр",
-        place: "Красный проспект, 25 или Аура",
-        distance: "0.3-1 км",
-        reward: "миниатюра / косметика",
-        method: "Установить приложение, зарегистрироваться, открыть подарок или QR и спросить на кассе про наличие.",
-        story: "Это вход в квест: не покупать, а показать код и забрать маленький предмет, если он есть.",
-        tag: "косметика",
-        value: 1,
-        phase: 0
-      },
-      {
-        title: "Сияние без чека",
-        place: "SUNLIGHT или SOKOLOV в центральных ТЦ",
-        distance: "0.7-1.1 км",
-        reward: "подвеска / маленький подарок",
-        method: "Перед выходом найти активный купон, открыть код и проверить наличие подарка в выбранном магазине.",
-        story: "Станция для трофея, который выглядит как настоящая добыча, а не просто скидка.",
-        tag: "украшение",
-        value: 1,
-        phase: 0
-      },
-      {
-        title: "От Зайки: сладкая печать",
-        place: "Чаплыгина, 47",
-        distance: "0.5 км",
-        reward: "моти за честный отзыв",
-        method: "Сначала реально зайти, уточнить акцию, затем оставить честный отзыв в 2ГИС или Яндекс Картах и показать его.",
-        story: "Самая свидательная станция: маленький десерт, короткая остановка и повод улыбнуться.",
-        tag: "десерт",
-        value: 1,
-        phase: 1
-      },
-      {
-        title: "Галерея: пропуск в клуб",
-        place: "ТРЦ Галерея, Гоголя, 13",
-        distance: "0.7 км",
-        reward: "комплимент / баллы в приложении",
-        method: "Установить приложение Галереи, зарегистрироваться и проверить раздел комплиментов.",
-        story: "ТЦ-станция: тут важно не бегать по магазинам, а открыть приложение и найти доступный комплимент.",
-        tag: "ТЦ",
-        value: 1,
-        phase: 2
-      },
-      {
-        title: "Бифи: мясной сейф",
-        place: "Фрунзе, 5",
-        distance: "0.4 км",
-        reward: "до 1000 ₽ на счёт",
-        method: "Уточнить у администратора промо из 2ГИС: как зачисляется счёт и есть ли ограничение на списание.",
-        story: "Сильный кандидат на большой трофей, но только после проверки правил на месте.",
-        tag: "еда",
-        value: 1,
-        phase: 0
-      },
-      {
-        title: "Зелёный стакан",
-        place: "Green House / Millor / A.Ganziy",
-        distance: "0.2-0.9 км",
-        reward: "кофе, стаканчик или бонусы",
-        method: "Выбрать ближайшую кофейню из базы, спросить про отзывный подарок или приветственные бонусы.",
-        story: "Кофейная развилка: не обязательно всё, достаточно одной честной добычи по пути.",
-        tag: "кофе",
-        value: 1,
-        phase: 0
-      },
-      {
-        title: "Аура Бонус: красная зона",
-        place: "ТРЦ Аура, Военная, 5",
-        distance: "1.1 км",
-        reward: "баллы, купон, подарок из каталога",
-        method: "Установить приложение Ауры, зарегистрироваться, проверить задания и доступные подарки.",
-        story: "Главная база квеста: здесь может появиться и купон, и подарок, и отдельная игра.",
-        tag: "приложение",
-        value: 1,
-        phase: 3
-      },
-      {
-        title: "Фудхолл Ауры: десертный протокол",
-        place: "Аура, 4 этаж",
-        distance: "1.1 км",
-        reward: "трюфель / сладкий комплимент",
-        method: "На месте уточнить, какой корнер сейчас выдаёт подарок за отзыв или активность.",
-        story: "Если Аура Бонус молчит, фудхолл часто даёт короткие ручные акции.",
-        tag: "сладкое",
-        value: 1,
-        phase: 3
-      },
-      {
-        title: "Резерв 1 ₽",
-        place: "Бургер Кинг / ХАН БУЗ / ЧебурекМИ",
-        distance: "сеть",
-        reward: "бургер, бууза или напиток",
-        method: "Проверить приложение или Telegram-бот: подходит только вариант за 1 ₽ без другого заказа.",
-        story: "Финальная развилка: если день хочет быть смешнее, доберите символический трофей за один рубль.",
-        tag: "1 рубль",
-        value: 1,
-        phase: 4
-      }
-    ];
-
     const sideMissions = [
       ["Проверка стойки", "В любом ТЦ спросите на стойке информации: “Есть сегодня подарки в приложении или активности без покупки?”"],
       ["Фото-доказательство", "Сделайте одно фото трофея так, будто это улика из городского архива."],
@@ -1024,57 +1002,153 @@
       ["Финальная печать", "В конце дня посчитайте не рубли, а сколько раз удалось обойти “надо что-то купить”."]
     ];
 
-    const modeTargets = {
-      soft: 4,
-      classic: 6,
-      hunt: 9
-    };
-
     const routeList = document.querySelector("#routeList");
     const progressBar = document.querySelector("#progressBar");
     const progressText = document.querySelector("#progressText");
     const scoreText = document.querySelector("#scoreText");
     const rankText = document.querySelector("#rankText");
+    const listCount = document.querySelector("#listCount");
+    const searchBox = document.querySelector("#searchBox");
     const modeButtons = [...document.querySelectorAll(".mode-button")];
     const dots = [...document.querySelectorAll(".route-dot")];
-    const storageKey = "nsk-zero-quest-v1";
-    let state = JSON.parse(localStorage.getItem(storageKey) || '{"done":[],"mode":"soft"}');
+    const storageKey = "nsk-zero-quest-v2";
+    let allItems = [];
+    let state = JSON.parse(localStorage.getItem(storageKey) || '{"done":[],"mode":"free","query":""}');
+    if (!["free", "deals"].includes(state.mode)) state.mode = "free";
+    if (!Array.isArray(state.done)) state.done = [];
+    searchBox.value = state.query || "";
 
     function save() {
       localStorage.setItem(storageKey, JSON.stringify(state));
     }
 
-    function target() {
-      return modeTargets[state.mode] || modeTargets.soft;
-    }
-
     function rank(done) {
-      if (done >= 9) return "Ранг: легенда";
-      if (done >= 6) return "Ранг: охотники";
-      if (done >= 4) return "Ранг: свидание собрано";
+      if (done >= 50) return "Ранг: городская легенда";
+      if (done >= 25) return "Ранг: охотники за нулём";
+      if (done >= 10) return "Ранг: свидание собрано";
       if (done >= 1) return "Ранг: след найден";
       return "Ранг: разведка";
     }
 
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalize(text) {
+      return String(text ?? "").toLowerCase().replaceAll("ё", "е");
+    }
+
+    function itemId(item) {
+      return `${item.mode}:${item.name}:${item.address}`.replace(/\s+/g, " ").trim();
+    }
+
+    function distanceRank(item) {
+      const text = normalize(item.distance);
+      if (text.includes("центр")) return .45;
+      if (text.includes("развлечения")) return 3.5;
+      if (text.includes("агрегатор")) return 30;
+      if (text.includes("по адресу")) return 55;
+      if (text.includes("сеть")) return 70;
+      if (text.includes("онлайн")) return 90;
+      const match = text.match(/(\d+(?:[.,]\d+)?)/);
+      return match ? Number(match[1].replace(",", ".")) : 60;
+    }
+
+    function phaseForItem(item) {
+      const rankValue = distanceRank(item);
+      if (rankValue <= .6) return 0;
+      if (rankValue <= 1) return 1;
+      if (rankValue <= 1.5) return 2;
+      if (rankValue <= 8) return 3;
+      return 4;
+    }
+
+    function modeName(mode) {
+      return mode === "free" ? "бесплатно / 1 ₽" : "акции";
+    }
+
+    function statusName(status) {
+      return {
+        confirmed: "подтверждено",
+        verify: "проверить",
+        soon: "мониторинг"
+      }[status] || status || "проверить";
+    }
+
+    function baseItems() {
+      return allItems
+        .filter((item) => item.category !== "activities" && item.mode === state.mode)
+        .sort((a, b) => distanceRank(a) - distanceRank(b) || a.name.localeCompare(b.name, "ru"));
+    }
+
+    function visibleItems() {
+      const query = normalize(state.query);
+      return baseItems().filter((item) => {
+        if (!query) return true;
+        const haystack = normalize([
+          item.name,
+          item.gift,
+          item.amount,
+          item.address,
+          item.conditions,
+          item.note,
+          (item.tags || []).join(" ")
+        ].join(" "));
+        return haystack.includes(query);
+      });
+    }
+
     function renderStops() {
-      routeList.innerHTML = stops.map((stop, index) => {
-        const done = state.done.includes(index);
+      const items = visibleItems();
+      if (!allItems.length) {
+        routeList.innerHTML = '<article class="stop"><div class="number">...</div><div><h3>Загружаю базу</h3><p>Подтягиваю все карточки из основного списка.</p></div><div class="stop-side"><div class="reward"><small>Статус</small>загрузка</div></div></article>';
+        return;
+      }
+
+      if (!items.length) {
+        routeList.innerHTML = '<article class="stop"><div class="number">0</div><div><h3>Ничего не найдено</h3><p>Попробуйте другое слово в поиске или переключите окно квеста.</p></div><div class="stop-side"><div class="reward"><small>Фильтр</small>пусто</div></div></article>';
+        return;
+      }
+
+      routeList.innerHTML = items.map((item, index) => {
+        const id = itemId(item);
+        const done = state.done.includes(id);
+        const links = (item.links || []).map((link) => {
+          const label = escapeHtml(link[0]);
+          const href = escapeHtml(link[1]);
+          return `<a href="${href}" target="_blank" rel="noreferrer">${label}</a>`;
+        }).join("");
+        const tags = (item.tags || []).slice(0, 5).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("");
         return `
-          <article class="stop ${done ? "done" : ""}" data-index="${index}">
+          <article class="stop ${done ? "done" : ""}" data-id="${escapeHtml(id)}" data-index="${index}">
             <div class="number">${String(index + 1).padStart(2, "0")}</div>
             <div>
-              <h3>${stop.title}</h3>
-              <p>${stop.story}</p>
-              <p><strong>Как пройти:</strong> ${stop.method}</p>
+              <h3>${escapeHtml(item.name)}</h3>
+              <p>${escapeHtml(item.gift)}</p>
+              <p><strong>Как пройти:</strong> ${escapeHtml(item.conditions)}</p>
               <div class="mini">
-                <span>${stop.place}</span>
-                <span>${stop.distance}</span>
-                <span>${stop.tag}</span>
+                <span>${escapeHtml(item.address)}</span>
+                <span>${escapeHtml(item.distance)}</span>
+                <span>${escapeHtml(statusName(item.status))}</span>
+                ${tags}
               </div>
+              <details class="details">
+                <summary>Полная информация</summary>
+                <div class="details-body">
+                  <div><strong>Условия:</strong> ${escapeHtml(item.conditions)}</div>
+                  <div><strong>Заметка:</strong> ${escapeHtml(item.note || "Перед походом проверить наличие и срок акции.")}</div>
+                  <div class="links">${links || "<span>Источник в основной базе</span>"}</div>
+                </div>
+              </details>
             </div>
             <div class="stop-side">
-              <div class="reward"><small>Трофей</small>${stop.reward}</div>
-              <button class="check-button" type="button" data-check="${index}">${done ? "Печать стоит" : "Поставить печать"}</button>
+              <div class="reward"><small>Трофей</small>${escapeHtml(item.amount || item.gift)}</div>
+              <button class="check-button" type="button" data-check="${escapeHtml(id)}">${done ? "Печать стоит" : "Поставить печать"}</button>
             </div>
           </article>
         `;
@@ -1082,11 +1156,11 @@
 
       routeList.querySelectorAll("[data-check]").forEach((button) => {
         button.addEventListener("click", () => {
-          const index = Number(button.dataset.check);
-          if (state.done.includes(index)) {
-            state.done = state.done.filter((item) => item !== index);
+          const id = button.dataset.check;
+          if (state.done.includes(id)) {
+            state.done = state.done.filter((item) => item !== id);
           } else {
-            state.done.push(index);
+            state.done.push(id);
           }
           save();
           render();
@@ -1100,33 +1174,45 @@
     }
 
     function setActiveDot(stopIndex) {
-      const phase = stops[stopIndex]?.phase ?? 0;
+      const item = visibleItems()[stopIndex];
+      const phase = item ? phaseForItem(item) : 0;
       dots.forEach((dot) => dot.classList.toggle("active", Number(dot.dataset.dot) === phase));
     }
 
     function renderProgress() {
-      const done = state.done.length;
-      const need = target();
-      const pct = Math.min(100, Math.round((done / need) * 100));
+      const total = baseItems().length;
+      const visible = visibleItems().length;
+      const doneInMode = baseItems().filter((item) => state.done.includes(itemId(item))).length;
+      const doneAll = allItems.filter((item) => item.category !== "activities" && state.done.includes(itemId(item))).length;
+      const need = Math.max(total, 1);
+      const pct = Math.min(100, Math.round((doneInMode / need) * 100));
       progressBar.style.width = `${pct}%`;
-      progressText.textContent = `${done} из ${need} трофеев`;
-      scoreText.innerHTML = `${done}<br>собрано`;
-      rankText.textContent = rank(done);
+      progressText.textContent = `${doneInMode} из ${total} (${modeName(state.mode)})`;
+      scoreText.innerHTML = `${doneAll}<br>собрано`;
+      rankText.textContent = rank(doneAll);
+      listCount.textContent = `${visible} / ${total}`;
       modeButtons.forEach((button) => button.classList.toggle("active", button.dataset.mode === state.mode));
     }
 
     function render() {
       renderStops();
       renderProgress();
-      setActiveDot(state.done.at(-1) ?? 0);
+      const activeIndex = visibleItems().findIndex((item) => state.done.includes(itemId(item)));
+      setActiveDot(activeIndex >= 0 ? activeIndex : 0);
     }
 
     modeButtons.forEach((button) => {
       button.addEventListener("click", () => {
         state.mode = button.dataset.mode;
         save();
-        renderProgress();
+        render();
       });
+    });
+
+    searchBox.addEventListener("input", () => {
+      state.query = searchBox.value.trim();
+      save();
+      render();
     });
 
     document.querySelector("#sideButton").addEventListener("click", () => {
@@ -1136,7 +1222,9 @@
     });
 
     document.querySelector("#copyButton").addEventListener("click", async () => {
-      const text = "План: свидание-квест “Операция Ноль рублей”. Идём по центру, проверяем ЛЭТУАЛЬ, украшение по купону, сладкую станцию, Галерею, Ауру и резерв за 1 ₽. Бюджет: 0 рублей, цель: собрать трофеи и историю.";
+      const freeCount = allItems.filter((item) => item.mode === "free" && item.category !== "activities").length;
+      const dealsCount = allItems.filter((item) => item.mode === "deals" && item.category !== "activities").length;
+      const text = `План: свидание-квест “Операция Ноль рублей”. На странице есть ${freeCount} бесплатных/1 ₽ трофеев и ${dealsCount} акций без врачей и спорта. Идём от центра, проверяем условия, собираем печати и не покупаем лишнего.`;
       try {
         await navigator.clipboard.writeText(text);
         document.querySelector("#copyStatus").textContent = "Скопировано. Можно отправлять как приглашение.";
@@ -1144,6 +1232,20 @@
         document.querySelector("#copyStatus").textContent = text;
       }
     });
+
+    async function loadItems() {
+      try {
+        const response = await fetch("./index.html", { cache: "no-store" });
+        const html = await response.text();
+        const match = html.match(/const items = (\[[\s\S]*?\n    \]);/);
+        if (!match) throw new Error("items not found");
+        allItems = Function(`"use strict"; return (${match[1]});`)();
+        render();
+      } catch (error) {
+        routeList.innerHTML = `<article class="stop"><div class="number">!</div><div><h3>База не загрузилась</h3><p>Откройте страницу через сайт GitHub Pages или обновите вкладку. Ошибка: ${escapeHtml(error.message)}</p></div><div class="stop-side"><div class="reward"><small>Статус</small>нужна перезагрузка</div></div></article>`;
+        listCount.textContent = "ошибка";
+      }
+    }
 
     const cursor = document.querySelector("#cursor");
     window.addEventListener("pointermove", (event) => {
@@ -1165,6 +1267,7 @@
     });
 
     render();
+    loadItems();
   </script>
 </body>
 </html>
