@@ -1,0 +1,371 @@
+html.gate-locked,
+html.gate-locked body {
+  overflow: hidden;
+}
+
+html.gate-locked body > :not(.zero-gate) {
+  filter: blur(7px) saturate(.72) contrast(.82);
+  pointer-events: none !important;
+  user-select: none;
+}
+
+.zero-gate,
+.zero-gate *,
+body.cursor-ready .zero-gate,
+body.cursor-ready .zero-gate * {
+  cursor: auto !important;
+  box-sizing: border-box;
+}
+
+.zero-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 22px;
+  color: #fff7e8;
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 0;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(229, 30, 42, .32), transparent 26%),
+    radial-gradient(circle at 84% 74%, rgba(8, 75, 255, .34), transparent 30%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .06) 0 1px, transparent 1px 42px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .04) 0 1px, transparent 1px 42px),
+    #070817;
+  overflow: hidden;
+  animation: gate-hum 7s ease-in-out infinite;
+}
+
+.zero-gate::before,
+.zero-gate::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.zero-gate::before {
+  width: 92vmin;
+  height: 92vmin;
+  border: 3px solid rgba(255, 247, 232, .26);
+  border-left-color: #e51e2a;
+  border-right-color: #0b4bff;
+  transform: rotate(14deg);
+  animation: gate-orbit 18s linear infinite;
+}
+
+.zero-gate::after {
+  inset: -20%;
+  background:
+    linear-gradient(115deg, transparent 0 38%, rgba(255, 255, 255, .12) 42%, transparent 46% 100%),
+    linear-gradient(64deg, transparent 0 55%, rgba(229, 30, 42, .16) 59%, transparent 63% 100%);
+  animation: gate-scan 5.4s linear infinite;
+}
+
+.zero-gate__card {
+  position: relative;
+  z-index: 2;
+  width: min(760px, 100%);
+  border: 3px solid #fff7e8;
+  background:
+    linear-gradient(135deg, rgba(229, 30, 42, .23), transparent 34%),
+    linear-gradient(315deg, rgba(11, 75, 255, .25), transparent 38%),
+    rgba(8, 10, 28, .92);
+  box-shadow: 12px 12px 0 #e51e2a, -12px -12px 0 #0b4bff, 0 24px 80px rgba(0, 0, 0, .52);
+  padding: clamp(18px, 5vw, 38px);
+  transform: rotate(-1deg);
+  animation: gate-float 4.8s ease-in-out infinite;
+}
+
+.zero-gate__card::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 2px dashed rgba(255, 247, 232, .28);
+  pointer-events: none;
+}
+
+.zero-gate__label {
+  display: inline-flex;
+  border: 2px solid #fff7e8;
+  background: #e51e2a;
+  color: #fff;
+  box-shadow: 5px 5px 0 #0b4bff;
+  padding: 8px 11px;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.zero-gate__title {
+  margin: 22px 0 10px;
+  max-width: 680px;
+  font-size: clamp(42px, 8vw, 88px);
+  line-height: .84;
+  text-transform: uppercase;
+}
+
+.zero-gate__copy {
+  max-width: 620px;
+  margin: 0;
+  color: rgba(255, 247, 232, .86);
+  font-size: clamp(16px, 2.3vw, 21px);
+  font-weight: 800;
+  line-height: 1.28;
+}
+
+.zero-gate__countdown {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.zero-gate__tile {
+  min-height: 94px;
+  border: 2px solid #fff7e8;
+  background: #fff7e8;
+  color: #070817;
+  display: grid;
+  place-items: center;
+  box-shadow: 5px 5px 0 #0b4bff;
+}
+
+.zero-gate__tile strong {
+  display: block;
+  font-size: clamp(30px, 6vw, 58px);
+  line-height: .9;
+  font-weight: 900;
+}
+
+.zero-gate__tile span {
+  display: block;
+  margin-top: 6px;
+  color: #e51e2a;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.zero-gate__form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.zero-gate__input,
+.zero-gate__button {
+  min-height: 58px;
+  border: 2px solid #fff7e8;
+  border-radius: 0;
+  font: inherit;
+  font-weight: 900;
+  outline: none;
+}
+
+.zero-gate__input {
+  width: 100%;
+  padding: 0 14px;
+  color: #fff7e8;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: inset 0 0 0 2px rgba(11, 75, 255, .52);
+}
+
+.zero-gate__input::placeholder {
+  color: rgba(255, 247, 232, .48);
+}
+
+.zero-gate__input:focus {
+  box-shadow: inset 0 0 0 2px #e51e2a, 0 0 0 4px rgba(11, 75, 255, .35);
+}
+
+.zero-gate__input.is-typing {
+  animation: gate-type .28s ease;
+}
+
+.zero-gate__button {
+  padding: 0 18px;
+  color: #070817;
+  background: #fff7e8;
+  box-shadow: 5px 5px 0 #e51e2a;
+  text-transform: uppercase;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+
+.zero-gate__button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 #e51e2a;
+}
+
+.zero-gate__button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #e51e2a;
+  background: #dce8ff;
+}
+
+.zero-gate__status {
+  min-height: 24px;
+  margin: 12px 0 0;
+  color: rgba(255, 247, 232, .82);
+  font-weight: 900;
+}
+
+.zero-gate__fine {
+  margin: 16px 0 0;
+  color: rgba(255, 247, 232, .62);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.zero-gate.is-wrong .zero-gate__card {
+  animation: gate-wrong .44s steps(2, end), gate-float 4.8s ease-in-out infinite .44s;
+  box-shadow: 12px 12px 0 #ff0022, -12px -12px 0 #ffffff, 0 24px 80px rgba(229, 30, 42, .42);
+}
+
+.zero-gate.is-wrong .zero-gate__input {
+  border-color: #ff4050;
+  animation: gate-shake .38s ease;
+}
+
+.zero-gate.is-good .zero-gate__card {
+  animation: gate-good .88s ease forwards;
+  box-shadow: 0 0 0 8px rgba(255, 247, 232, .18), 0 0 80px rgba(11, 75, 255, .7);
+}
+
+.zero-gate.is-leaving {
+  animation: gate-open .82s ease forwards;
+}
+
+.zero-gate__pop,
+.zero-gate__confetti {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 2147483002;
+}
+
+.zero-gate__pop {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fff7e8;
+  transform: translate(-50%, -50%);
+  animation: gate-pop .62s ease forwards;
+}
+
+.zero-gate__pop.is-bad {
+  border-color: #ff4050;
+  background: rgba(255, 64, 80, .18);
+}
+
+.zero-gate__pop.is-good {
+  border-color: #85ffcf;
+  background: rgba(133, 255, 207, .18);
+}
+
+.zero-gate__confetti {
+  width: 9px;
+  height: 15px;
+  background: var(--confetti, #fff7e8);
+  transform: translate(-50%, -50%) rotate(var(--rotate, 0deg));
+  animation: gate-confetti .9s ease-out forwards;
+}
+
+@keyframes gate-hum {
+  0%, 100% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  50% { background-position: 0 0, 0 0, 18px 0, 0 22px, 0 0; }
+}
+
+@keyframes gate-orbit {
+  to { transform: rotate(374deg); }
+}
+
+@keyframes gate-scan {
+  from { transform: translateX(-18%); }
+  to { transform: translateX(18%); }
+}
+
+@keyframes gate-float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+@keyframes gate-type {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes gate-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(4px); }
+}
+
+@keyframes gate-wrong {
+  0% { transform: translate(0, 0) rotate(-1deg); filter: hue-rotate(0); }
+  25% { transform: translate(9px, -5px) rotate(1deg); filter: hue-rotate(30deg); }
+  50% { transform: translate(-8px, 4px) rotate(-2deg); }
+  75% { transform: translate(5px, 6px) rotate(2deg); }
+  100% { transform: translate(0, 0) rotate(-1deg); filter: hue-rotate(0); }
+}
+
+@keyframes gate-good {
+  0% { transform: scale(1) rotate(-1deg); }
+  55% { transform: scale(1.025) rotate(0); }
+  100% { transform: scale(.96) rotate(0); opacity: .92; }
+}
+
+@keyframes gate-open {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes gate-pop {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(.2) rotate(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(5.8) rotate(45deg);
+  }
+}
+
+@keyframes gate-confetti {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--rotate, 0deg));
+  }
+  to {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--x, 0px)), calc(-50% + var(--y, 120px))) rotate(calc(var(--rotate, 0deg) + 220deg));
+  }
+}
+
+@media (max-width: 620px) {
+  .zero-gate {
+    padding: 12px;
+  }
+
+  .zero-gate__card {
+    box-shadow: 7px 7px 0 #e51e2a, -7px -7px 0 #0b4bff;
+  }
+
+  .zero-gate__countdown,
+  .zero-gate__form {
+    grid-template-columns: 1fr;
+  }
+
+  .zero-gate__tile {
+    min-height: 72px;
+  }
+}
