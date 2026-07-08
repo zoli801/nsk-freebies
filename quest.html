@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Квест нулевого дня — Новосибирск</title>
+  <style>
+    :root {
+      --paper: #f8f5ee;
+      --paper-2: #ebe5d9;
+      --ink: #151515;
+      --red: #e51e2a;
+      --blue: #0b4bff;
+      --blue-dark: #061c72;
+      --line: #171717;
+      --muted: #66615a;
+      --ok: #11804d;
+      --shadow: 10px 10px 0 #151515;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(229, 30, 42, .10) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(11, 75, 255, .09) 1px, transparent 1px),
+        var(--paper);
+      background-size: 34px 34px;
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0;
+      cursor: none;
+    }
+
+    a,
+    button,
+    input,
+    select {
+      cursor: none;
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .cursor {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 34px;
+      height: 34px;
+      border: 2px solid var(--blue);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 50;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: multiply;
+      transition: width .16s ease, height .16s ease, border-color .16s ease, background .16s ease;
+    }
+
+    .cursor::before,
+    .cursor::after {
+      content: "";
+      position: absolute;
+      background: var(--red);
+    }
+
+    .cursor::before {
+      width: 14px;
+      height: 2px;
+      left: 8px;
+      top: 14px;
+    }
+
+    .cursor::after {
+      width: 2px;
+      height: 14px;
+      left: 14px;
+      top: 8px;
+    }
+
+    .cursor.hot {
+      width: 48px;
+      height: 48px;
+      border-color: var(--red);
+      background: rgba(229, 30, 42, .08);
+    }
+
+    .tap {
+      position: fixed;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--red);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 49;
+      animation: tap .56s ease forwards;
+    }
+
+    @keyframes tap {
+      from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(.3);
+      }
+      to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(4.2);
+      }
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 22px 0 54px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 0;
+      background: linear-gradient(180deg, var(--paper) 72%, rgba(248, 245, 238, 0));
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      color: white;
+      background: var(--red);
+      border: 2px solid var(--line);
+      box-shadow: 4px 4px 0 var(--blue);
+      transform: rotate(-4deg);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a,
+    .tool-button,
+    .mode-button,
+    .check-button {
+      border: 2px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 3px 3px 0 var(--line);
+      border-radius: 6px;
+      text-decoration: none;
+      transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+    }
+
+    .nav a,
+    .tool-button,
+    .mode-button {
+      padding: 10px 12px;
+      font-weight: 800;
+    }
+
+    .nav a:hover,
+    .tool-button:hover,
+    .mode-button:hover,
+    .check-button:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 var(--line);
+    }
+
+    .nav a:active,
+    .tool-button:active,
+    .mode-button:active,
+    .check-button:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 var(--line);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(320px, .94fr);
+      gap: 18px;
+      align-items: stretch;
+      min-height: calc(100vh - 112px);
+    }
+
+    .dossier,
+    .panel,
+    .stop,
+    .story-block {
+      border: 2px solid var(--line);
+      background: rgba(248, 245, 238, .94);
+      box-shadow: var(--shadow);
+    }
+
+    .dossier {
+      display: grid;
+      align-content: space-between;
+      padding: clamp(22px, 4vw, 46px);
+      min-height: 600px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dossier::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 2px dashed rgba(21, 21, 21, .22);
+      pointer-events: none;
+    }
+
+    .case-tag {
+      display: inline-flex;
+      width: fit-content;
+      border: 2px solid var(--line);
+      background: var(--blue);
+      color: white;
+      padding: 8px 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      box-shadow: 4px 4px 0 var(--red);
+      transform: rotate(-2deg);
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 28px 0 12px;
+      font-size: clamp(48px, 8vw, 118px);
+      line-height: .82;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(18px, 2.2vw, 25px);
+      line-height: 1.28;
+      font-weight: 700;
+    }
+
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .brief {
+      min-height: 112px;
+      border: 2px solid var(--line);
+      padding: 12px;
+      background: var(--paper-2);
+    }
+
+    .brief b {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .brief span {
+      display: block;
+      color: var(--ink);
+      font-weight: 800;
+      line-height: 1.18;
+    }
+
+    .route-board {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      padding: 18px;
+      background: var(--blue-dark);
+      color: white;
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow);
+      min-height: 600px;
+    }
+
+    .route-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .route-head h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: .94;
+      text-transform: uppercase;
+    }
+
+    .stamp {
+      border: 2px solid white;
+      color: white;
+      padding: 9px 11px;
+      font-weight: 900;
+      transform: rotate(5deg);
+      text-align: center;
+      min-width: 112px;
+    }
+
+    .schematic {
+      min-height: 290px;
+      border: 2px solid white;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255,255,255,.08) 1px, transparent 1px),
+        #071957;
+      background-size: 24px 24px;
+      padding: 10px;
+    }
+
+    .schematic svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 300px;
+    }
+
+    .route-dot {
+      transition: transform .16s ease, fill .16s ease;
+    }
+
+    .route-dot.active {
+      fill: var(--red);
+      transform: scale(1.35);
+      transform-origin: center;
+    }
+
+    .route-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 8px;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .progress {
+      height: 18px;
+      border: 2px solid white;
+      background: #05113d;
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), #ffffff);
+      transition: width .28s ease;
+    }
+
+    .score {
+      display: grid;
+      place-items: center;
+      min-width: 112px;
+      min-height: 86px;
+      border: 2px solid white;
+      background: var(--red);
+      font-weight: 900;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .section {
+      margin-top: 34px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 68px);
+      line-height: .9;
+      text-transform: uppercase;
+    }
+
+    .section-head p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .modes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .mode-button {
+      min-height: 68px;
+      text-align: left;
+    }
+
+    .mode-button.active {
+      background: var(--red);
+      color: white;
+      box-shadow: 3px 3px 0 var(--blue);
+    }
+
+    .route-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stop {
+      display: grid;
+      grid-template-columns: 84px minmax(0, 1fr) 180px;
+      gap: 14px;
+      padding: 14px;
+      align-items: stretch;
+      position: relative;
+    }
+
+    .stop.done {
+      background:
+        linear-gradient(135deg, rgba(17, 128, 77, .14), rgba(248, 245, 238, .96) 38%),
+        var(--paper);
+    }
+
+    .number {
+      display: grid;
+      place-items: center;
+      min-height: 84px;
+      border: 2px solid var(--line);
+      background: var(--blue);
+      color: white;
+      font-size: 34px;
+      font-weight: 900;
+    }
+
+    .stop h3 {
+      margin: 0 0 8px;
+      font-size: clamp(23px, 3vw, 36px);
+      line-height: .95;
+      text-transform: uppercase;
+    }
+
+    .stop p {
+      margin: 0;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .mini {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mini span {
+      border: 2px solid var(--line);
+      background: white;
+      padding: 5px 7px;
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .stop-side {
+      display: grid;
+      align-content: space-between;
+      gap: 10px;
+    }
+
+    .reward {
+      border: 2px solid var(--line);
+      background: #fff;
+      padding: 10px;
+      font-weight: 900;
+    }
+
+    .reward small {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .check-button {
+      width: 100%;
+      min-height: 46px;
+      padding: 8px 10px;
+      font-weight: 900;
+      background: var(--paper);
+    }
+
+    .stop.done .check-button {
+      color: white;
+      background: var(--ok);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 16px;
+    }
+
+    .story-block {
+      padding: clamp(18px, 3vw, 30px);
+    }
+
+    .story-block h3 {
+      margin: 0 0 12px;
+      font-size: clamp(26px, 4vw, 48px);
+      line-height: .92;
+      text-transform: uppercase;
+    }
+
+    .story-block p {
+      margin: 0 0 12px;
+      font-size: 17px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .rules {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .rules li {
+      border-left: 8px solid var(--red);
+      padding: 9px 0 9px 12px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .inventory {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .slot {
+      min-height: 126px;
+      border: 2px solid var(--line);
+      background: white;
+      padding: 12px;
+      box-shadow: 5px 5px 0 var(--blue);
+      display: grid;
+      align-content: space-between;
+    }
+
+    .slot b {
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .slot span {
+      font-weight: 900;
+      font-size: 20px;
+      line-height: 1.05;
+    }
+
+    .side-mission {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      border: 2px solid var(--line);
+      background: var(--red);
+      color: white;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      margin-top: 16px;
+    }
+
+    .side-mission strong {
+      display: block;
+      font-size: clamp(23px, 3vw, 36px);
+      text-transform: uppercase;
+      line-height: .98;
+    }
+
+    .side-mission span {
+      display: block;
+      margin-top: 8px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .footer {
+      margin-top: 34px;
+      border-top: 3px solid var(--line);
+      padding-top: 18px;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .footer a {
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    @media (max-width: 920px) {
+      body,
+      a,
+      button,
+      input,
+      select {
+        cursor: auto;
+      }
+
+      .cursor {
+        display: none;
+      }
+
+      .topbar {
+        position: static;
+        align-items: flex-start;
+      }
+
+      .hero,
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dossier,
+      .route-board {
+        min-height: auto;
+      }
+
+      .brief-grid,
+      .modes,
+      .inventory {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stop {
+        grid-template-columns: 64px minmax(0, 1fr);
+      }
+
+      .stop-side {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .shell {
+        width: min(100% - 18px, 1180px);
+        padding-top: 10px;
+      }
+
+      .topbar {
+        display: grid;
+      }
+
+      .nav {
+        justify-content: start;
+      }
+
+      .nav a {
+        padding: 8px 9px;
+      }
+
+      .dossier,
+      .route-board,
+      .story-block,
+      .stop,
+      .side-mission {
+        box-shadow: 6px 6px 0 var(--line);
+      }
+
+      .brief-grid,
+      .modes,
+      .inventory,
+      .route-footer {
+        grid-template-columns: 1fr;
+      }
+
+      .stop {
+        grid-template-columns: 1fr;
+      }
+
+      .number {
+        min-height: 58px;
+      }
+
+      .section-head {
+        display: grid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="Вернуться к основному списку">
+        <span class="mark">0₽</span>
+        <span>Квест нулевого дня</span>
+      </a>
+      <nav class="nav" aria-label="Навигация">
+        <a href="#route">Маршрут</a>
+        <a href="#legend">Легенда</a>
+        <a href="#inventory">Инвентарь</a>
+        <a href="./index.html">Вся база</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="title">
+      <div class="dossier">
+        <div>
+          <span class="case-tag">Дело: прогулка без бюджета</span>
+          <h1 id="title">Операция “Ноль рублей”</h1>
+          <p class="lead">Вы с девушкой выходите в город как два разведчика маленьких радостей. Цель простая: провести день, собрать трофеи, не купить лишнего и вернуться с историей, которую потом смешно пересказывать.</p>
+        </div>
+
+        <div class="brief-grid" aria-label="Краткие правила квеста">
+          <div class="brief">
+            <b>Бюджет</b>
+            <span>0 рублей. Допускается только сценарий за 1 ₽ без другой покупки.</span>
+          </div>
+          <div class="brief">
+            <b>Методы</b>
+            <span>Регистрация, приложение, честный отзыв, купон, стойка ТЦ.</span>
+          </div>
+          <div class="brief">
+            <b>Финал</b>
+            <span>Фото трофеев, общий счётчик и звание пары, победившей витрины.</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="route-board" aria-label="Схема маршрута">
+        <div class="route-head">
+          <h2>Схема без карты</h2>
+          <div class="stamp">Проверено<br>08.07.2026</div>
+        </div>
+
+        <div class="schematic">
+          <svg viewBox="0 0 520 330" role="img" aria-label="Схематичный маршрут по станциям квеста">
+            <defs>
+              <filter id="rough">
+                <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" result="noise"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2"/>
+              </filter>
+            </defs>
+            <rect x="18" y="18" width="484" height="294" rx="0" fill="none" stroke="#ffffff" stroke-width="3" opacity=".65"/>
+            <path id="routeLine" d="M70 258 C94 190, 130 190, 162 132 S230 58, 286 86 S344 170, 392 126 S448 88, 462 44" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" filter="url(#rough)"/>
+            <path d="M70 258 C94 190, 130 190, 162 132 S230 58, 286 86 S344 170, 392 126 S448 88, 462 44" fill="none" stroke="#e51e2a" stroke-width="3" stroke-linecap="round"/>
+            <g fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="17">
+              <circle class="route-dot" data-dot="0" cx="70" cy="258" r="12"/>
+              <text x="44" y="294">Центр</text>
+              <circle class="route-dot" data-dot="1" cx="162" cy="132" r="12"/>
+              <text x="128" y="112">Сладкое</text>
+              <circle class="route-dot" data-dot="2" cx="286" cy="86" r="12"/>
+              <text x="248" y="62">Галерея</text>
+              <circle class="route-dot" data-dot="3" cx="392" cy="126" r="12"/>
+              <text x="372" y="160">Аура</text>
+              <circle class="route-dot" data-dot="4" cx="462" cy="44" r="12"/>
+              <text x="405" y="34">Резерв</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="route-footer">
+          <div class="progress-wrap">
+            <div class="progress-meta">
+              <span id="progressText">0 из 9 трофеев</span>
+              <span id="rankText">Ранг: разведка</span>
+            </div>
+            <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+          </div>
+          <div class="score"><span id="scoreText">0<br>собрано</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="route">
+      <div class="section-head">
+        <h2>Маршрут</h2>
+        <p>Выберите темп и отмечайте станции. Прогресс сохраняется в браузере. Точки отсортированы от центра и больших ТЦ к дальним резервам.</p>
+      </div>
+
+      <div class="modes" aria-label="Режим квеста">
+        <button class="mode-button active" type="button" data-mode="soft">Нежно: 4 трофея<br><small>для спокойного свидания</small></button>
+        <button class="mode-button" type="button" data-mode="classic">Классика: 6 трофеев<br><small>день с прогулкой</small></button>
+        <button class="mode-button" type="button" data-mode="hunt">Охота: 9 трофеев<br><small>почти городской спорт</small></button>
+      </div>
+
+      <div class="route-list" id="routeList"></div>
+
+      <div class="side-mission">
+        <div>
+          <strong id="sideTitle">Случайная миссия</strong>
+          <span id="sideText">Нажмите кнопку, если хочется добавить неожиданный поворот без обязательной покупки.</span>
+        </div>
+        <button class="tool-button" type="button" id="sideButton">Выдать</button>
+      </div>
+    </section>
+
+    <section class="section" id="legend">
+      <div class="section-head">
+        <h2>Легенда</h2>
+        <p>Это не “халявный забег”, а прогулка с правилами: вы ищете городские комплименты и не ломаете настроение людям на точках.</p>
+      </div>
+
+      <div class="story-grid">
+        <article class="story-block">
+          <h3>Завязка</h3>
+          <p>В городе существует тихая сеть подарков. Она не отмечена на обычных картах: её видно только тем, кто умеет читать приложения, купоны и короткие условия на стойках. Вы получаете задание от Бюро Нулевого Дня: доказать, что свидание может быть не про траты, а про внимание, азарт и смешные маленькие победы.</p>
+          <p>Один из вас становится Навигатором и держит маршрут. Второй — Хранителем доказательств: скриншоты купонов, QR, честные отзывы после реального визита, фото трофеев. Когда станция закрыта, вы ставите печать в маршруте и идёте дальше.</p>
+        </article>
+
+        <article class="story-block">
+          <h3>Кодекс</h3>
+          <ul class="rules">
+            <li>Отзывы писать только честно и только после настоящего посещения.</li>
+            <li>Перед действием спрашивать: “Акция сегодня действует?” Это экономит время и неловкость.</li>
+            <li>Если нужна покупка от суммы, это не нулевая станция, а резервная акция.</li>
+            <li>Не спорить с кассиром из-за подарка. Подарок закончился — значит, сюжет повернул в сторону другой станции.</li>
+            <li>Финальный приз квеста — не вещь, а день, который вы сами собрали.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="inventory">
+      <div class="section-head">
+        <h2>Инвентарь</h2>
+        <p>Набор перед выходом. Ничего секретного: просто подготовка, которая делает квест не хаосом, а игрой.</p>
+      </div>
+
+      <div class="inventory">
+        <div class="slot">
+          <b>Слот 01</b>
+          <span>Почта и номер для регистраций</span>
+        </div>
+        <div class="slot">
+          <b>Слот 02</b>
+          <span>Аккаунты 2ГИС и Яндекс Карт</span>
+        </div>
+        <div class="slot">
+          <b>Слот 03</b>
+          <span>15 минут на проверку остатков</span>
+        </div>
+        <div class="slot">
+          <b>Слот 04</b>
+          <span>Фото финальной добычи</span>
+        </div>
+      </div>
+
+      <div class="side-mission">
+        <div>
+          <strong>Текст маршрута</strong>
+          <span id="copyStatus">Можно скопировать короткую версию и отправить девушке как приглашение.</span>
+        </div>
+        <button class="tool-button" type="button" id="copyButton">Скопировать</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      Эта страница не заменяет основной список предложений. Перед походом сверяйте условия и свежесть в базе:
+      <a href="./index.html">открыть все бесплатные точки и акции</a>. Страница хранит прогресс только в вашем браузере.
+    </footer>
+  </main>
+
+  <script>
+    const stops = [
+      {
+        title: "ЛЭТУАЛЬ: первый шифр",
+        place: "Красный проспект, 25 или Аура",
+        distance: "0.3-1 км",
+        reward: "миниатюра / косметика",
+        method: "Установить приложение, зарегистрироваться, открыть подарок или QR и спросить на кассе про наличие.",
+        story: "Это вход в квест: не покупать, а показать код и забрать маленький предмет, если он есть.",
+        tag: "косметика",
+        value: 1,
+        phase: 0
+      },
+      {
+        title: "Сияние без чека",
+        place: "SUNLIGHT или SOKOLOV в центральных ТЦ",
+        distance: "0.7-1.1 км",
+        reward: "подвеска / маленький подарок",
+        method: "Перед выходом найти активный купон, открыть код и проверить наличие подарка в выбранном магазине.",
+        story: "Станция для трофея, который выглядит как настоящая добыча, а не просто скидка.",
+        tag: "украшение",
+        value: 1,
+        phase: 0
+      },
+      {
+        title: "От Зайки: сладкая печать",
+        place: "Чаплыгина, 47",
+        distance: "0.5 км",
+        reward: "моти за честный отзыв",
+        method: "Сначала реально зайти, уточнить акцию, затем оставить честный отзыв в 2ГИС или Яндекс Картах и показать его.",
+        story: "Самая свидательная станция: маленький десерт, короткая остановка и повод улыбнуться.",
+        tag: "десерт",
+        value: 1,
+        phase: 1
+      },
+      {
+        title: "Галерея: пропуск в клуб",
+        place: "ТРЦ Галерея, Гоголя, 13",
+        distance: "0.7 км",
+        reward: "комплимент / баллы в приложении",
+        method: "Установить приложение Галереи, зарегистрироваться и проверить раздел комплиментов.",
+        story: "ТЦ-станция: тут важно не бегать по магазинам, а открыть приложение и найти доступный комплимент.",
+        tag: "ТЦ",
+        value: 1,
+        phase: 2
+      },
+      {
+        title: "Бифи: мясной сейф",
+        place: "Фрунзе, 5",
+        distance: "0.4 км",
+        reward: "до 1000 ₽ на счёт",
+        method: "Уточнить у администратора промо из 2ГИС: как зачисляется счёт и есть ли ограничение на списание.",
+        story: "Сильный кандидат на большой трофей, но только после проверки правил на месте.",
+        tag: "еда",
+        value: 1,
+        phase: 0
+      },
+      {
+        title: "Зелёный стакан",
+        place: "Green House / Millor / A.Ganziy",
+        distance: "0.2-0.9 км",
+        reward: "кофе, стаканчик или бонусы",
+        method: "Выбрать ближайшую кофейню из базы, спросить про отзывный подарок или приветственные бонусы.",
+        story: "Кофейная развилка: не обязательно всё, достаточно одной честной добычи по пути.",
+        tag: "кофе",
+        value: 1,
+        phase: 0
+      },
+      {
+        title: "Аура Бонус: красная зона",
+        place: "ТРЦ Аура, Военная, 5",
+        distance: "1.1 км",
+        reward: "баллы, купон, подарок из каталога",
+        method: "Установить приложение Ауры, зарегистрироваться, проверить задания и доступные подарки.",
+        story: "Главная база квеста: здесь может появиться и купон, и подарок, и отдельная игра.",
+        tag: "приложение",
+        value: 1,
+        phase: 3
+      },
+      {
+        title: "Фудхолл Ауры: десертный протокол",
+        place: "Аура, 4 этаж",
+        distance: "1.1 км",
+        reward: "трюфель / сладкий комплимент",
+        method: "На месте уточнить, какой корнер сейчас выдаёт подарок за отзыв или активность.",
+        story: "Если Аура Бонус молчит, фудхолл часто даёт короткие ручные акции.",
+        tag: "сладкое",
+        value: 1,
+        phase: 3
+      },
+      {
+        title: "Резерв 1 ₽",
+        place: "Бургер Кинг / ХАН БУЗ / ЧебурекМИ",
+        distance: "сеть",
+        reward: "бургер, бууза или напиток",
+        method: "Проверить приложение или Telegram-бот: подходит только вариант за 1 ₽ без другого заказа.",
+        story: "Финальная развилка: если день хочет быть смешнее, доберите символический трофей за один рубль.",
+        tag: "1 рубль",
+        value: 1,
+        phase: 4
+      }
+    ];
+
+    const sideMissions = [
+      ["Проверка стойки", "В любом ТЦ спросите на стойке информации: “Есть сегодня подарки в приложении или активности без покупки?”"],
+      ["Фото-доказательство", "Сделайте одно фото трофея так, будто это улика из городского архива."],
+      ["Станция замены", "Если подарок закончился, выберите ближайшую кофейню из базы и проверьте отзывный напиток."],
+      ["Диалоговый бонус", "Пусть один человек задаёт вопросы на точке, а второй отмечает условия в телефоне."],
+      ["Финальная печать", "В конце дня посчитайте не рубли, а сколько раз удалось обойти “надо что-то купить”."]
+    ];
+
+    const modeTargets = {
+      soft: 4,
+      classic: 6,
+      hunt: 9
+    };
+
+    const routeList = document.querySelector("#routeList");
+    const progressBar = document.querySelector("#progressBar");
+    const progressText = document.querySelector("#progressText");
+    const scoreText = document.querySelector("#scoreText");
+    const rankText = document.querySelector("#rankText");
+    const modeButtons = [...document.querySelectorAll(".mode-button")];
+    const dots = [...document.querySelectorAll(".route-dot")];
+    const storageKey = "nsk-zero-quest-v1";
+    let state = JSON.parse(localStorage.getItem(storageKey) || '{"done":[],"mode":"soft"}');
+
+    function save() {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    }
+
+    function target() {
+      return modeTargets[state.mode] || modeTargets.soft;
+    }
+
+    function rank(done) {
+      if (done >= 9) return "Ранг: легенда";
+      if (done >= 6) return "Ранг: охотники";
+      if (done >= 4) return "Ранг: свидание собрано";
+      if (done >= 1) return "Ранг: след найден";
+      return "Ранг: разведка";
+    }
+
+    function renderStops() {
+      routeList.innerHTML = stops.map((stop, index) => {
+        const done = state.done.includes(index);
+        return `
+          <article class="stop ${done ? "done" : ""}" data-index="${index}">
+            <div class="number">${String(index + 1).padStart(2, "0")}</div>
+            <div>
+              <h3>${stop.title}</h3>
+              <p>${stop.story}</p>
+              <p><strong>Как пройти:</strong> ${stop.method}</p>
+              <div class="mini">
+                <span>${stop.place}</span>
+                <span>${stop.distance}</span>
+                <span>${stop.tag}</span>
+              </div>
+            </div>
+            <div class="stop-side">
+              <div class="reward"><small>Трофей</small>${stop.reward}</div>
+              <button class="check-button" type="button" data-check="${index}">${done ? "Печать стоит" : "Поставить печать"}</button>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      routeList.querySelectorAll("[data-check]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const index = Number(button.dataset.check);
+          if (state.done.includes(index)) {
+            state.done = state.done.filter((item) => item !== index);
+          } else {
+            state.done.push(index);
+          }
+          save();
+          render();
+        });
+      });
+
+      routeList.querySelectorAll(".stop").forEach((card) => {
+        card.addEventListener("mouseenter", () => setActiveDot(Number(card.dataset.index)));
+        card.addEventListener("focusin", () => setActiveDot(Number(card.dataset.index)));
+      });
+    }
+
+    function setActiveDot(stopIndex) {
+      const phase = stops[stopIndex]?.phase ?? 0;
+      dots.forEach((dot) => dot.classList.toggle("active", Number(dot.dataset.dot) === phase));
+    }
+
+    function renderProgress() {
+      const done = state.done.length;
+      const need = target();
+      const pct = Math.min(100, Math.round((done / need) * 100));
+      progressBar.style.width = `${pct}%`;
+      progressText.textContent = `${done} из ${need} трофеев`;
+      scoreText.innerHTML = `${done}<br>собрано`;
+      rankText.textContent = rank(done);
+      modeButtons.forEach((button) => button.classList.toggle("active", button.dataset.mode === state.mode));
+    }
+
+    function render() {
+      renderStops();
+      renderProgress();
+      setActiveDot(state.done.at(-1) ?? 0);
+    }
+
+    modeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        state.mode = button.dataset.mode;
+        save();
+        renderProgress();
+      });
+    });
+
+    document.querySelector("#sideButton").addEventListener("click", () => {
+      const mission = sideMissions[Math.floor(Math.random() * sideMissions.length)];
+      document.querySelector("#sideTitle").textContent = mission[0];
+      document.querySelector("#sideText").textContent = mission[1];
+    });
+
+    document.querySelector("#copyButton").addEventListener("click", async () => {
+      const text = "План: свидание-квест “Операция Ноль рублей”. Идём по центру, проверяем ЛЭТУАЛЬ, украшение по купону, сладкую станцию, Галерею, Ауру и резерв за 1 ₽. Бюджет: 0 рублей, цель: собрать трофеи и историю.";
+      try {
+        await navigator.clipboard.writeText(text);
+        document.querySelector("#copyStatus").textContent = "Скопировано. Можно отправлять как приглашение.";
+      } catch {
+        document.querySelector("#copyStatus").textContent = text;
+      }
+    });
+
+    const cursor = document.querySelector("#cursor");
+    window.addEventListener("pointermove", (event) => {
+      cursor.style.left = `${event.clientX}px`;
+      cursor.style.top = `${event.clientY}px`;
+    });
+
+    document.addEventListener("pointerover", (event) => {
+      cursor.classList.toggle("hot", Boolean(event.target.closest("a, button, .stop")));
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      const tap = document.createElement("span");
+      tap.className = "tap";
+      tap.style.left = `${event.clientX}px`;
+      tap.style.top = `${event.clientY}px`;
+      document.body.appendChild(tap);
+      setTimeout(() => tap.remove(), 600);
+    });
+
+    render();
+  </script>
+</body>
+</html>
