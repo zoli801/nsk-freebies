@@ -266,6 +266,51 @@
       font-weight: 700;
     }
 
+    .hero-photo,
+    .story-photo {
+      position: relative;
+      margin: 18px 0 0;
+      border: 2px solid var(--line);
+      background: var(--line);
+      box-shadow: 7px 7px 0 var(--red);
+      overflow: hidden;
+    }
+
+    .hero-photo {
+      aspect-ratio: 16 / 7;
+      transform: rotate(1deg);
+    }
+
+    .story-photo {
+      aspect-ratio: 16 / 9;
+      box-shadow: 7px 7px 0 var(--blue);
+    }
+
+    .story-photo.is-red {
+      box-shadow: 7px 7px 0 var(--red);
+    }
+
+    .hero-photo img,
+    .story-photo img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      filter: saturate(1.04) contrast(1.04);
+    }
+
+    .hero-photo::after,
+    .story-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(229, 30, 42, .18), transparent 34%),
+        linear-gradient(0deg, rgba(11, 75, 255, .16), transparent 48%);
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+
     .brief-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -358,6 +403,85 @@
       transform-origin: center;
     }
 
+    .progress-school {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      border: 2px solid white;
+      padding: 12px;
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .badge {
+      --badge-main: #ffffff;
+      --badge-accent: #e51e2a;
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 98px;
+      height: 98px;
+      color: var(--blue-dark);
+      background: var(--badge-main);
+      border: 2px solid white;
+      box-shadow: 5px 5px 0 var(--badge-accent);
+      clip-path: polygon(50% 0, 61% 14%, 78% 8%, 83% 25%, 100% 31%, 89% 50%, 100% 69%, 83% 75%, 78% 92%, 61% 86%, 50% 100%, 39% 86%, 22% 92%, 17% 75%, 0 69%, 11% 50%, 0 31%, 17% 25%, 22% 8%, 39% 14%);
+      transition: transform .24s ease, background .24s ease, box-shadow .24s ease;
+    }
+
+    .badge::before {
+      content: "";
+      position: absolute;
+      inset: 13px;
+      border: 3px solid var(--badge-accent);
+      border-radius: 50%;
+      transform: rotate(var(--badge-spin, 0deg));
+      transition: transform .24s ease, border-color .24s ease;
+    }
+
+    .badge__level {
+      position: relative;
+      z-index: 1;
+      font-size: 36px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .badge__label {
+      position: relative;
+      z-index: 1;
+      margin-top: 2px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .badge-info {
+      display: grid;
+      gap: 6px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .badge-info strong {
+      font-size: clamp(18px, 2vw, 26px);
+      line-height: .95;
+    }
+
+    .badge-info span {
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .badge[data-tier="0"] { --badge-main: #fff7e8; --badge-accent: #e51e2a; }
+    .badge[data-tier="1"] { --badge-main: #dce8ff; --badge-accent: #0b4bff; }
+    .badge[data-tier="2"] { --badge-main: #fff7e8; --badge-accent: #ffb000; }
+    .badge[data-tier="3"] { --badge-main: #d7ffe7; --badge-accent: #11804d; }
+    .badge[data-tier="4"] { --badge-main: #ffffff; --badge-accent: #e51e2a; transform: rotate(4deg) scale(1.04); }
+    .badge[data-tier="5"] { --badge-main: #0b4bff; --badge-accent: #ffffff; color: white; transform: rotate(-4deg) scale(1.07); }
+    .badge[data-tier="6"] { --badge-main: #e51e2a; --badge-accent: #fff7e8; color: white; transform: rotate(6deg) scale(1.1); }
+
     .route-footer {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -379,6 +503,7 @@
     }
 
     .progress {
+      position: relative;
       height: 18px;
       border: 2px solid white;
       background: #05113d;
@@ -386,17 +511,28 @@
     }
 
     .progress span {
-      display: block;
+      position: absolute;
+      top: 0;
       width: 0;
       height: 100%;
-      background: linear-gradient(90deg, var(--red), #ffffff);
+      display: block;
       transition: width .28s ease;
+    }
+
+    .progress__success {
+      left: 0;
+      background: linear-gradient(90deg, #85ffcf, #ffffff);
+    }
+
+    .progress__fail {
+      right: 0;
+      background: linear-gradient(270deg, var(--red), #ff8c99);
     }
 
     .score {
       display: grid;
       place-items: center;
-      min-width: 112px;
+      min-width: 132px;
       min-height: 86px;
       border: 2px solid white;
       background: var(--red);
@@ -613,9 +749,46 @@
       background: var(--paper);
     }
 
-    .stop.done .check-button {
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .check-button.is-success {
+      background: #e8fff2;
+    }
+
+    .check-button.is-fail {
+      background: #fff0f0;
+    }
+
+    .check-button:disabled {
+      opacity: .48;
+      transform: none;
+      box-shadow: 3px 3px 0 var(--line);
+    }
+
+    .stop.success {
+      background:
+        linear-gradient(135deg, rgba(17, 128, 77, .18), rgba(248, 245, 238, .96) 44%),
+        var(--paper);
+    }
+
+    .stop.failed {
+      background:
+        linear-gradient(135deg, rgba(229, 30, 42, .18), rgba(248, 245, 238, .96) 44%),
+        var(--paper);
+    }
+
+    .stop.success .check-button.is-success,
+    .stop.failed .check-button.is-fail {
       color: white;
       background: var(--ok);
+    }
+
+    .stop.failed .check-button.is-fail {
+      background: var(--red);
     }
 
     .story-grid {
@@ -798,12 +971,32 @@
       .modes,
       .inventory,
       .route-footer,
-      .route-tools {
+      .route-tools,
+      .progress-school,
+      .card-actions {
         grid-template-columns: 1fr;
       }
 
       .stop {
         grid-template-columns: 1fr;
+      }
+
+      .hero-photo {
+        aspect-ratio: 4 / 3;
+      }
+
+      .story-photo {
+        aspect-ratio: 4 / 3;
+      }
+
+      .badge {
+        width: 86px;
+        height: 86px;
+        margin: 0 auto;
+      }
+
+      .check-button {
+        min-height: 52px;
       }
 
       .number {
@@ -839,6 +1032,9 @@
           <span class="case-tag">Дело: прогулка без бюджета</span>
           <h1 id="title">Операция “Ноль рублей”</h1>
           <p class="lead">Вы с девушкой выходите в город как два разведчика маленьких радостей. Цель простая: провести день, собрать трофеи, не купить лишнего и вернуться с историей, которую потом смешно пересказывать.</p>
+          <figure class="hero-photo">
+            <img src="./assets/quest-hero.jpg" alt="Пара на городском квесте с картой, телефоном и маленькими трофеями" loading="eager">
+          </figure>
         </div>
 
         <div class="brief-grid" aria-label="Краткие правила квеста">
@@ -859,8 +1055,21 @@
 
       <aside class="route-board" aria-label="Схема маршрута">
         <div class="route-head">
-          <h2>Схема без карты</h2>
+          <h2>Школа прогресса</h2>
           <div class="stamp">Проверено<br>08.07.2026</div>
+        </div>
+
+        <div class="progress-school" aria-label="Значок прогресса">
+          <div class="badge" id="progressBadge" data-tier="0" aria-hidden="true">
+            <div>
+              <div class="badge__level" id="badgeLevel">0</div>
+              <div class="badge__label">уровень</div>
+            </div>
+          </div>
+          <div class="badge-info">
+            <strong id="badgeTitle">Новичок нулевого дня</strong>
+            <span id="badgeHint">Значок улучшается за каждые 2 успешно закрытые точки. Неуспешные попытки уходят в правую красную шкалу.</span>
+          </div>
         </div>
 
         <div class="schematic">
@@ -892,12 +1101,15 @@
         <div class="route-footer">
           <div class="progress-wrap">
             <div class="progress-meta">
-              <span id="progressText">0 из 9 трофеев</span>
+              <span id="progressText">0 успехов</span>
               <span id="rankText">Ранг: разведка</span>
             </div>
-            <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+            <div class="progress" aria-hidden="true">
+              <span class="progress__success" id="successBar"></span>
+              <span class="progress__fail" id="failBar"></span>
+            </div>
           </div>
-          <div class="score"><span id="scoreText">0<br>собрано</span></div>
+          <div class="score"><span id="scoreText">0 / 0<br>успех / мимо</span></div>
         </div>
       </aside>
     </section>
@@ -938,12 +1150,18 @@
       <div class="story-grid">
         <article class="story-block">
           <h3>Завязка</h3>
+          <figure class="story-photo">
+            <img src="./assets/quest-legend.jpg" alt="План городского маршрута с телефоном, фишками и маленькими подарками" loading="lazy">
+          </figure>
           <p>В городе существует тихая сеть подарков. Она не отмечена на обычных картах: её видно только тем, кто умеет читать приложения, купоны и короткие условия на стойках. Вы получаете задание от Бюро Нулевого Дня: доказать, что свидание может быть не про траты, а про внимание, азарт и смешные маленькие победы.</p>
           <p>Один из вас становится Навигатором и держит маршрут. Второй — Хранителем доказательств: скриншоты купонов, QR, честные отзывы после реального визита, фото трофеев. Когда станция закрыта, вы ставите печать в маршруте и идёте дальше.</p>
         </article>
 
         <article class="story-block">
           <h3>Кодекс</h3>
+          <figure class="story-photo is-red">
+            <img src="./assets/quest-codex.jpg" alt="Блокнот квеста с печатью, телефоном и отметками честных правил" loading="lazy">
+          </figure>
           <ul class="rules">
             <li>Отзывы писать только честно и только после настоящего посещения.</li>
             <li>Перед действием спрашивать: “Акция сегодня действует?” Это экономит время и неловкость.</li>
@@ -1005,10 +1223,15 @@
     ];
 
     const routeList = document.querySelector("#routeList");
-    const progressBar = document.querySelector("#progressBar");
+    const successBar = document.querySelector("#successBar");
+    const failBar = document.querySelector("#failBar");
     const progressText = document.querySelector("#progressText");
     const scoreText = document.querySelector("#scoreText");
     const rankText = document.querySelector("#rankText");
+    const progressBadge = document.querySelector("#progressBadge");
+    const badgeLevel = document.querySelector("#badgeLevel");
+    const badgeTitle = document.querySelector("#badgeTitle");
+    const badgeHint = document.querySelector("#badgeHint");
     const listCount = document.querySelector("#listCount");
     const searchBox = document.querySelector("#searchBox");
     const modeButtons = [...document.querySelectorAll(".mode-button")];
@@ -1018,6 +1241,14 @@
     let state = JSON.parse(localStorage.getItem(storageKey) || '{"done":[],"mode":"free","query":""}');
     if (!["free", "deals"].includes(state.mode)) state.mode = "free";
     if (!Array.isArray(state.done)) state.done = [];
+    if (!state.outcomes) {
+      state.outcomes = {};
+      state.done.forEach((id) => {
+        state.outcomes[id] = "success";
+      });
+    }
+    if (!state.outcomes || typeof state.outcomes !== "object") state.outcomes = {};
+    delete state.done;
     searchBox.value = state.query || "";
 
     function save() {
@@ -1031,6 +1262,16 @@
       if (done >= 1) return "Ранг: след найден";
       return "Ранг: разведка";
     }
+
+    const badgeTitles = [
+      "Новичок нулевого дня",
+      "Искатель комплиментов",
+      "Сборщик трофеев",
+      "Навигатор витрин",
+      "Мастер нулевого маршрута",
+      "Архитектор свидания",
+      "Легенда без бюджета"
+    ];
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -1119,7 +1360,9 @@
 
       routeList.innerHTML = items.map((item, index) => {
         const id = itemId(item);
-        const done = state.done.includes(id);
+        const outcome = state.outcomes[id] || "";
+        const success = outcome === "success";
+        const failed = outcome === "failed";
         const links = (item.links || []).map((link) => {
           const label = escapeHtml(link[0]);
           const href = escapeHtml(link[1]);
@@ -1127,7 +1370,7 @@
         }).join("");
         const tags = (item.tags || []).slice(0, 5).map((tag) => `<span>${escapeHtml(tag)}</span>`).join("");
         return `
-          <article class="stop ${done ? "done" : ""}" data-id="${escapeHtml(id)}" data-index="${index}">
+          <article class="stop ${success ? "success" : ""} ${failed ? "failed" : ""}" data-id="${escapeHtml(id)}" data-index="${index}">
             <div class="number">${String(index + 1).padStart(2, "0")}</div>
             <div>
               <h3>${escapeHtml(item.name)}</h3>
@@ -1150,19 +1393,23 @@
             </div>
             <div class="stop-side">
               <div class="reward"><small>Трофей</small>${escapeHtml(item.amount || item.gift)}</div>
-              <button class="check-button" type="button" data-check="${escapeHtml(id)}">${done ? "Печать стоит" : "Поставить печать"}</button>
+              <div class="card-actions" aria-label="Статус попытки">
+                <button class="check-button is-success" type="button" data-outcome="success" data-id="${escapeHtml(id)}" ${failed ? "disabled" : ""}>${success ? "Успешно" : "Успех"}</button>
+                <button class="check-button is-fail" type="button" data-outcome="failed" data-id="${escapeHtml(id)}" ${success ? "disabled" : ""}>${failed ? "Неуспешно" : "Мимо"}</button>
+              </div>
             </div>
           </article>
         `;
       }).join("");
 
-      routeList.querySelectorAll("[data-check]").forEach((button) => {
+      routeList.querySelectorAll("[data-outcome]").forEach((button) => {
         button.addEventListener("click", () => {
-          const id = button.dataset.check;
-          if (state.done.includes(id)) {
-            state.done = state.done.filter((item) => item !== id);
+          const id = button.dataset.id;
+          const outcome = button.dataset.outcome;
+          if (state.outcomes[id] === outcome) {
+            delete state.outcomes[id];
           } else {
-            state.done.push(id);
+            state.outcomes[id] = outcome;
           }
           save();
           render();
@@ -1184,14 +1431,29 @@
     function renderProgress() {
       const total = baseItems().length;
       const visible = visibleItems().length;
-      const doneInMode = baseItems().filter((item) => state.done.includes(itemId(item))).length;
-      const doneAll = allItems.filter((item) => item.category !== "activities" && state.done.includes(itemId(item))).length;
+      const modeItems = baseItems();
+      const relevantItems = allItems.filter((item) => item.category !== "activities");
+      const successInMode = modeItems.filter((item) => state.outcomes[itemId(item)] === "success").length;
+      const failedInMode = modeItems.filter((item) => state.outcomes[itemId(item)] === "failed").length;
+      const successAll = relevantItems.filter((item) => state.outcomes[itemId(item)] === "success").length;
+      const failedAll = relevantItems.filter((item) => state.outcomes[itemId(item)] === "failed").length;
       const need = Math.max(total, 1);
-      const pct = Math.min(100, Math.round((doneInMode / need) * 100));
-      progressBar.style.width = `${pct}%`;
-      progressText.textContent = `${doneInMode} из ${total} (${modeName(state.mode)})`;
-      scoreText.innerHTML = `${doneAll}<br>собрано`;
-      rankText.textContent = rank(doneAll);
+      const successPct = Math.min(100, Math.round((successInMode / need) * 100));
+      const failPct = Math.min(100, Math.round((failedInMode / need) * 100));
+      const tier = Math.min(6, Math.floor(successAll / 2));
+      successBar.style.width = `${successPct}%`;
+      failBar.style.width = `${failPct}%`;
+      progressText.textContent = `${successInMode} успехов / ${failedInMode} мимо (${modeName(state.mode)})`;
+      scoreText.innerHTML = `${successAll} / ${failedAll}<br>успех / мимо`;
+      rankText.textContent = rank(successAll);
+      progressBadge.dataset.tier = String(tier);
+      progressBadge.style.setProperty("--badge-spin", `${tier * 28}deg`);
+      badgeLevel.textContent = String(tier);
+      badgeTitle.textContent = badgeTitles[tier] || badgeTitles.at(-1);
+      const toNextBadge = tier >= 6 ? 0 : ((tier + 1) * 2) - successAll;
+      badgeHint.textContent = tier >= 6
+        ? "Максимальный значок открыт. Дальше уже чистая городская легенда."
+        : `До следующего значка: ${toNextBadge} успешных закрытий.`;
       listCount.textContent = `${visible} / ${total}`;
       modeButtons.forEach((button) => button.classList.toggle("active", button.dataset.mode === state.mode));
     }
@@ -1199,7 +1461,7 @@
     function render() {
       renderStops();
       renderProgress();
-      const activeIndex = visibleItems().findIndex((item) => state.done.includes(itemId(item)));
+      const activeIndex = visibleItems().findIndex((item) => state.outcomes[itemId(item)] === "success");
       setActiveDot(activeIndex >= 0 ? activeIndex : 0);
     }
 
