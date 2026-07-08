@@ -1,7 +1,7 @@
 (() => {
   const PASSWORD = "148800";
-  const UNLOCK_AT = new Date("2026-07-08T14:00:00+07:00").getTime();
-  const STORAGE_KEY = "nsk-zero-gate-unlocked-v1";
+  const UNLOCK_AT = new Date("2026-07-08T14:15:00+07:00").getTime();
+  const STORAGE_KEY = "nsk-zero-gate-unlocked-v2";
   const root = document.documentElement;
 
   function timeOpen() {
